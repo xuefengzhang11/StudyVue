@@ -47,14 +47,15 @@
 </template>
 
 <script>
-import $ from 'jquery'
 export default {
   name: 'Paging',
   props: [
     // 分页数
     'count',
     // 总项目数
-    'ac'
+    'ac',
+    // 传过来的当前页面
+    'currentIndex'
   ],
   data () {
     return {
@@ -74,42 +75,20 @@ export default {
       showPageEnd: 3
     }
   },
+  mounted () {
+    this.showPage(this.pageCurrent, null, true)
+  },
+  updated () {
+    // 获取当前页码
+    this.pageCurrent = this.currentIndex
+  },
   methods: {
     showPage (pageIndex, $event, forceRefresh) {
-      this.$emit('indexclick', pageIndex)
-      // console.log(this.ac)
+      console.log('**')
       if (pageIndex > 0) {
+        this.$emit('indexclick', pageIndex)
         if (pageIndex > this.count) {
           pageIndex = this.count
-        }
-        // 判断数据是否需要更新
-        let currentPageCount = Math.ceil(this.ac / this.pagesize)
-        if (currentPageCount !== this.count) {
-          pageIndex = 1
-          this.count = currentPageCount
-        } else if (this.pageCurrent === pageIndex && currentPageCount === this.count && typeof (forceRefresh) === 'undefined') {
-          console.log('not refresh')
-          return
-        }
-
-        // 处理分页点中样式
-        let buttons = $('#pager').find('span')
-        for (let i = 0; i < buttons.length; i++) {
-          if (buttons.eq(i).html() !== pageIndex) {
-            buttons.eq(i).removeClass('active')
-          } else {
-            buttons.eq(i).addClass('active')
-          }
-        }
-
-        // 测试数据 随机生成的
-        let newPageInfo = []
-        let time = new Date()
-        for (let i = 0; i < this.pagesize; i++) {
-          newPageInfo[newPageInfo.length] = {
-            timestamp: time,
-            acount: (i + (pageIndex - 1) * 20)
-          }
         }
         this.pageCurrent = pageIndex
         // 如果当前页首页或者尾页，则上一页首页就不能点击，下一页尾页就不能点击
@@ -121,7 +100,6 @@ export default {
           this.fDisabled = false
           this.lDisabled = false
         }
-
         // 计算分页按钮数据
         if (this.ac > this.showPages) {
           if (pageIndex <= (this.showPages - 1) / 2) {
@@ -137,9 +115,6 @@ export default {
         }
       }
     }
-  },
-  mounted () {
-    this.showPage(this.pageCurrent, null, true)
   }
 }
 </script>

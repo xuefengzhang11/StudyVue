@@ -18,7 +18,7 @@
           </div>
       </div>
     </div>
-    <paging :ac="alllength" :count="pagesize" @indexclick="getIndex"></paging>
+    <paging :ac="alllength" :count="pagesize" :currentIndex="pageIndex" @indexclick="getIndex" v-show="pagesize>1"></paging>
   </div>
 </template>
 
@@ -28,7 +28,7 @@ import $ from 'jquery'
 
 export default {
   name: 'CourseDiv',
-  props: ['dire', 'cate', 'degr'],
+  props: ['dire', 'cate', 'degr', 'con'],
   data () {
     return {
       url: 'http://localhost:8000/',
@@ -46,8 +46,8 @@ export default {
     // 获取课程(多条件：方向、分类、难度、页码)
     getCourses: function () {
       let vm = this
-      axios.get(this.url + 'course/getCourses/' + this.dire +
-        ',' + this.cate + ',' + this.degr + ',' + this.pageIndex + '/')
+      axios.get(this.url + 'course/getCourses/' + this.dire + ',' + this.cate + ',' +
+        this.degr + ',' + this.con + ',' + this.pageIndex + '/')
         .then(function (response) {
           vm.all_courses = response.data.courses
         })
@@ -59,7 +59,7 @@ export default {
     getCount: function () {
       let vm = this
       axios.get(this.url + 'course/getCoursesCount/' + this.dire +
-        ',' + this.cate + ',' + this.degr + '/')
+        ',' + this.cate + ',' + this.degr + ',' + this.con + '/')
         .then(function (response) {
           vm.alllength = response.data.alllength
           vm.pagesize = Math.ceil(vm.alllength / 4)
@@ -72,7 +72,6 @@ export default {
       let $courid = $(e.target).parents('.col-md-3').attr('id')
       if ($courid) {
         this.$router.push({
-          // path: '/coursesdetail',
           name: 'coursedetail',
           params: {
             courseid: $courid
@@ -83,20 +82,21 @@ export default {
     getIndex: function (i) {
       this.pageIndex = i
       this.getCourses()
-      this.getCount()
+    },
+    setIndex: function () {
+      this.pageIndex = 1
     }
-
   },
   watch: {
     // 监听搜索条件的变化，发生变化时重新搜索课程
-    dire: function () {
-      this.getCourses()
-    },
-    cate: function () {
-      this.getCourses()
-    },
-    degr: function () {
-      this.getCourses()
+    $props: {
+      handler: function (n, o) {
+        console.log('深度监听')
+        this.setIndex()
+        this.getCourses()
+        this.getCount()
+      },
+      deep: true
     }
   }
 }

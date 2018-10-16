@@ -1,12 +1,12 @@
 <template>
   <div>
     <CourseSearchNav @searchnavclick="changeCon"></CourseSearchNav>
-    <CourseDiv :dire="dire" :cate="cate" :degr="degr"></CourseDiv>
-    <paging></paging>
+    <CourseDiv :dire="dire" :cate="cate" :degr="degr" :con="con"></CourseDiv>
   </div>
 </template>
 
 <script>
+
 import CourseSearchNav from './CourseSearchNav'
 import CourseDiv from './CourseDiv'
 export default {
@@ -16,15 +16,17 @@ export default {
       dire: '0',
       cate: '0',
       degr: '0',
+      con: '',
       msg: '课程搜索页'
     }
   },
   components: {CourseSearchNav, CourseDiv},
   methods: {
-    changeCon: function (direid, cateid, degrid) {
+    changeCon: function (direid, cateid, degrid, con) {
       this.dire = direid
       this.cate = cateid
       this.degr = degrid
+      this.con = con
     }
   }
 }

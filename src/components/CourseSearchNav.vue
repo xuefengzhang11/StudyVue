@@ -6,9 +6,9 @@
       <div class="search">
         <div class="search-ipt">
           <div class="ipt">
-            <input type="text" placeholder="搜索感兴趣的内容">
+            <input type="text" placeholder="搜索感兴趣的内容" v-model="con" @keydown.enter="searchCourse">
           </div>
-          <div class="search-icon">
+          <div class="search-icon" @click.prevent.stop="searchCourse">
             <span></span>
           </div>
         </div>
@@ -33,6 +33,7 @@
           </li>
         </ul>
       </div>
+      <!--分类-->
       <div class="nav-part nav-cate">
         <span class="title">分类:</span>
         <ul id="ul-category">
@@ -51,7 +52,7 @@
           </li>
         </ul>
       </div>
-      <!--难度 :class="{margin_top:true}"-->
+      <!--难度-->
       <div class="nav-part">
         <span class="title">难度:</span>
         <ul id="ul-degree">
@@ -83,6 +84,7 @@ export default {
     return {
       url: 'http://localhost:8000/',
       msg: '课程页搜索导航',
+      con: '',
       current_dire: 0,
       current_cate: 0,
       current_degr: 0,
@@ -160,9 +162,11 @@ export default {
     },
     // 分类导航点击事件
     changeCate: function (e) {
-      let direid = e.target.attributes.dire_id.value
       let cateid = e.target.id
-      this.current_dire = direid
+      if (cateid !== '0') {
+        let direid = e.target.attributes.dire_id.value
+        this.current_dire = direid
+      }
       this.current_cate = cateid
       this.getCategory()
       this.myemit()
@@ -173,9 +177,18 @@ export default {
       this.current_degr = degrid
       this.myemit()
     },
+    searchCourse: function () {
+      this.current_dire = 0
+      this.current_cate = 0
+      this.current_degr = 0
+      this.getDirection()
+      this.getCategory()
+      this.getDegree()
+      this.myemit()
+    },
     // 定义一个发射方法
     myemit: function () {
-      this.$emit('searchnavclick', this.current_dire, this.current_cate, this.current_degr)
+      this.$emit('searchnavclick', this.current_dire, this.current_cate, this.current_degr, this.con)
     }
   }
 }
