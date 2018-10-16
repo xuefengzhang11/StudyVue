@@ -18,13 +18,13 @@
           </div>
       </div>
     </div>
+    <paging :ac="alllength" :count="pagesize" @indexclick="getIndex"></paging>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import $ from 'jquery'
-// import courseimg from '../../static/json/courseimg'
 
 export default {
   name: 'CourseDiv',
@@ -33,11 +33,14 @@ export default {
     return {
       url: 'http://localhost:8000/',
       pageIndex: 1,
-      all_courses: []
+      all_courses: [],
+      pagesize: 10,
+      alllength: 10
     }
   },
   mounted: function () {
     this.getCourses()
+    this.getCount()
   },
   methods: {
     // 获取课程(多条件：方向、分类、难度、页码)
@@ -47,6 +50,19 @@ export default {
         ',' + this.cate + ',' + this.degr + ',' + this.pageIndex + '/')
         .then(function (response) {
           vm.all_courses = response.data.courses
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
+    // 获取课程总数（多条件）
+    getCount: function () {
+      let vm = this
+      axios.get(this.url + 'course/getCoursesCount/' + this.dire +
+        ',' + this.cate + ',' + this.degr + '/')
+        .then(function (response) {
+          vm.alllength = response.data.alllength
+          vm.pagesize = Math.ceil(vm.alllength / 4)
         })
         .catch(function (error) {
           console.log(error)
@@ -63,7 +79,13 @@ export default {
           }
         })
       }
+    },
+    getIndex: function (i) {
+      this.pageIndex = i
+      this.getCourses()
+      this.getCount()
     }
+
   },
   watch: {
     // 监听搜索条件的变化，发生变化时重新搜索课程
