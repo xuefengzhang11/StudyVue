@@ -1,0 +1,10 @@
+{
+  "images": [
+    {
+      "java": "/static/course/java.jpg"
+    },
+    {
+      "python": "/static/course/python.jpg"
+    }
+  ]
+}
