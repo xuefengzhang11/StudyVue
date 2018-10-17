@@ -80,6 +80,12 @@ export default {
       alllenght: 0
     }
   },
+  created: function () {
+    let con = this.$route.params.con
+    if (con) {
+      this.condition = con
+    }
+  },
   mounted: function () {
     this.getDate()
     this.getPageSize()
@@ -118,9 +124,7 @@ export default {
     getIndex: function (i) {
       this.pageIndex = i
       this.getDate()
-      // this.getPageSize()
     }
-
   },
   // 超过规定字数，用省略号
   filters: {

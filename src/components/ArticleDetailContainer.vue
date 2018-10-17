@@ -34,7 +34,7 @@
 <script>
 import ArticleMain from './ArticleMain'
 import axios from 'axios'
-import $ from 'jquery'
+// import $ from 'jquery'
 
 export default {
   name: 'ArticleDetailContainer',
@@ -69,17 +69,14 @@ export default {
     },
     // 搜索
     searchData: function () {
-      this.pageindex = 1
-      this.getDate()
-    },
-    changeHotId: function (e) {
-      let aid = $(e.target).parents('.hot-course').attr('id')
-      if (aid) {
-        console.log(aid)
-        // this.$emit('regetarticle', this.articleid)
-        this.articleid = aid
-        this.getDate()
-      }
+      // 跳转到article , 并且把查询条件传过去
+      this.$router.push({
+        // path: '/article',
+        name: 'articlehome',
+        params: {
+          con: this.condition
+        }
+      })
     }
   }
 }

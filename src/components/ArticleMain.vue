@@ -137,7 +137,6 @@ export default {
         .then(function (response) {
           vm.artcount = response.data.nums
           vm.arttitle = response.data.uu_articles
-          // console.log(vm.artcount)
         })
         .catch(function (error) {
           console.log(error)
@@ -156,8 +155,6 @@ export default {
     changeHotId: function (e) {
       let aid = $(e.target).parents('.hot-course').attr('id')
       if (aid) {
-        console.log(aid)
-        // this.$emit('regetarticle', this.articleid)
         this.articleid = aid
         this.getDate()
       }
@@ -165,8 +162,6 @@ export default {
     changeIId: function (e) {
       let bid = $(e.target).parents('.related-art').attr('id')
       if (bid) {
-        console.log(bid)
-        // this.$emit('regetarticle', this.articleid)
         this.articleid = bid
         this.getDate()
       }
@@ -174,7 +169,6 @@ export default {
   },
   filters: {
     mot: function (i, a, len) {
-      console.log(i)
       if (i.length <= a) {
         return i
       }
