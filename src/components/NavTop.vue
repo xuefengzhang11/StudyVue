@@ -11,7 +11,7 @@
           <div class="col-md-5 header-nav ">
             <!--<router-link to="/">Home</router-link>-->
             <span class="nav-btn"><router-link class="r-link" to="/course">免费课程</router-link></span>
-            <span class="nav-btn">职业路径</span>
+            <span class="nav-btn"><router-link class="r-link" to="/career">职业路径</router-link></span>
             <span class="nav-btn">实战</span>
             <span class="nav-btn">猿问</span>
             <span class="nav-btn"><router-link class="r-link" to="/article">手记</router-link></span>

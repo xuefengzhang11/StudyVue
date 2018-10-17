@@ -5,6 +5,9 @@ import CourseSearch from '@/components/CourseSearch'
 import CourseDetailContainer from '@/components/CourseDetailContainer'
 import ArticleHome from '@/components/ArticleHome'
 import ArticleDetailContainer from '@/components/ArticleDetailContainer'
+import CareerDiv from '@/components/CareerDiv'
+import CareerSearch from '@/components/CareerSearch'
+import CareerDetail from '@/components/CareerDetail'
 
 Vue.use(Router)
 
@@ -34,6 +37,21 @@ export default new Router({
       path: '/articleDetail/:artid',
       name: 'articledetailcontainer',
       component: ArticleDetailContainer
+    },
+    {
+      path: '/allcareer',
+      name: 'careersearch',
+      component: CareerSearch
+    },
+    {
+      path: '/career',
+      name: 'careerdiv',
+      component: CareerDiv
+    },
+    {
+      path: '/careerdetail',
+      name: 'careerdetail',
+      component: CareerDetail
     }
   ]
 })
