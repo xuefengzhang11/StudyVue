@@ -1,7 +1,7 @@
 <!--课程页的导航栏模板-->
 <template>
     <!--导航栏部分-->
-    <div class="search-nav">
+    <div class="search-nav text-center">
       <!--搜索-->
       <div class="search">
         <div class="search-ipt">
@@ -15,61 +15,63 @@
       </div>
       <!--导航-->
       <!--方向-->
-      <div class="nav-part">
-        <span class="title">方向:</span>
-        <ul id="ul-direction">
-          <li :key="0">
+      <div style="position: relative; display: inline-block;" class="text-left">
+        <div class="nav-part">
+          <span class="title">方向:</span>
+          <ul id="ul-direction">
+            <li :key="0">
             <span :id="0" :class="{gray_white:current_dire==0}"
                   @click.prevent.stop="changeDire"
             >全部
             </span>
-          </li>
-          <!--模板-->
-          <li v-for="dire in directions" :key="dire.id">
+            </li>
+            <!--模板-->
+            <li v-for="dire in directions" :key="dire.id">
             <span :class="{gray_white:current_dire==dire.id}"
                   :id="dire.id" v-text="dire.name" @click.prevent.stop="changeDire"
             >
             </span>
-          </li>
-        </ul>
-      </div>
-      <!--分类-->
-      <div class="nav-part nav-cate">
-        <span class="title">分类:</span>
-        <ul id="ul-category">
-          <li :key="0">
+            </li>
+          </ul>
+        </div>
+        <!--分类-->
+        <div class="nav-part nav-cate">
+          <span class="title">分类:</span>
+          <ul id="ul-category">
+            <li :key="0">
             <span :class="{gray_white:current_cate==0}" :id="0" :dire_id="0"
                   @click.prevent.stop="changeCate"
             >全部
             </span>
-          </li>
-          <!--模板-->
-          <li v-for="cate in categorys" :key="cate.id">
+            </li>
+            <!--模板-->
+            <li v-for="cate in categorys" :key="cate.id">
             <span :class="{gray_white:current_cate==cate.id}" :dire_id="cate.ctgr_direction_id"
                   :id="cate.id" v-text="cate.name" @click.prevent.stop="changeCate"
             >
             </span>
-          </li>
-        </ul>
-      </div>
-      <!--难度-->
-      <div class="nav-part">
-        <span class="title">难度:</span>
-        <ul id="ul-degree">
-          <li :key="0">
+            </li>
+          </ul>
+        </div>
+        <!--难度-->
+        <div class="nav-part">
+          <span class="title">难度:</span>
+          <ul id="ul-degree">
+            <li :key="0">
             <span :id="0" :class="{gray_white:current_degr==0}"
                   @click.prevent.stop="changeDegr"
             >全部
             </span>
-          </li>
-          <!--模板-->
-          <li v-for="degr in degrees" :key="degr.id">
+            </li>
+            <!--模板-->
+            <li v-for="degr in degrees" :key="degr.id">
             <span :class="{gray_white:current_degr==degr.id}"
                   :id="degr.id" v-text="degr.name" @click.prevent.stop="changeDegr"
             >
             </span>
-          </li>
-        </ul>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
 </template>
@@ -315,7 +317,7 @@ export default {
   }
   .nav_cate{
     position: absolute;
-    left: 132px;
+    left: 0;
     max-height: 150px;
     overflow: hidden;
   }
