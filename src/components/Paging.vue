@@ -66,7 +66,7 @@ export default {
       // 当前页面
       pageCurrent: 1,
       // 分页大小
-      pagesize: 8,
+      pagesize: 12,
       // 显示分页按钮数
       showPages: 5,
       // 开始显示的分页按钮

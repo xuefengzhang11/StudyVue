@@ -102,7 +102,7 @@ export default {
       axios.get('http://localhost:8000/article/acountArticle/' + vm.condition + '/')
         .then(function (response) {
           vm.alllenght = response.data.acount
-          vm.pagesize = Math.ceil(response.data.acount / 8)
+          vm.pagesize = Math.ceil(response.data.acount / 12)
         })
         .catch(function (error) {
           console.log(error)

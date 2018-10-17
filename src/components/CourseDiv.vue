@@ -62,7 +62,7 @@ export default {
         ',' + this.cate + ',' + this.degr + ',' + this.con + '/')
         .then(function (response) {
           vm.alllength = response.data.alllength
-          vm.pagesize = Math.ceil(vm.alllength / 8)
+          vm.pagesize = Math.ceil(vm.alllength / 12)
         })
         .catch(function (error) {
           console.log(error)
