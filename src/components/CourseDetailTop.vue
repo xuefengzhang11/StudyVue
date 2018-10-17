@@ -5,21 +5,21 @@
       <div class="row">
         <div class="col-md-4">
           <span>
-            <router-link class="r-link" to="course/">课程</router-link>
+            <router-link class="r-link" to="/course/">课程</router-link>
             <!--<span>课程</span>-->
             <!--:to="{path:'course/',query:{name:'hyy'}}"-->
           </span>&nbsp;&nbsp;\&nbsp;&nbsp;
           <span>
             <!--方向-->
             <router-link class="r-link"  v-text="course.cs_direction__name"
-                         :to="{path:'course/',query:{direid:course.cs_direction__id}}"
+                         :to="{path:'/course/',query:{direid:course.cs_direction__id}}"
             >
             </router-link>
           </span>&nbsp;&nbsp;\&nbsp;&nbsp;
           <span>
             <!--分类-->
             <router-link class="r-link"  v-text="course.cs_category__name"
-                         :to="{path:'course/',query:{
+                         :to="{path:'/course/',query:{
                               direid:course.cs_direction__id,
                               cateid:course.cs_category__id,
                                }

@@ -28,11 +28,13 @@
               <!--第一行,放章节-->
               <div class="row center-block" style="height: 200px;">
                 <!-- 一章占两列  章模板 -->
-                <div class="col-md-2 chapter" v-for="(chap, i) in cour.chapters" :key="chap.id" :id="chap.id" v-if="i<4">
+                <div class="col-md-2 chapter" v-for="(chap, i) in cour.chapters"
+                     :key="chap.id" :id="chap.id" v-if="i<4" @click="toCourseDetail"
+                >
                   <p class="chapter-rank dex"  v-text="i+1"></p>
                   <p class="chapter-name" v-text="chap.name"></p>
                   <p class="chapter-info">简介:
-                    {{chap.introduce | more( 39,40)}}
+                    {{chap.introduce | more( 60,61)}}
                   </p>
                 </div>
                 <!--最多放四章,多于四章放省略号-->
@@ -47,7 +49,7 @@
                 <div class="col-md-1"></div>
                 <div class="col-md-3 text-right"><span>加入购物车</span></div>
                 <div class="col-md-2 text-center" >
-                  <span class="much">更多&nbsp;&nbsp;&nbsp;</span>
+                  <span class="much" @click="toCourseDetail">更多&nbsp;&nbsp;&nbsp;</span>
                 </div>
               </div>
             </div>
@@ -66,6 +68,8 @@
 
 <script>
 import axios from 'axios'
+import $ from 'jquery'
+
 export default {
   name: 'CareerDetail',
   data () {
@@ -87,11 +91,15 @@ export default {
   methods: {
     // 得到数据
     getData: function () {
-      var vm = this
+      let vm = this
+      // 解决返回错误（不成功）
+      window.sessionStorage.setItem('tempid', this.careerid)
+      if (!this.careerid) {
+        vm.careerid = sessionStorage.getItem('tempid')
+      }
       axios.get('http://localhost:8000/career/getcareerdetail/' + vm.careerid + '/')
         .then(function (response) {
           vm.career = response.data.careers
-          // console.log(response.data.careers)
         })
         .catch(function (error) {
           console.log(error)
@@ -99,15 +107,16 @@ export default {
     },
     getCareerId: function () {
       let cid = this.$route.params.careerid
-      // console.log(cid)
       this.careerid = cid
-      // console.log(this.careerid)
     },
-    onMouseover: function () {
-      this.seen = true
-    },
-    onMouseout: function () {
-      this.seen = false
+    toCourseDetail: function (e) {
+      let $courid = $(e.target).parents('.course-container').attr('id')
+      console.log($courid)
+      if ($courid) {
+        this.$router.push({
+          path: 'coursedetail/' + $courid
+        })
+      }
     }
   },
   filters: {
@@ -125,7 +134,6 @@ export default {
       }
       // 将传过来的数据变为字符串
       intro = intro.toString()
-      // console.log(intro)
       return intro.substr(0, len) + '...'
     }
   }
@@ -225,15 +233,14 @@ export default {
     object-fit: cover;
   }
   .center-block{
-    /*float: left;*/
     display: flex;
     justify-content: space-between;
-    /*position: relative;*/
   }
   .course .chapter {
     color: white;
     height: 180px;
-    width: 170px;
+    width: 167px;
+    max-width: 167px;
     margin-top: 25px;
     padding: 20px 10px;
     border-radius: 10px;
@@ -254,7 +261,6 @@ export default {
 
   .chapter p.chapter-rank {
     font-size: 3em;
-    /*color: rgba(118, 127, 128, 0.33);*/
     position: absolute;
     right: 5px;
     top: 5px;
@@ -278,7 +284,6 @@ export default {
     height: 20px;
     padding-left: 20px;
     padding-top: 2px;
-    /*padding-right: 17px;*/
     margin-bottom: -5px;
     background: pink;
     background: url('../assets/icons/user-logo.svg') no-repeat;
@@ -298,10 +303,8 @@ export default {
 
   .career-finish {
     width: 1002px;
-    /*height: 32px;*/
     margin: auto;
     padding: 0 2px;
-    /*overflow: hidden;*/
   }
   .career-finish .tip {
     display: inline-block;
@@ -327,5 +330,4 @@ export default {
     font-size: 1.1em;
     margin-bottom: 30px;
   }
-
 </style>

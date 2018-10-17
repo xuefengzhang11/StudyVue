@@ -23,10 +23,9 @@ export default {
   created: function () {
     // 得到路由跳转传来的参数（课程ID）
     this.getCourseId()
-    this.getCourseDetail()
   },
   mounted: function () {
-
+    this.getCourseDetail()
   },
   methods: {
     // 得到路由跳转传来的参数（课程ID）

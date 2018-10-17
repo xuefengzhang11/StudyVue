@@ -21,13 +21,13 @@
               </div>
               <!--&lt;!&ndash;简介&ndash;&gt;-->
               <div class="career-info">
-                <p class="career-title">{{career.name | more(10,14)}}</p>
+                <p class="career-title">{{career.name}}</p>
                 <p><span v-text="career.coursesNum"></span>课 · <span>{{career | chapnum}}</span>章 · <span >{{career | sectnum}}</span>节
                 <span class="u_icon" v-text="career.learn"></span></p>
                 <p class="career-detail">{{career.introduce | more(25,30)}}</p>
                 <div class="row a">
                   <div class="col-md-6">￥<span class="career-price" v-text="career.price"></span></div>
-                  <div class="col-md-6 text-center"><a href="#">加入购物车</a></div>
+                  <div class="col-md-6 text-right"><span>详情</span></div>
                 </div>
               </div>
             </a>
@@ -50,7 +50,7 @@ import $ from 'jquery'
 import axios from 'axios'
 import Paging from './Paging'
 export default {
-  name: 'CareerDiv',
+  name: 'CareerHome',
   data () {
     return {
       msg: '职位导航',
@@ -76,7 +76,6 @@ export default {
       axios.get('http://localhost:8000/career/getcareer/' + vm.pageIndex + '/')
         .then(function (response) {
           vm.allcareers = response.data.careers
-          // console.log(response.data.careers)
         })
         .catch(function (error) {
           console.log(error)
@@ -88,29 +87,27 @@ export default {
       axios.get('http://localhost:8000/career/getcount/')
         .then(function (response) {
           vm.alllenght = response.data.account
-          // console.log(response.data.account)
           vm.pagesize = Math.ceil(response.data.account / 8)
         })
         .catch(function (error) {
           console.log(error)
         })
     },
-
     toCareerDetail: function (e) {
-      let $obj = $(e.target).parents('.career-container')
-      // console.log($)
-      this.$router.push({
-        path: 'careerdetail/',
-        name: 'careerdetail',
-        params: {
-          careerid: $obj.attr('id')
-        }
-      })
+      let $careid = $(e.target).parents('.career-container').attr('id')
+      if ($careid) {
+        this.$router.push({
+          path: 'careerdetail/',
+          name: 'careerdetail',
+          params: {
+            careerid: $careid
+          }
+        })
+      }
     },
     getIndex: function (i) {
       this.pageIndex = i
       this.getData()
-      // this.getPageSize()
     }
   },
   filters: {
