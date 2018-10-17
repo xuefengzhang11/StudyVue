@@ -62,7 +62,7 @@ export default {
         ',' + this.cate + ',' + this.degr + ',' + this.con + '/')
         .then(function (response) {
           vm.alllength = response.data.alllength
-          vm.pagesize = Math.ceil(vm.alllength / 4)
+          vm.pagesize = Math.ceil(vm.alllength / 8)
         })
         .catch(function (error) {
           console.log(error)
@@ -91,7 +91,10 @@ export default {
     // 监听搜索条件的变化，发生变化时重新搜索课程
     $props: {
       handler: function (n, o) {
-        console.log('深度监听')
+        console.log('深度监听new')
+        console.log(n)
+        console.log('深度监听old')
+        console.log(o)
         this.setIndex()
         this.getCourses()
         this.getCount()

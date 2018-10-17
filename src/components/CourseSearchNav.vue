@@ -178,12 +178,12 @@ export default {
       this.myemit()
     },
     searchCourse: function () {
-      this.current_dire = 0
-      this.current_cate = 0
-      this.current_degr = 0
-      this.getDirection()
-      this.getCategory()
-      this.getDegree()
+      // this.current_dire = 0
+      // this.current_cate = 0
+      // this.current_degr = 0
+      // this.getDirection()
+      // this.getCategory()
+      // this.getDegree()
       this.myemit()
     },
     // 定义一个发射方法

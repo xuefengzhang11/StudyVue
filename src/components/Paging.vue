@@ -66,7 +66,7 @@ export default {
       // 当前页面
       pageCurrent: 1,
       // 分页大小
-      pagesize: 4,
+      pagesize: 8,
       // 显示分页按钮数
       showPages: 5,
       // 开始显示的分页按钮
@@ -84,7 +84,6 @@ export default {
   },
   methods: {
     showPage (pageIndex, $event, forceRefresh) {
-      console.log('**')
       if (pageIndex > 0) {
         this.$emit('indexclick', pageIndex)
         if (pageIndex > this.count) {
