@@ -52,6 +52,7 @@ export default {
     toLoginRegister: function (e) {
       let $d = $(e.target).text()
       let cur = $d === '登录' ? 'login' : 'register'
+      // console.log(cur)
       this.$emit('tologrgstclick', cur)
     }
   }

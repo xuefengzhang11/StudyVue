@@ -6,65 +6,73 @@
       <div class="top">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
-          <li role="presentation" class="pre_login"><a href="#home" aria-controls="home" role="tab"
-                                                       data-toggle="tab" class="pos pos_login">登录</a></li>
-          <li role="presentation" class="pre_register"><a href="#profile" aria-controls="profile" role="tab"
-                                                          data-toggle="tab" class="pos pos_register">注册</a></li>
+          <li role="presentation" class="pre_login">
+            <a href="#login" aria-controls="login" role="tab" data-toggle="tab" class="pos pos_login" @click="tologin">登录</a>
+            <!--<span aria-controls="login" data-toggle="tab" class="pos pos_login">登录</span>-->
+          </li>
+          <li role="presentation" class="pre_register">
+            <a href="#register" aria-controls="register" role="tab" data-toggle="tab" class="pos pos_register" @click="toregister">注册</a></li>
           <li>
-            <button class="img"></button>
+            <button class="img" @click="closeMyself"></button>
           </li>
         </ul>
         <!-- Tab panes -->
-        <div class="tab-content">
-          <div role="tabpanel" class="tab-pane def_login" id="home"  v-if="nowstatus === 'login'">
-            <div class="midd">
-              <form action="" id="btns_login">
-                <p class="white"></p>
-                <div class="text">
-                  <input type="text" id="tel_login" placeholder="请输入手机号或邮箱" class="btn_tel">
-                  <p class="warn" data-error-hide="请输入正确的邮箱或手机号"></p>
-                </div>
-                <div class="pwd">
-                  <input type="text" id="pwd_login" placeholder="请输入密码" class="btn_tel">
-                  <p class="warn" data-error-hide="请输入6-16位密码，区分大小写，不能使用空格！"></p>
-                </div>
-                <div class="auto">
-                  <label for="auto_sign">
-                    <input type="checkbox" id="auto_sign">自动登录
-                  </label>
-                  <a href="#" class="forget">忘记密码？</a>
-                </div>
-                <div class="btn">
-                  <input type="button" value="登录" class="log_reg">
-                </div>
-              </form>
-            </div>
+        <div role="tabpanel" class="tab-pane def_login" id="login"  v-if="status === 'login'">
+          <div class="midd">
+            <form action="" id="btns_login">
+              <p class="white"></p>
+              <div class="text">
+                <input type="text" id="tel_login" placeholder="请输入手机号或邮箱" name="tel_email" class="btn_tel" value="18204624196">
+                <p class="warn" data-error-hide="请输入正确的邮箱或手机号"></p>
+              </div>
+              <div class="pwd">
+                <input type="text" id="pwd_login" placeholder="请输入密码" name="pwd" class="btn_tel" value="123456">
+                <p class="warn" data-error-hide="请输入6-16位密码，区分大小写，不能使用空格！"></p>
+              </div>
+              <div class="yzm">
+                <input type="text" placeholder="请输入验证码" class="ver_code" value="3n3D">
+                <img src="../assets/images/courses/timg.png" alt="" class="get_ver_yzm">
+                <p class="warn" data-error-hide="验证码不正确，请重新输入"></p>
+              </div>
+              <div class="auto">
+                <label for="auto_sign">
+                  <input type="checkbox" id="auto_sign">自动登录
+                </label>
+                <a href="#" class="forget">忘记密码？</a>
+              </div>
+              <div class="btn">
+                <input type="button" value="登录" class="log_reg" @click="getDate">
+              </div>
+            </form>
           </div>
-          <div role="tabpanel" class="tab-pane def_register" id="profile" v-if="nowstatus === 'login'">
-            <div class="midd">
-              <form action="" id="btns_register">
-                <p class="white"></p>
-                <div class="text">
-                  <input type="text" id="tel_register" placeholder="请输入手机号或邮箱" class="btn_tel">
-                  <p class="warn" data-error-hide="请输入正确的邮箱或手机号"></p>
-                </div>
-                <div class="pwd">
-                  <input type="text" id="pwd_register" placeholder="请输入验证码" class="ver_code">
-                  <button type="button" class="get_ver">获取验证码</button>
-                  <p class="warn" data-error-hide="验证码不正确，请重新输入"></p>
-                </div>
-                <div class="auto">
-                  <label for="auto_sign">
-                    <input type="checkbox" id="degree">我已同意思达迪协议
-                  </label>
-                </div>
-                <div class="btn">
-                  <input type="button" value="注册" class="log_reg">
-                </div>
-              </form>
-            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane def_register" id="register" v-if="status === 'register'">
+          <div class="midd">
+            <form action="" id="btns_register">
+              <p class="white"></p>
+              <div class="text">
+                <input type="text" id="tel_register" placeholder="请输入手机号" class="btn_tel">
+                <p class="warn" data-error-hide="请输入正确的邮箱或手机号"></p>
+              </div>
+              <div class="pwd">
+                <input type="text" id="pwd_register" placeholder="请输入密码" class="btn_tel">
+                <p class="warn" data-error-hide="输入密码不符合要求"></p>
+              </div>
+              <div class="pwd">
+                <input type="text" id="yzm_register" placeholder="请输入验证码" class="ver_code" value="123456">
+                <button type="button" class="get_ver">获取验证码</button>
+                <p class="warn" data-error-hide="验证码不正确，请重新输入"></p>
+              </div>
+              <div class="auto">
+                <label for="auto_sign">
+                  <input type="checkbox" id="degree">我已同意思达迪协议
+                </label>
+              </div>
+              <div class="btn">
+                <input type="button" value="注册" class="log_reg">
+              </div>
+            </form>
           </div>
-
         </div>
       </div>
     </div>
@@ -72,32 +80,73 @@
 </template>
 
 <script>
+// import axios from 'axios'
+// import qs from 'qs'
+// import $ from 'jquery'
+
 export default {
-  props: ['nowstatus'],
+  props: [
+    'nowstatus'
+  ],
   name: 'LoginRegister',
   data () {
     return {
-      msg: '登录注册'
+      msg: '登录注册',
+      status: this.nowstatus
     }
+  },
+  methods: {
+    tologin: function () {
+      this.status = 'login'
+      console.log(this.status)
+    },
+    toregister: function () {
+      this.status = 'register'
+      console.log(this.status)
+    },
+    closeMyself: function () {
+      this.$emit('on-close')
+    }
+    // getDate: function () {
+    //   let tel = document.querySelector('#tel_login')
+    //   let pwd = document.querySelector('#pwd_login')
+    //   let user = {
+    //     'tel_email': tel.value,
+    //     'pwd': pwd.value
+    //   }
+    //   $.ajax(
+    //     {
+    //       url: 'http://localhost:8080/user/login/',
+    //       type: 'POST',
+    //       data: JSON.stringify(user),
+    //       dataType: 'json',
+    //       contentType: 'application/json',
+    //       success: function (response, textStatus, xhr) {
+    //         console.log(response)
+    //         console.log(textStatus)
+    //       }
+    //     }
+    //   )
+    // }
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+ Add "scoped" attribute to limit CSS to this component only
 <style scoped>
   /*遮罩层*/
   .zzc {
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.6);
-    position: absolute;
+    position: fixed;
     z-index: 999;
     top: 0;
   }
   /*登录注册div样式*/
   .div-login-register {
     width: 360px;
-    height: 350px;
+    height: 400px;
     background: white;
     z-index: 99;
     position: fixed;
@@ -153,6 +202,14 @@ export default {
   .pwd {
     height: 70px;
   }
+  .yzm {
+    height: 70px;
+
+  }
+  .yzm.img{
+    height: 70px;
+    width: 100%;
+  }
   .auto {
     width: 300px;
     height: 20px;
@@ -160,7 +217,6 @@ export default {
   .forget {
     color: black;
     float: right;
-    padding-top: 3px;
   }
   .forget:hover {
     text-decoration: none;
@@ -207,5 +263,11 @@ export default {
     width: 110px;
     float: right;
     text-align: center;
+  }
+  .get_ver_yzm {
+    width: 120px;
+    height: 50px;
+    float: right;
+    text-align: right;
   }
 </style>
