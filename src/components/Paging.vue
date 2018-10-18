@@ -84,12 +84,17 @@ export default {
   },
   methods: {
     showPage (pageIndex, $event, forceRefresh) {
+      // console.log('1' + pageIndex)
       if (pageIndex > 0) {
         this.$emit('indexclick', pageIndex)
         if (pageIndex > this.count) {
+          // console.log('2' + pageIndex)
+          // console.log('3' + this.count)
           pageIndex = this.count
         }
         this.pageCurrent = pageIndex
+        console.log('4' + this.pageCurrent)
+
         // 如果当前页首页或者尾页，则上一页首页就不能点击，下一页尾页就不能点击
         if (this.pageCurrent === 1) {
           this.fDisabled = true

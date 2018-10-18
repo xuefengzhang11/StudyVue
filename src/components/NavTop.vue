@@ -18,9 +18,18 @@
             <span class="nav-btn">找工作</span>
           </div>
           <div class="col-md-4 text-right">
-            <button class="btn-cart">
+            <button class="btn-cart" @mouseenter.prevent.stop="enterShop" @mouseleave.prevent.stop="leaveShop">
               <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> 购物车
             </button>
+            <div class="shopcart" v-show="shopHover"
+                 @mouseenter.prevent.stop="enterShop" @mouseleave.prevent.stop="leaveshops">
+              <div class="shopcart-text">我的购物车</div>
+              <div class="shop-course">
+                <img src="../assets/images/courses/1.jpg" class="shop-img" />
+                <span class="shop-name">买的课程名</span>
+                <div>￥价格</div>
+              </div>
+            </div>
           </div>
           <!--登录注册链接-->
           <div v-if="!islogin" class="col-md-1 login-rgst">
@@ -57,7 +66,9 @@ export default {
       // 登录状态
       // islogin: false
       // 悬浮状态
-      isHover: false
+      isHover: false,
+      shopHover: false,
+      exist: false
     }
   },
   methods: {
@@ -79,6 +90,35 @@ export default {
       setTimeout(function () {
         vm.isHover = true
         console.log('enter..')
+      }, 100)
+    },
+    leaveShop: function () {
+      let vm = this
+      if (vm.exist) {
+        vm.shopHover = true
+        vm.exist = false
+        setTimeout(function () {
+          if (vm.exist === false) {
+            vm.shopHover = false
+          }
+          console.log('leave..')
+        }, 300)
+      }
+    },
+    enterShop: function () {
+      let vm = this
+      setTimeout(function () {
+        vm.shopHover = true
+        vm.exist = true
+        console.log('enter..')
+      }, 100)
+    },
+    leaveshops: function () {
+      let vm = this
+      setTimeout(function () {
+        vm.shopHover = false
+        vm.exist = false
+        console.log('leave..')
       }, 100)
     }
   }
@@ -161,7 +201,6 @@ export default {
     color: red;
     box-shadow: 2px 2px 2px gray;
   }
-
   .header .nav-btn {
     display: inline-block;
     height: 60px;
@@ -179,5 +218,37 @@ export default {
   .header span:hover {
     color: darkslategrey;
     cursor: pointer;
+  }
+  .header .shopcart{
+    padding: 20px;
+    position: absolute;
+    right: 10px;
+    top: 60px;
+    width: 300px;
+    height: 410px;
+    border-radius: 10px;
+    background: lightpink;
+    z-index: 999;
+  }
+  .header .shopcart .shopcart-text {
+    color: black;
+    text-align: left;
+    font-size: 1.2em;
+    padding-bottom: 10px;
+    border-bottom: grey 1px solid;
+  }
+  .header .shopcart .shop-course {
+    height: 100px;
+    background: red;
+    padding: 10px;
+  }
+  .shopcart .shop-course .shop-img {
+    width: 100px;
+    height: 80px;
+    display: table-cell;
+    text-align: left;
+  }
+  .shopcart .shop-course .shop-name {
+
   }
 </style>

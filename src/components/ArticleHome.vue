@@ -75,7 +75,7 @@ export default {
       // 当前页
       pageIndex: 1,
       // 页码总数
-      pagesize: 0,
+      pagesize: 10,
       // 文章总数
       alllenght: 0
     }
