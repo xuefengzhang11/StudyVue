@@ -41,7 +41,7 @@
                 <a href="#" class="forget">忘记密码？</a>
               </div>
               <div class="btn">
-                <input type="button" value="登录" class="log_reg" @click="getDate">
+                <input type="button" value="登录" class="log_reg">
               </div>
             </form>
           </div>
@@ -110,13 +110,15 @@ export default {
     // getDate: function () {
     //   let tel = document.querySelector('#tel_login')
     //   let pwd = document.querySelector('#pwd_login')
+    //   console.log(tel.value)
+    //   console.log(pwd.value)
     //   let user = {
     //     'tel_email': tel.value,
     //     'pwd': pwd.value
     //   }
     //   $.ajax(
     //     {
-    //       url: 'http://localhost:8080/user/login/',
+    //       url: 'http://localhost:8000/user/login/',
     //       type: 'POST',
     //       data: JSON.stringify(user),
     //       dataType: 'json',
