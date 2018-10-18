@@ -52,7 +52,7 @@
     <div class="row">
       <div class="col-md-12">
         <!--分页组件-->
-        <paging :count="pagesize" :ac="alllenght" :currentIndex="pageIndex" @indexclick="getIndex" v-show="pagesize>1"></paging>
+        <paging :ac="alllenght" :currentIndex="pageIndex" @indexclick="getIndex" :count="pagesize" v-show="pagesize>1"></paging>
       </div>
     </div>
   </div>
@@ -75,7 +75,7 @@ export default {
       // 当前页
       pageIndex: 1,
       // 页码总数
-      pagesize: 10,
+      pagesize: 1,
       // 文章总数
       alllenght: 0
     }

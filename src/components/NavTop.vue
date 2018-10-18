@@ -24,10 +24,48 @@
             <div class="shopcart" v-show="shopHover"
                  @mouseenter.prevent.stop="enterShop" @mouseleave.prevent.stop="leaveshops">
               <div class="shopcart-text">我的购物车</div>
-              <div class="shop-course">
-                <img src="../assets/images/courses/1.jpg" class="shop-img" />
-                <span class="shop-name">买的课程名</span>
-                <div>￥价格</div>
+              <div class="shop-content container-fluid">
+                <div class="shop-course row">
+                  <div class="shop-dimg col-md-6">
+                    <img src="../assets/images/courses/1.jpg" class="shop-img" />
+                  </div>
+                  <div class="shop-name col-md-6">买的课程名</div>
+                  <div class="shop-price col-md-6">￥价格</div>
+                </div>
+                <div class="shop-course row">
+                  <div class="shop-dimg col-md-6">
+                    <img src="../assets/images/courses/1.jpg" class="shop-img" />
+                  </div>
+                  <div class="shop-name col-md-6">买的课程名</div>
+                  <div class="shop-price col-md-6">￥价格</div>
+                </div>
+                <div class="shop-course row">
+                  <div class="shop-dimg col-md-6">
+                    <img src="../assets/images/courses/1.jpg" class="shop-img" />
+                  </div>
+                  <div class="shop-name col-md-6">买的课程名</div>
+                  <div class="shop-price col-md-6">￥价格</div>
+                </div>
+                <div class="shop-course row">
+                  <div class="shop-dimg col-md-6">
+                    <img src="../assets/images/courses/1.jpg" class="shop-img" />
+                  </div>
+                  <div class="shop-name col-md-6">买的课程名</div>
+                  <div class="shop-price col-md-6">￥价格</div>
+                </div>
+                <div class="shop-course row">
+                  <div class="shop-dimg col-md-6">
+                    <img src="../assets/images/courses/1.jpg" class="shop-img" />
+                  </div>
+                  <div class="shop-name col-md-6">买的课程名</div>
+                  <div class="shop-price col-md-6">￥价格</div>
+                </div>
+              </div>
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-md-6 shop-center">我的订单中心</div>
+                  <div class="col-md-6 shop-car">去购物车</div>
+                </div>
               </div>
             </div>
           </div>
@@ -227,8 +265,9 @@ export default {
     width: 300px;
     height: 410px;
     border-radius: 10px;
-    background: lightpink;
+    background: white;
     z-index: 999;
+    box-shadow: 2px 2px 10px gray;
   }
   .header .shopcart .shopcart-text {
     color: black;
@@ -239,16 +278,42 @@ export default {
   }
   .header .shopcart .shop-course {
     height: 100px;
-    background: red;
-    padding: 10px;
+    padding: 10px 0;
   }
-  .shopcart .shop-course .shop-img {
-    width: 100px;
-    height: 80px;
-    display: table-cell;
+  .shopcart .shop-content {
+    height: 300px;
+    border-bottom: grey 1px solid;
+    overflow: auto;
+  }
+  .shop-course .shop-dimg {
     text-align: left;
   }
+  .shop-course .shop-dimg .shop-img {
+    width: 100px;
+    height: 80px;
+    border-radius: 10px;
+  }
   .shopcart .shop-course .shop-name {
-
+    height: 20px;
+    text-align: left;
+  }
+  .shopcart .shop-course .shop-price {
+    height: 20px;
+    text-align: left;
+    margin-top: 40px;
+  }
+  .shopcart .shop-center {
+    margin-top: 15px;
+    text-align: left;
+  }
+  .shopcart .shop-car {
+    width: 100px;
+    height: 30px;
+    background: red;
+    margin-top: 10px;
+    margin-left: 30px;
+    border-radius: 50px;
+    line-height: 30px;
+    text-align: center;
   }
 </style>
