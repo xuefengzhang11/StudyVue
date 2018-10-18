@@ -6,31 +6,32 @@
       <div class="top">
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
-          <li role="presentation" class="pre_login">
-            <a href="#login" aria-controls="login" role="tab" data-toggle="tab" class="pos pos_login" @click="tologin">登录</a>
-            <!--<span aria-controls="login" data-toggle="tab" class="pos pos_login">登录</span>-->
+          <li role="presentation">
+            <a role="tab" :class="{active: logorregister === 'login'}" data-toggle="tab" class="pos" @click="tologin">登录</a>
           </li>
-          <li role="presentation" class="pre_register">
-            <a href="#register" aria-controls="register" role="tab" data-toggle="tab" class="pos pos_register" @click="toregister">注册</a></li>
+          <li role="presentation">
+            <a role="tab" :class="{active: logorregister === 'register'}" data-toggle="tab" class="pos" @click="toregister">注册</a></li>
           <li>
+            <!--叉叉-->
             <button class="img" @click="closeMyself"></button>
           </li>
         </ul>
         <!-- Tab panes -->
-        <div role="tabpanel" class="tab-pane def_login" id="login"  v-if="status === 'login'">
+        <!--登录-->
+        <div role="tabpanel" class="tab-pane def_login" id="login"  v-if="logorregister === 'login'">
           <div class="midd">
             <form action="" id="btns_login">
               <p class="white"></p>
               <div class="text">
-                <input type="text" id="tel_login" placeholder="请输入手机号或邮箱" name="tel_email" class="btn_tel" value="18204624196">
+                <input type="text" id="tel_login" placeholder="请输入手机号或邮箱" class="btn_tel" v-model="tel_email">
                 <p class="warn" data-error-hide="请输入正确的邮箱或手机号"></p>
               </div>
               <div class="pwd">
-                <input type="text" id="pwd_login" placeholder="请输入密码" name="pwd" class="btn_tel" value="123456">
+                <input type="text" id="pwd_login" placeholder="请输入密码" class="btn_tel" v-model="pwd">
                 <p class="warn" data-error-hide="请输入6-16位密码，区分大小写，不能使用空格！"></p>
               </div>
               <div class="yzm">
-                <input type="text" placeholder="请输入验证码" class="ver_code" value="3n3D">
+                <input type="text" placeholder="请输入验证码" class="ver_code" v-model="valiimg">
                 <img src="../assets/images/courses/timg.png" alt="" class="get_ver_yzm">
                 <p class="warn" data-error-hide="验证码不正确，请重新输入"></p>
               </div>
@@ -41,25 +42,26 @@
                 <a href="#" class="forget">忘记密码？</a>
               </div>
               <div class="btn">
-                <input type="button" value="登录" class="log_reg" @click="getDate">
+                <input type="button" value="登录" class="log_reg" @click="login">
               </div>
             </form>
           </div>
         </div>
-        <div role="tabpanel" class="tab-pane def_register" id="register" v-if="status === 'register'">
+        <!--注册-->
+        <div role="tabpanel" class="tab-pane def_register" id="register" v-if="logorregister === 'register'">
           <div class="midd">
             <form action="" id="btns_register">
               <p class="white"></p>
               <div class="text">
-                <input type="text" id="tel_register" placeholder="请输入手机号" class="btn_tel">
+                <input type="text" placeholder="请输入手机号" class="btn_tel" v-model="tel">
                 <p class="warn" data-error-hide="请输入正确的邮箱或手机号"></p>
               </div>
               <div class="pwd">
-                <input type="text" id="pwd_register" placeholder="请输入密码" class="btn_tel">
+                <input type="text" placeholder="请输入密码" class="btn_tel" v-model="tel">
                 <p class="warn" data-error-hide="输入密码不符合要求"></p>
               </div>
               <div class="pwd">
-                <input type="text" id="yzm_register" placeholder="请输入验证码" class="ver_code" value="123456">
+                <input type="text" placeholder="请输入验证码" class="ver_code" v-model="validate">
                 <button type="button" class="get_ver">获取验证码</button>
                 <p class="warn" data-error-hide="验证码不正确，请重新输入"></p>
               </div>
@@ -81,8 +83,8 @@
 
 <script>
 // import axios from 'axios'
-// import qs from 'qs'
-// import $ from 'jquery'
+// import Qs from 'qs'
+import $ from 'jquery'
 
 export default {
   props: [
@@ -92,47 +94,88 @@ export default {
   data () {
     return {
       msg: '登录注册',
-      status: this.nowstatus
+      url: 'http://localhost:8000/',
+      // 用户电话
+      tel: '',
+      // 用户电话或邮箱
+      tel_email: '14796686075',
+      // 用户密码
+      pwd: '123456',
+      // 用户确认密码
+      valiimg: '3n3D',
+      validate: '666666',
+      logorregister: ''
+    }
+  },
+  created: function () {
+    this.logorregister = this.nowstatus
+  },
+  watch: {
+    nowstatus: function (now, before) {
+      this.logorregister = this.nowstatus
+    },
+    logorregister: function (now, before) {
+
     }
   },
   methods: {
     tologin: function () {
-      this.status = 'login'
-      console.log(this.status)
+      this.logorregister = 'login'
     },
     toregister: function () {
-      this.status = 'register'
-      console.log(this.status)
+      this.logorregister = 'register'
     },
     closeMyself: function () {
+      this.status = ''
       this.$emit('on-close')
+    },
+    // 登录提交数据
+    login: function () {
+      let user = {
+        'tel_email': this.tel_email,
+        'pwd': this.pwd
+      }
+      let vm = this
+      $.ajax({
+        url: this.url + 'user/login/',
+        type: 'POST',
+        data: user,
+        success: function (response, textStatus, request) {
+          let res = response.res
+          if (res === '登录成功') {
+            vm.closeMyself()
+            vm.$emit('logrgstsuccessclick')
+          }
+        }
+      })
+    },
+    // 用户注册
+    register: function () {
+      let user = {
+        'tel_email': this.tel_email,
+        'pwd': this.pwd,
+        'validate': this.validate
+      }
+      let vm = this
+      $.ajax({
+        url: this.url + 'user/register/',
+        type: 'POST',
+        data: user,
+        success: function (response, textStatus, request) {
+          let res = response.res
+          console.log(res)
+          if (res === '注册成功') {
+            vm.closeMyself()
+            vm.$emit('logrgstsuccessclick')
+          }
+        }
+      })
     }
-    // getDate: function () {
-    //   let tel = document.querySelector('#tel_login')
-    //   let pwd = document.querySelector('#pwd_login')
-    //   let user = {
-    //     'tel_email': tel.value,
-    //     'pwd': pwd.value
-    //   }
-    //   $.ajax(
-    //     {
-    //       url: 'http://localhost:8080/user/login/',
-    //       type: 'POST',
-    //       data: JSON.stringify(user),
-    //       dataType: 'json',
-    //       contentType: 'application/json',
-    //       success: function (response, textStatus, xhr) {
-    //         console.log(response)
-    //         console.log(textStatus)
-    //       }
-    //     }
-    //   )
-    // }
   }
 }
 </script>
 
- Add "scoped" attribute to limit CSS to this component only
+ <!--Add "scoped" attribute to limit CSS to this component only-->
 <style scoped>
   /*遮罩层*/
   .zzc {
@@ -162,6 +205,9 @@ export default {
     width: 80px;
     height: 50px;
     font-size: 1.2em;
+  }
+  .pos:hover{
+    cursor: pointer;
   }
   .div-login-register .img {
     width: 30px;
@@ -269,5 +315,8 @@ export default {
     height: 50px;
     float: right;
     text-align: right;
+  }
+  .active{
+    background: #eee;
   }
 </style>

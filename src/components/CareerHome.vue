@@ -38,7 +38,7 @@
     <!--分页-->
     <div class="row">
       <div class="col-md-12">
-        <paging :count="pagesize" :ac="alllenght" @indexclick="getIndex" v-show="pagesize>1"></paging>
+        <paging :count="pagesize" :ac="alllenght" :currentIndex="pageIndex" @indexclick="getIndex" v-show="pagesize>1"></paging>
       </div>
     </div>
   </div>
@@ -87,7 +87,7 @@ export default {
       axios.get('http://localhost:8000/career/getcount/')
         .then(function (response) {
           vm.alllenght = response.data.account
-          vm.pagesize = Math.ceil(response.data.account / 8)
+          vm.pagesize = Math.ceil(response.data.account / 12)
         })
         .catch(function (error) {
           console.log(error)

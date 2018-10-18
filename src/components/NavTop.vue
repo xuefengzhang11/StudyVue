@@ -41,11 +41,11 @@ import $ from 'jquery'
 
 export default {
   name: 'NavTop',
-  props: ['nowstatus'],
+  props: ['nowstatus', 'islogin'],
   data () {
     return {
       // 登录状态
-      islogin: false
+      // islogin: false
     }
   },
   methods: {
