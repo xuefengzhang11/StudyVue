@@ -30,14 +30,76 @@
           <!--登录成功后的用户头像-->
           <div v-else class="col-md-1 user-img">
             <span>
-              <img src="../assets/images/users/user-icon.jpg" alt=""
+              <img src="../assets/images/users/user-icon.jpg" alt="" class="user-top-img"
                    @mouseenter.prevent.stop="enterUser" @mouseleave.prevent.stop="leaveUser"
               >
             </span>
             <div class="person" v-show="isHover"
-                 @mouseenter.prevent.stop="enterUser" @mouseleave.prevent.stop="leaveUser"
+                 @mouseenter.prevent.stop="enterUser" @mouseleave.prevent.stop="leavesUser"
             >
-              <h1>用户信息</h1>
+              <div class="container user">
+                <div class="row user-top">
+                  <div class="row">
+                    <div class="user-icon-box">
+                      <div class="col-md-4">
+                        <img src="../assets/images/users/user-icon.jpg" alt="" class="user-icon">
+                      </div>
+                      <div class="col-md-4">
+                        <div class="row user-name">
+                          zhangxuefeng
+                        </div>
+                        <div class="row user-expen">
+                          经验78&nbsp;&nbsp;积分0
+                        </div>
+                      </div>
+                      <div class="col-md-4"></div>
+                    </div>
+                  </div>
+                  <div class="row user-item">
+                    <div class="col-md-12">
+                      <div class="row">
+                      <span class="col-md-6 my-user">
+                        <img src="../assets/icons/my-course.svg" alt="">&nbsp;&nbsp;我的课程
+                      </span>
+                        <span class="col-md-6 my-user">
+                        <img src="../assets/icons/article-logo.svg" alt="">&nbsp;&nbsp;我的文章
+                      </span>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="row">
+                      <span class="col-md-6 my-user">
+                        <img src="../assets/icons/my-write-article.svg" alt="">&nbsp;&nbsp;订单中心
+                      </span>
+                        <span class="col-md-6 my-user">
+                        <img src="../assets/icons/my-person-set.svg" alt="">&nbsp;&nbsp;个人设置
+                      </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row my-white"></div>
+                  <div class="row">
+                    <div class="col-md-1 my-time">
+                      <img src="../assets/icons/my-time.svg" alt="">
+                    </div>
+                    <div class="col-md-6">
+                      <div class="row my-course-name">
+                        课程名称aaaa
+                      </div>
+                      <div class="row my-chapter-name">
+                        课程章名称aaaa
+                      </div>
+                    </div>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-3 continue">
+                      继续
+                    </div>
+                  </div>
+                </div>
+                <div class="row my-cancel">
+                  安全退出
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -57,7 +119,8 @@ export default {
       // 登录状态
       // islogin: false
       // 悬浮状态
-      isHover: false
+      isHover: false,
+      person_exist: false
     }
   },
   methods: {
@@ -69,16 +132,28 @@ export default {
     },
     leaveUser: function () {
       let vm = this
-      setTimeout(function () {
-        vm.isHover = false
-        console.log('leave..')
-      }, 500)
+      if (vm.person_exist) {
+        vm.isHover = true
+        vm.person_exist = false
+        setTimeout(function () {
+          if (vm.person_exist === false) {
+            vm.isHover = false
+          }
+        }, 300)
+      }
     },
     enterUser: function () {
       let vm = this
       setTimeout(function () {
         vm.isHover = true
-        console.log('enter..')
+        vm.person_exist = true
+      }, 100)
+    },
+    leavesUser: function () {
+      let vm = this
+      setTimeout(function () {
+        vm.isHover = false
+        vm.person_exist = false
       }, 100)
     }
   }
@@ -87,19 +162,106 @@ export default {
 
 <!-- 头部导航栏CSS -->
 <style scoped>
+  <!-- 登录成功显示的用户信息 -->
   .user-img{
+    width: 60px;
+    height: 90px;
     position: relative;
+    /*top:30px;*/
+    margin-left: 20px;
   }
   .user-img .person {
     position: absolute;
     right: 30px;
-    top: 60px;
-    width: 300px;
-    height: 200px;
+    top: 80px;
+    width: 314px;
+    height: 330px;
     border-radius: 10px;
-    background: lightpink;
-    /*z-index: 999;*/
+    background: #ffffff;
+    z-index: 999;
   }
+
+  .user{
+    width: 314px;
+    height: 330px;
+    border-radius: 10px;
+  }
+  .user-top{
+    width:280px;
+    height:270px ;
+    margin: auto;
+    border-bottom: 1px solid rgba(171, 171, 171, 0.76);
+  }
+  .user-icon-box{
+    width: 280px;
+    height: 80px;
+    /*background: pink;*/
+    margin-left: 15px;
+  }
+  .user-icon{
+    width:60px;
+    height:60px;
+    border-radius:50%;
+    box-sizing: border-box;
+    margin-top: 10px;
+  }
+  .user-name{
+    margin-top: 20px;
+    margin-left: -20px;
+    font-size: 1.2em;
+  }
+  .user-expen{
+    margin-top: 5px;
+    margin-left: -20px;
+    color:grey;
+    font-size: 0.9em;
+  }
+  .user-item{
+    width: 280px;
+    height: 100px;
+    margin-top: 10px;
+    margin-left: 1px;
+  }
+  .my-user{
+    width: 130px;
+    height: 45px;
+    background: lightgray;
+    padding-left: -4px;
+    padding-top: 10px;
+    margin-left: 5px;
+    margin-top: 5px;
+  }
+  .my-user img{
+    width: 18px;
+    height: 18px;
+  }
+  .my-white{
+    height: 20px;
+  }
+  .my-time{
+    padding-left: 25px;
+  }
+  .my-course-name{
+    padding-left: 10px;
+    font-size: 1.1em;
+  }
+  .my-chapter-name{
+    padding-left: 10px;
+    padding-top: 5px;
+  }
+  .continue{
+    color: #09ff84;
+    margin-left: 10px;
+    padding-top: 25px;
+  }
+  .my-cancel{
+    padding-left: 20px;
+    padding-top: 15px;
+  }
+  .my-cancel:hover{
+    cursor: pointer;
+  }
+  /*-----------------end---------------*/
   /*.user-img .person:hover{*/
     /*cursor: pointer;*/
   /*}*/
@@ -122,7 +284,7 @@ export default {
 
   .header .logo {
     height: 60px;
-    line-height: 70px;
+    line-height: 90px;
   }
 
   .header .logo img {
@@ -131,30 +293,30 @@ export default {
   }
 
   .bg-header {
-    background: whitesmoke;
+    background: rgb(244, 244, 244);
+    height: 80px;
   }
 
-  .header .user-img span {
-    display: inline-block;
+  .user-top-img{
+    /*display: inline-block;*/
     width: 40px;
     height: 40px;
-    line-height: 55px;
+    line-height: 60px;
     border-radius: 50%;
+    margin-top: 20px;
   }
-
-  .header .user-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-  }
-
+  /*.header .user-img img {*/
+    /*width: 100%;*/
+    /*height: 100%;*/
+    /*object-fit: cover;*/
+    /*border-radius: 50%;*/
+  /*}*/
   .header .btn-cart {
     height: 35px;
     border: none;
     border-radius: 30px;
     outline: none;
-    margin-top: 12px;
+    margin-top: 22px;
   }
 
   .header .btn-cart:hover {
@@ -165,10 +327,10 @@ export default {
   .header .nav-btn {
     display: inline-block;
     height: 60px;
-    line-height: 60px;
-    font-size: 1.2em;
+    line-height: 80px;
+    font-size: 1.3em;
     text-decoration: none;
-    color: gray;
+    color: #565656;
     margin-right: 20px;
   }
   .login-rgst .nav-btn{
