@@ -22,14 +22,23 @@
               <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> 购物车
             </button>
           </div>
+          <!--登录注册链接-->
           <div v-if="!islogin" class="col-md-1 login-rgst">
             <span class="nav-btn" @click.prevent.stop="toLoginRegister">登录</span> /
             <span class="nav-btn" @click.prevent.stop="toLoginRegister">注册</span>
           </div>
+          <!--登录成功后的用户头像-->
           <div v-else class="col-md-1 user-img">
-        <span>
-          <img src="../assets/images/users/user-icon.jpg" alt="">
-        </span>
+            <span>
+              <img src="../assets/images/users/user-icon.jpg" alt=""
+                   @mouseenter.prevent.stop="enterUser" @mouseleave.prevent.stop="leaveUser"
+              >
+            </span>
+            <div class="person" v-show="isHover"
+                 @mouseenter.prevent.stop="enterUser" @mouseleave.prevent.stop="leaveUser"
+            >
+              <h1>用户信息</h1>
+            </div>
           </div>
         </div>
       </div>
@@ -38,14 +47,17 @@
 
 <script>
 import $ from 'jquery'
+// 用户头像悬停触发事件
 
 export default {
   name: 'NavTop',
-  props: ['nowstatus'],
+  props: ['nowstatus', 'islogin'],
   data () {
     return {
       // 登录状态
-      islogin: false
+      // islogin: false
+      // 悬浮状态
+      isHover: false
     }
   },
   methods: {
@@ -54,6 +66,20 @@ export default {
       let cur = $d === '登录' ? 'login' : 'register'
       // console.log(cur)
       this.$emit('tologrgstclick', cur)
+    },
+    leaveUser: function () {
+      let vm = this
+      setTimeout(function () {
+        vm.isHover = false
+        console.log('leave..')
+      }, 500)
+    },
+    enterUser: function () {
+      let vm = this
+      setTimeout(function () {
+        vm.isHover = true
+        console.log('enter..')
+      }, 100)
     }
   }
 }
@@ -61,6 +87,22 @@ export default {
 
 <!-- 头部导航栏CSS -->
 <style scoped>
+  .user-img{
+    position: relative;
+  }
+  .user-img .person {
+    position: absolute;
+    right: 30px;
+    top: 60px;
+    width: 300px;
+    height: 200px;
+    border-radius: 10px;
+    background: lightpink;
+    /*z-index: 999;*/
+  }
+  /*.user-img .person:hover{*/
+    /*cursor: pointer;*/
+  /*}*/
   body {
     margin: 0;
     padding: 0;
