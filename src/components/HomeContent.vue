@@ -1,9 +1,15 @@
 <template>
-  <HotCourses></HotCourses>
+  <div>
+    <HotCourses></HotCourses>
+    <HotArticles></HotArticles>
+    <HotCareer></HotCareer>
+  </div>
 </template>
 
 <script>
 import HotCourses from './HotCourses'
+import HotArticles from './HotArticles'
+import HotCareer from './HotCareer'
 
 export default {
   name: 'HomeContent',
@@ -12,7 +18,11 @@ export default {
       msg: 'study首页内容部分'
     }
   },
-  components: {HotCourses}
+  components: {
+    HotCourses,
+    HotArticles,
+    HotCareer
+  }
 }
 </script>
 

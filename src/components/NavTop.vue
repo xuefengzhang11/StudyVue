@@ -18,9 +18,56 @@
             <span class="nav-btn">找工作</span>
           </div>
           <div class="col-md-4 text-right">
-            <button class="btn-cart">
+            <button class="btn-cart" @mouseenter.prevent.stop="enterShop" @mouseleave.prevent.stop="leaveShop">
               <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> 购物车
             </button>
+            <div class="shopcart" v-show="shopHover"
+                 @mouseenter.prevent.stop="enterShop" @mouseleave.prevent.stop="leaveshops">
+              <div class="shopcart-text">我的购物车</div>
+              <div class="shop-content container-fluid">
+                <div class="shop-course row">
+                  <div class="shop-dimg col-md-6">
+                    <img src="../assets/images/courses/1.jpg" class="shop-img" />
+                  </div>
+                  <div class="shop-name col-md-6">买的课程名</div>
+                  <div class="shop-price col-md-6">￥价格</div>
+                </div>
+                <div class="shop-course row">
+                  <div class="shop-dimg col-md-6">
+                    <img src="../assets/images/courses/1.jpg" class="shop-img" />
+                  </div>
+                  <div class="shop-name col-md-6">买的课程名</div>
+                  <div class="shop-price col-md-6">￥价格</div>
+                </div>
+                <div class="shop-course row">
+                  <div class="shop-dimg col-md-6">
+                    <img src="../assets/images/courses/1.jpg" class="shop-img" />
+                  </div>
+                  <div class="shop-name col-md-6">买的课程名</div>
+                  <div class="shop-price col-md-6">￥价格</div>
+                </div>
+                <div class="shop-course row">
+                  <div class="shop-dimg col-md-6">
+                    <img src="../assets/images/courses/1.jpg" class="shop-img" />
+                  </div>
+                  <div class="shop-name col-md-6">买的课程名</div>
+                  <div class="shop-price col-md-6">￥价格</div>
+                </div>
+                <div class="shop-course row">
+                  <div class="shop-dimg col-md-6">
+                    <img src="../assets/images/courses/1.jpg" class="shop-img" />
+                  </div>
+                  <div class="shop-name col-md-6">买的课程名</div>
+                  <div class="shop-price col-md-6">￥价格</div>
+                </div>
+              </div>
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-md-6 shop-center">我的订单中心</div>
+                  <div class="col-md-6 shop-car">去购物车</div>
+                </div>
+              </div>
+            </div>
           </div>
           <!--登录注册链接-->
           <div v-if="!islogin" class="col-md-1 login-rgst">
@@ -120,6 +167,8 @@ export default {
       // islogin: false
       // 悬浮状态
       isHover: false,
+      shopHover: false,
+      exist: false,
       person_exist: false
     }
   },
@@ -146,15 +195,43 @@ export default {
       let vm = this
       setTimeout(function () {
         vm.isHover = true
-        vm.person_exist = true
+        // console.log('enter..')
       }, 100)
     },
-    leavesUser: function () {
+    leaveShop: function () {
+      let vm = this
+      if (vm.exist) {
+        vm.shopHover = true
+        vm.exist = false
+        setTimeout(function () {
+          if (vm.exist === false) {
+            vm.shopHover = false
+          }
+          console.log('leave..')
+        }, 300)
+      }
+    },
+    enterShop: function () {
       let vm = this
       setTimeout(function () {
-        vm.isHover = false
-        vm.person_exist = false
+        vm.shopHover = true
+        vm.exist = true
+        // console.log('enter..')
       }, 100)
+    },
+    leaveshops: function () {
+      let vm = this
+      setTimeout(function () {
+        vm.shopHover = false
+        vm.exist = false
+        // console.log('leave..')
+      }, 100)
+    },
+    toPerson: function () {
+      // 用户头像点击事件
+      this.$router.push({
+        path: '/person'
+      })
     }
   }
 }
@@ -323,7 +400,6 @@ export default {
     color: red;
     box-shadow: 2px 2px 2px gray;
   }
-
   .header .nav-btn {
     display: inline-block;
     height: 60px;
@@ -341,5 +417,64 @@ export default {
   .header span:hover {
     color: darkslategrey;
     cursor: pointer;
+  }
+  .header .shopcart{
+    padding: 20px;
+    position: absolute;
+    right: 10px;
+    top: 60px;
+    width: 300px;
+    height: 410px;
+    border-radius: 10px;
+    background: white;
+    z-index: 999;
+    box-shadow: 2px 2px 10px gray;
+  }
+  .header .shopcart .shopcart-text {
+    color: black;
+    text-align: left;
+    font-size: 1.2em;
+    padding-bottom: 10px;
+    border-bottom: grey 1px solid;
+  }
+  .header .shopcart .shop-course {
+    height: 100px;
+    padding: 10px 0;
+  }
+  .shopcart .shop-content {
+    height: 300px;
+    border-bottom: grey 1px solid;
+    overflow: auto;
+  }
+  .shop-course .shop-dimg {
+    text-align: left;
+  }
+  .shop-course .shop-dimg .shop-img {
+    width: 100px;
+    height: 80px;
+    border-radius: 10px;
+  }
+  .shopcart .shop-course .shop-name {
+    height: 20px;
+    text-align: left;
+  }
+  .shopcart .shop-course .shop-price {
+    height: 20px;
+    text-align: left;
+    margin-top: 40px;
+  }
+  .shopcart .shop-center {
+    margin-top: 15px;
+    text-align: left;
+  }
+  .shopcart .shop-car {
+    width: 100px;
+    height: 30px;
+    background: red;
+    margin-top: 10px;
+    margin-left: 30px;
+    border-radius: 50px;
+    line-height: 30px;
+    text-align: center;
   }
 </style>

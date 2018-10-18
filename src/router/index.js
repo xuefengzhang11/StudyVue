@@ -7,6 +7,7 @@ import ArticleHome from '@/components/ArticleHome'
 import ArticleDetailContainer from '@/components/ArticleDetailContainer'
 import CareerHome from '@/components/CareerHome'
 import CareerDetail from '@/components/CareerDetail'
+import PersonalCenterContainer from '@/components/PersonalCenterContainer'
 
 Vue.use(Router)
 
@@ -39,13 +40,18 @@ export default new Router({
     },
     {
       path: '/career',
-      name: 'CareerHome',
+      name: 'careerhome',
       component: CareerHome
     },
     {
       path: '/careerdetail',
       name: 'careerdetail',
       component: CareerDetail
+    },
+    {
+      path: '/person',
+      name: 'personalcentercontainer',
+      component: PersonalCenterContainer
     }
   ]
 })

@@ -58,7 +58,7 @@ export default {
       more: '',
       course: '',
       // 页码总数
-      pagesize: 0,
+      pagesize: 1,
       // 职业总数
       alllenght: 0,
       // 当前页
