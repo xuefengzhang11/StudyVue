@@ -13,7 +13,7 @@
         <div class="col-md-12 col-sm-12 col-xs-12 article">
             <a href="#">
                 <h4 v-text="hot.title"></h4>
-                <p class="article_introduce">{{hot.introduce | hotmot(180,190)}}</p>
+                <p class="article_introduce">{{hot.introduce | hotmot(130,140)}}</p>
                 <div class="row">
                     <div class="col-md-5">
                         <img class="icon-user" src="../assets/images/courses/1.jpg" alt=""><span v-text="hot.user_name"></span>
@@ -106,6 +106,7 @@ export default {
   }
 
   .hot-article .articles {
+    width: 1200px;
     padding: 0 50px 0 0;
     /*box-sizing: border-box;*/
   }
@@ -114,7 +115,7 @@ export default {
     /*height: 200px;*/
     padding: 20px;
     border-radius: 10px;
-    margin-left: 65px;
+    margin-left: 20px;
     margin-bottom: 30px;
     background: white;
     box-shadow: 2px 2px 5px gray;
