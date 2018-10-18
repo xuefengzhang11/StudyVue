@@ -131,6 +131,7 @@ export default {
     },
     // 登录提交数据
     login: function () {
+      console.log(123)
       let user = {
         'tel_email': this.tel_email,
         'pwd': this.pwd
@@ -142,7 +143,9 @@ export default {
         data: user,
         success: function (response, textStatus, request) {
           let res = response.res
-          if (res === '登录成功') {
+          if (res[0] === '登录成功') {
+            // 存储用户
+            window.sessionStorage.setItem('usertel', res[1])
             vm.closeMyself()
             vm.$emit('logrgstsuccessclick')
           }

@@ -77,7 +77,7 @@
           <!--登录成功后的用户头像-->
           <div v-else class="col-md-1 user-img">
             <span>
-              <img src="../assets/images/users/user-icon.jpg" alt=""
+              <img src="../assets/images/users/user-icon.jpg" alt="" @click="toPerson"
                    @mouseenter.prevent.stop="enterUser" @mouseleave.prevent.stop="leaveUser"
               >
             </span>
@@ -120,14 +120,14 @@ export default {
       let vm = this
       setTimeout(function () {
         vm.isHover = false
-        console.log('leave..')
+        // console.log('leave..')
       }, 500)
     },
     enterUser: function () {
       let vm = this
       setTimeout(function () {
         vm.isHover = true
-        console.log('enter..')
+        // console.log('enter..')
       }, 100)
     },
     leaveShop: function () {
@@ -148,7 +148,7 @@ export default {
       setTimeout(function () {
         vm.shopHover = true
         vm.exist = true
-        console.log('enter..')
+        // console.log('enter..')
       }, 100)
     },
     leaveshops: function () {
@@ -156,8 +156,14 @@ export default {
       setTimeout(function () {
         vm.shopHover = false
         vm.exist = false
-        console.log('leave..')
+        // console.log('leave..')
       }, 100)
+    },
+    toPerson: function () {
+      // 用户头像点击事件
+      this.$router.push({
+        path: '/person'
+      })
     }
   }
 }
