@@ -188,7 +188,7 @@ export default {
           if (vm.person_exist === false) {
             vm.isHover = false
           }
-        }, 300)
+        }, 200)
       }
     },
     enterUser: function () {
@@ -217,7 +217,7 @@ export default {
             vm.shopHover = false
           }
           console.log('leave..')
-        }, 300)
+        }, 200)
       }
     },
     enterShop: function () {
@@ -366,6 +366,8 @@ export default {
   /*头部*/
   .header {
     box-shadow: 2px 2px 10px gray;
+    position: relative;
+    z-index: 999;
   }
 
   .header .logo {

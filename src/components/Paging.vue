@@ -104,7 +104,7 @@ export default {
           this.lDisabled = false
         }
         // 计算分页按钮数据
-        if (this.ac > this.showPages) {
+        if (this.count > this.showPages) {
           if (pageIndex <= (this.showPages - 1) / 2) {
             this.showPagesStart = 1
             this.showPageEnd = this.showPages - 1
