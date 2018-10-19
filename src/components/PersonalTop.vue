@@ -37,7 +37,7 @@
             <span>粉丝</span>
           </div>
           <div>
-            <button class="btn-user-set">个人设置</button>
+            <button class="btn-user-set" @click="toPSetting">个人设置</button>
           </div>
         </div>
       </div>
@@ -62,7 +62,6 @@ export default {
     this.usertel = window.sessionStorage.getItem('usertel')
   },
   mounted: function () {
-    console.log(this.usertel)
     let vm = this
     axios.get(this.url + 'user/getUser/' + this.usertel + '/')
       .then(function (response) {
@@ -71,6 +70,14 @@ export default {
       .catch(function (error) {
         console.log(error)
       })
+  },
+  methods: {
+    // 跳转个人设置页
+    toPSetting: function () {
+      this.$router.push({
+        path: '/setting'
+      })
+    }
   }
 }
 </script>

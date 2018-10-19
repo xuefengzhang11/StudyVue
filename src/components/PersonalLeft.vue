@@ -62,6 +62,7 @@ export default {
   .gray_white {
     background: red;
     color: white;
+    font-weight: bold;
     border-radius: 0 30px 30px 0;
   }
 </style>
