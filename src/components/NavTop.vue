@@ -89,7 +89,7 @@
                   <div class="row">
                     <div class="user-icon-box">
                       <div class="col-md-4">
-                        <img src="../assets/images/users/user-icon.jpg" alt="" class="user-icon">
+                        <img src="../assets/images/users/user-icon.jpg" alt="" class="user-icon" >
                       </div>
                       <div class="col-md-4">
                         <div class="row user-name">
@@ -195,7 +195,16 @@ export default {
       let vm = this
       setTimeout(function () {
         vm.isHover = true
+        vm.person_exist = true
         // console.log('enter..')
+      }, 100)
+    },
+    leavesUser: function () {
+      let vm = this
+      setTimeout(function () {
+        vm.isHover = false
+        vm.person_exist = false
+        // console.log('leave..')
       }, 100)
     },
     leaveShop: function () {
