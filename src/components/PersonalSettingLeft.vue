@@ -2,8 +2,12 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12 user">
-        <div class="user-img">
-          <img src="../assets/images/users/user-icon.jpg" alt="">
+        <!--悬浮时提醒更换头像-->
+        <div class="user-img"  :class="{opacity_half:tipFlag}" @mouseenter="giveTip"
+             @mouseleave="cancelTip" @click="toChange">
+          <p class="change-tip" v-show="tipFlag">点击更换头像</p>
+          <img src="../assets/images/users/user-icon.jpg" alt=""
+          >
         </div>
         <p class="user-name text-center" v-text="user.name"></p>
         <div class="u-title">账户管理</div>
@@ -36,6 +40,7 @@ export default {
       msg: '个人设置坐侧',
       nowRight: 'userBind',
       usertel: '',
+      tipFlag: false,
       user: {}
     }
   },
@@ -54,10 +59,23 @@ export default {
       })
   },
   methods: {
+    // 点击左侧，改变右边路由显示
     changeRight: function (e) {
       this.nowRight = $(e.target).attr('data-value')
       // 发射给父组件，控制右边组件的显示
       this.$emit('changeright', this.nowRight)
+    },
+    // 鼠标进入，给出更换头像提醒
+    giveTip: function () {
+      this.tipFlag = true
+    },
+    // 鼠标出去，取消提示
+    cancelTip: function () {
+      this.tipFlag = false
+    },
+    // 弹出修改头像框
+    toChange: function () {
+      this.$emit('upclick')
     }
   }
 }
@@ -71,9 +89,9 @@ export default {
   }
 
   .user .user-img {
+    position: relative;
     width: 100px;
     height: 100px;
-    background: red;
     border-radius: 50%;
     margin: auto;
   }
@@ -128,5 +146,16 @@ export default {
     color: white;
     font-weight: bold;
     border-radius: 0 30px 30px 0;
+  }
+  /*更换头像提示*/
+  .change-tip {
+    font-size: 0.8em;
+    color: red;
+    position: absolute;
+    top: 50px;
+    left: 15px;
+  }
+  .opacity_half{
+    opacity: .9;
   }
 </style>

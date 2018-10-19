@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <!--顶部-->
-    <nav-top @tologrgstclick="toLogRgst" :islogin="islogin"></nav-top>
-    <loginregister v-if="is_log_rgst_show" :nowstatus="nowstatus" @on-close="closeDialog"
-                   v-show="isShow" @logrgstsuccessclick="func"
+    <nav-top @tologrgstclick="toLogRgst" :islogin="islogin" @logout="funcb"></nav-top>
+    <loginregister :nowstatus="nowstatus" @on-close="closeDialog" v-if="isShow"
+                   @logrgstsuccessclick="funca"
     >
 
     </loginregister>
@@ -28,9 +28,8 @@ export default {
     return {
       isRouterAlive: true,
       // 模态框显示登录还是注册 login register
-      is_log_rgst_show: false,
       nowstatus: '',
-      isShow: true,
+      isShow: false,
       islogin: false
     }
   },
@@ -43,7 +42,6 @@ export default {
       })
     },
     toLogRgst: function (cur) {
-      this.is_log_rgst_show = true
       this.nowstatus = cur
       this.isShow = true
     },
@@ -51,8 +49,11 @@ export default {
       this.isShow = false
       // 把绑定的弹窗数组 设为false即可关闭弹窗
     },
-    func: function () {
+    funca: function () {
       this.islogin = true
+    },
+    funcb: function () {
+      this.islogin = false
     }
   }
 }

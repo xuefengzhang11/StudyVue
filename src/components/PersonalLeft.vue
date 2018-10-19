@@ -28,6 +28,12 @@ export default {
       nowRight: 'freeCourse'
     }
   },
+  created: function () {
+    let left = this.$route.params.leftF
+    if (left) {
+      this.nowRight = left
+    }
+  },
   methods: {
     changeRight: function (e) {
       this.nowRight = $(e.target).attr('data-value')

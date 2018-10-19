@@ -12,15 +12,16 @@
             <!--<router-link to="/">Home</router-link>-->
             <span class="nav-btn"><router-link class="r-link" to="/course">免费课程</router-link></span>
             <span class="nav-btn"><router-link class="r-link" to="/career">职业路径</router-link></span>
-            <span class="nav-btn">实战</span>
-            <span class="nav-btn">猿问</span>
             <span class="nav-btn"><router-link class="r-link" to="/article">手记</router-link></span>
+            <span class="nav-btn">猿问</span>
             <span class="nav-btn">找工作</span>
           </div>
+          <!--购物车-->
           <div class="col-md-4 text-right">
-            <button class="btn-cart" @mouseenter.prevent.stop="enterShop" @mouseleave.prevent.stop="leaveShop">
+            <button class="btn-cart" @mouseover.prevent.stop="enterShop" @mouseout.prevent.stop="leaveShop">
               <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> 购物车
             </button>
+            <!--购物车悬浮-->
             <div class="shopcart" v-show="shopHover"
                  @mouseenter.prevent.stop="enterShop" @mouseleave.prevent.stop="leaveshops">
               <div class="shopcart-text">我的购物车</div>
@@ -84,12 +85,15 @@
             <div class="person" v-show="isHover"
                  @mouseenter.prevent.stop="enterUser" @mouseleave.prevent.stop="leavesUser"
             >
+              <!--用户头像悬浮-->
               <div class="container user">
                 <div class="row user-top">
                   <div class="row">
                     <div class="user-icon-box">
                       <div class="col-md-4">
-                        <img src="../assets/images/users/user-icon.jpg" alt="" class="user-icon" >
+                        <img @click="toPerson" src="../assets/images/users/user-icon.jpg"
+                             alt="" class="user-icon"
+                        >
                       </div>
                       <div class="col-md-4">
                         <div class="row user-name">
@@ -105,20 +109,20 @@
                   <div class="row user-item">
                     <div class="col-md-12">
                       <div class="row">
-                      <span class="col-md-6 my-user">
+                      <span class="col-md-6 my-user" @click.prevent.stop="toPerson">
                         <img src="../assets/icons/my-course.svg" alt="">&nbsp;&nbsp;我的课程
                       </span>
-                        <span class="col-md-6 my-user">
+                        <span class="col-md-6 my-user" @click.prevent.stop="toPersonArticle">
                         <img src="../assets/icons/article-logo.svg" alt="">&nbsp;&nbsp;我的文章
                       </span>
                       </div>
                     </div>
                     <div class="col-md-12">
                       <div class="row">
-                      <span class="col-md-6 my-user">
+                      <span class="col-md-6 my-user" @click.prevent.stop="toPersonOrder">
                         <img src="../assets/icons/my-write-article.svg" alt="">&nbsp;&nbsp;订单中心
                       </span>
-                        <span class="col-md-6 my-user">
+                        <span class="col-md-6 my-user" @click.prevent.stop="toPersonalSetting">
                         <img src="../assets/icons/my-person-set.svg" alt="">&nbsp;&nbsp;个人设置
                       </span>
                       </div>
@@ -143,7 +147,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="row my-cancel">
+                <div class="row my-cancel" @click="logout">
                   安全退出
                 </div>
               </div>
@@ -176,7 +180,6 @@ export default {
     toLoginRegister: function (e) {
       let $d = $(e.target).text()
       let cur = $d === '登录' ? 'login' : 'register'
-      // console.log(cur)
       this.$emit('tologrgstclick', cur)
     },
     leaveUser: function () {
@@ -192,12 +195,8 @@ export default {
       }
     },
     enterUser: function () {
-      let vm = this
-      setTimeout(function () {
-        vm.isHover = true
-        vm.person_exist = true
-        // console.log('enter..')
-      }, 100)
+      this.isHover = true
+      this.person_exist = true
     },
     leavesUser: function () {
       let vm = this
@@ -221,25 +220,51 @@ export default {
       }
     },
     enterShop: function () {
-      let vm = this
-      setTimeout(function () {
-        vm.shopHover = true
-        vm.exist = true
-        // console.log('enter..')
-      }, 100)
+      this.shopHover = true
+      this.exist = true
     },
     leaveshops: function () {
       let vm = this
       setTimeout(function () {
         vm.shopHover = false
         vm.exist = false
-        // console.log('leave..')
       }, 100)
     },
+    // 用户登出
+    logout: function () {
+      // 清除session
+      window.sessionStorage.removeItem('usertel')
+      // 将父组件中的islogin改为false
+      this.$emit('logout')
+    },
+    // 用户头像点击事件,跳转个人中心-》我的课程
     toPerson: function () {
-      // 用户头像点击事件
       this.$router.push({
-        path: '/person'
+        path: '/personal'
+      })
+    },
+    // 跳转个人中心-》我的文章
+    toPersonArticle: function () {
+      this.$router.push({
+        name: 'personal',
+        params: {
+          leftF: 'article'
+        }
+      })
+    },
+    // 跳转个人中心-》我的文章
+    toPersonOrder: function () {
+      this.$router.push({
+        name: 'personal',
+        params: {
+          leftF: 'order'
+        }
+      })
+    },
+    // 跳转到个人设置toPersonArticle
+    toPersonalSetting: function () {
+      this.$router.push({
+        path: '/setting'
       })
     }
   }
@@ -271,6 +296,7 @@ export default {
     width: 314px;
     height: 330px;
     border-radius: 10px;
+    box-shadow: 2px 2px 10px gray;
   }
   .user-top{
     width:280px;
@@ -316,6 +342,7 @@ export default {
     padding-top: 10px;
     margin-left: 5px;
     margin-top: 5px;
+    border-radius: 5px;
   }
   .my-user img{
     width: 18px;
@@ -348,9 +375,6 @@ export default {
     cursor: pointer;
   }
   /*-----------------end---------------*/
-  /*.user-img .person:hover{*/
-    /*cursor: pointer;*/
-  /*}*/
   body {
     margin: 0;
     padding: 0;
@@ -431,7 +455,7 @@ export default {
     padding: 20px;
     position: absolute;
     right: 10px;
-    top: 60px;
+    top: 80px;
     width: 300px;
     height: 410px;
     border-radius: 10px;
@@ -461,7 +485,7 @@ export default {
   .shop-course .shop-dimg .shop-img {
     width: 100px;
     height: 80px;
-    border-radius: 10px;
+    border-radius: 5px;
   }
   .shopcart .shop-course .shop-name {
     height: 20px;
@@ -485,5 +509,9 @@ export default {
     border-radius: 50px;
     line-height: 30px;
     text-align: center;
+  }
+  .my-cancel{
+    padding-right: 40px;
+    text-align: right;
   }
 </style>
