@@ -8,6 +8,7 @@ import ArticleDetailContainer from '@/components/ArticleDetailContainer'
 import CareerHome from '@/components/CareerHome'
 import CareerDetail from '@/components/CareerDetail'
 import PersonalCenterContainer from '@/components/PersonalCenterContainer'
+import PersonalSettingContainer from '@/components/PersonalSettingContainer'
 
 Vue.use(Router)
 
@@ -52,6 +53,11 @@ export default new Router({
       path: '/person',
       name: 'personalcentercontainer',
       component: PersonalCenterContainer
+    },
+    {
+      path: '/setting',
+      name: '/personalsettingcontainer',
+      component: PersonalSettingContainer
     }
   ]
 })
