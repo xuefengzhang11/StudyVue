@@ -77,7 +77,7 @@
           <!--登录成功后的用户头像-->
           <div v-else class="col-md-1 user-img">
             <span>
-              <img src="../assets/images/users/user-icon.jpg" alt="" class="user-top-img"
+              <img src="../assets/images/users/user-icon.jpg" alt="" class="user-top-img" @click="toPerson"
                    @mouseenter.prevent.stop="enterUser" @mouseleave.prevent.stop="leaveUser"
               >
             </span>
