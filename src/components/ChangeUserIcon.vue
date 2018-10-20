@@ -47,6 +47,7 @@
 <script>
 import $ from 'jquery'
 import {upload} from 'qiniu'
+import axios from 'axios'
 
 export default {
   name: 'ChangeUserIcon',
@@ -54,8 +55,12 @@ export default {
     return {
       url: 'http://127.0.0.1:8000/',
       msg: '更换头像',
+      usertel: '',
       nowfile: {}
     }
+  },
+  created () {
+    this.usertel = window.sessionStorage.getItem('usertel')
   },
   methods: {
     // 取消修改头像框
@@ -108,6 +113,7 @@ export default {
             let token = res.token
             let newname = res.filename
             let newfile = new File([file], newname)
+            // 使得ESLint不检查以下代码
             /* eslint-disable */
             let observable
             let config = {
@@ -132,12 +138,22 @@ export default {
               next( res ) {
               },
               error(err){
-                console.log(err)
                 alert('error！')
               },
               complete (res) {
-                alert('上传成功！')
-                console.log(res)
+                // res.key 是文件名称，发送ajax将文件名称保存到数据库中
+                axios.get(that.url + 'user/upIcon/' + res.key + '/' + that.usertel + '/')
+                  .then(function (response) {
+                    let res = response.data.res
+                    if (res === '修改成功') {
+                      that.$emit('sureclick')
+                    } else {
+                      alert(res)
+                    }
+                  })
+                  .catch(function (error) {
+                    console.log(error)
+                  })
 
               }
             });

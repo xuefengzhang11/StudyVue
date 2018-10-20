@@ -6,7 +6,7 @@
         <div class="user-img"  :class="{opacity_half:tipFlag}" @mouseenter="giveTip"
              @mouseleave="cancelTip" @click="toChange">
           <p class="change-tip" v-show="tipFlag">点击更换头像</p>
-          <img src="../assets/images/users/user-icon.jpg" alt=""
+          <img :src="imgurl" alt=""
           >
         </div>
         <p class="user-name text-center" v-text="user.name"></p>
@@ -36,29 +36,34 @@ export default {
   name: 'PersonalSettingRight',
   data () {
     return {
-      url: 'http://localhost:8000/',
       msg: '个人设置坐侧',
+      url: 'http://localhost:8000/',
       nowRight: 'userBind',
       usertel: '',
       tipFlag: false,
+      imgurl: '',
       user: {}
     }
   },
   created: function () {
     this.usertel = window.sessionStorage.getItem('usertel')
   },
-  mounted: function () {
-    let vm = this
-    axios.get(this.url + 'user/getUser/' + this.usertel + '/')
-      .then(function (response) {
-        vm.user = response.data.user[0]
-        console.log(vm.user)
-      })
-      .catch(function (error) {
-        console.log(error)
-      })
+  mounted () {
+    this.getUser()
   },
   methods: {
+    // 通过用户电话号码获取用户信息
+    getUser: function () {
+      let vm = this
+      axios.get(this.url + 'user/getUser/' + this.usertel + '/')
+        .then(function (response) {
+          vm.user = response.data.user[0]
+          vm.imgurl = 'http://pgu05jbff.bkt.clouddn.com/' + vm.user.icon__iconurl
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
     // 点击左侧，改变右边路由显示
     changeRight: function (e) {
       this.nowRight = $(e.target).attr('data-value')
