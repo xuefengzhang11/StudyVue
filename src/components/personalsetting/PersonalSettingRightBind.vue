@@ -83,19 +83,19 @@ export default {
   .u-email .e-img {
     position: absolute;
     width: 80px;
-    background: url("../assets/icons/email.svg") no-repeat 23px 24px;
+    background: url("../../assets/icons/email.svg") no-repeat 23px 24px;
   }
 
   .u-pwd .pwd-img {
     position: absolute;
     width: 80px;
-    background: url("../assets/icons/pwd.svg") no-repeat 23px 24px;
+    background: url("../../assets/icons/pwd.svg") no-repeat 23px 24px;
   }
 
   .u-phone .p-img {
     position: absolute;
     width: 80px;
-    background: url("../assets/icons/phone.svg") no-repeat 23px 24px;
+    background: url("../../assets/icons/phone.svg") no-repeat 23px 24px;
   }
 
   .u-phone .u-tel {

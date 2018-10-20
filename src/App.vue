@@ -53,6 +53,7 @@ export default {
     },
     funca: function () {
       this.islogin = true
+      // 强制刷新NavTop组件
       this.funcc()
     },
     funcb: function () {
@@ -60,7 +61,7 @@ export default {
     },
     // 更换用户头像后刷新头部
     funcc: function () {
-      // 强制刷新子组件
+      // 给子组件绑定hackReset,强制刷新子组件
       this.hackReset = false
       // this.hackReset = true
       this.$nextTick(() => {

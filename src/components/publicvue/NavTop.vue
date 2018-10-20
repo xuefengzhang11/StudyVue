@@ -5,7 +5,7 @@
           <div class="col-md-2 text-right">
             <div class="logo">
               <span><em class="h2"><router-link style="color: black;" class="r-link" to="/">思达迪</router-link></em></span>
-              <span><router-link to="/"><img src="../assets/icons/logo.svg"></router-link></span>
+              <span><router-link to="/"><img src="../../assets/icons/logo.svg"></router-link></span>
             </div>
           </div>
           <div class="col-md-5 header-nav ">
@@ -28,35 +28,35 @@
               <div class="shop-content container-fluid">
                 <div class="shop-course row">
                   <div class="shop-dimg col-md-6">
-                    <img src="../assets/images/courses/1.jpg" class="shop-img" />
+                    <img src="../../assets/images/courses/1.jpg" class="shop-img" />
                   </div>
                   <div class="shop-name col-md-6">买的课程名</div>
                   <div class="shop-price col-md-6">￥价格</div>
                 </div>
                 <div class="shop-course row">
                   <div class="shop-dimg col-md-6">
-                    <img src="../assets/images/courses/1.jpg" class="shop-img" />
+                    <img src="../../assets/images/courses/1.jpg" class="shop-img" />
                   </div>
                   <div class="shop-name col-md-6">买的课程名</div>
                   <div class="shop-price col-md-6">￥价格</div>
                 </div>
                 <div class="shop-course row">
                   <div class="shop-dimg col-md-6">
-                    <img src="../assets/images/courses/1.jpg" class="shop-img" />
+                    <img src="../../assets/images/courses/1.jpg" class="shop-img" />
                   </div>
                   <div class="shop-name col-md-6">买的课程名</div>
                   <div class="shop-price col-md-6">￥价格</div>
                 </div>
                 <div class="shop-course row">
                   <div class="shop-dimg col-md-6">
-                    <img src="../assets/images/courses/1.jpg" class="shop-img" />
+                    <img src="../../assets/images/courses/1.jpg" class="shop-img" />
                   </div>
                   <div class="shop-name col-md-6">买的课程名</div>
                   <div class="shop-price col-md-6">￥价格</div>
                 </div>
                 <div class="shop-course row">
                   <div class="shop-dimg col-md-6">
-                    <img src="../assets/images/courses/1.jpg" class="shop-img" />
+                    <img src="../../assets/images/courses/1.jpg" class="shop-img" />
                   </div>
                   <div class="shop-name col-md-6">买的课程名</div>
                   <div class="shop-price col-md-6">￥价格</div>
@@ -91,16 +91,13 @@
                   <div class="row">
                     <div class="user-icon-box">
                       <div class="col-md-4">
-                        <img @click="toPerson" src="../assets/images/users/user-icon.jpg"
-                             alt="" class="user-icon"
+                        <img @click="toPerson" :src="imgurl" alt="" class="user-icon"
                         >
                       </div>
                       <div class="col-md-4">
-                        <div class="row user-name">
-                          zhangxuefeng
-                        </div>
+                        <div class="row user-name" v-text="user.name"></div>
                         <div class="row user-expen">
-                          经验78&nbsp;&nbsp;积分0
+                          {{user.job__name}}&nbsp;&nbsp;&nbsp;&nbsp;{{user.gender__name}}
                         </div>
                       </div>
                       <div class="col-md-4"></div>
@@ -110,20 +107,20 @@
                     <div class="col-md-12">
                       <div class="row">
                       <span class="col-md-6 my-user" @click.prevent.stop="toPerson">
-                        <img src="../assets/icons/my-course.svg" alt="">&nbsp;&nbsp;我的课程
+                        <img src="../../assets/icons/my-course.svg" alt="">&nbsp;&nbsp;我的课程
                       </span>
                         <span class="col-md-6 my-user" @click.prevent.stop="toPersonArticle">
-                        <img src="../assets/icons/article-logo.svg" alt="">&nbsp;&nbsp;我的文章
+                        <img src="../../assets/icons/article-logo.svg" alt="">&nbsp;&nbsp;我的文章
                       </span>
                       </div>
                     </div>
                     <div class="col-md-12">
                       <div class="row">
                       <span class="col-md-6 my-user" @click.prevent.stop="toPersonOrder">
-                        <img src="../assets/icons/my-write-article.svg" alt="">&nbsp;&nbsp;订单中心
+                        <img src="../../assets/icons/my-write-article.svg" alt="">&nbsp;&nbsp;订单中心
                       </span>
                         <span class="col-md-6 my-user" @click.prevent.stop="toPersonalSetting">
-                        <img src="../assets/icons/my-person-set.svg" alt="">&nbsp;&nbsp;个人设置
+                        <img src="../../assets/icons/my-person-set.svg" alt="">&nbsp;&nbsp;个人设置
                       </span>
                       </div>
                     </div>
@@ -131,7 +128,7 @@
                   <div class="row my-white"></div>
                   <div class="row">
                     <div class="col-md-1 my-time">
-                      <img src="../assets/icons/my-time.svg" alt="">
+                      <img src="../../assets/icons/my-time.svg" alt="">
                     </div>
                     <div class="col-md-6">
                       <div class="row my-course-name">
@@ -174,6 +171,7 @@ export default {
       exist: false,
       person_exist: false,
       usertel: '',
+      user: {},
       imgurl: ''
     }
   },
@@ -189,7 +187,8 @@ export default {
       let vm = this
       axios.get(this.url + 'user/getUser/' + this.usertel + '/')
         .then(function (response) {
-          vm.imgurl = 'http://pgu05jbff.bkt.clouddn.com/' + response.data.user[0].icon__iconurl
+          vm.user = response.data.user[0]
+          vm.imgurl = 'http://pgu05jbff.bkt.clouddn.com/' + vm.user.icon__iconurl
         })
         .catch(function (error) {
           console.log(error)

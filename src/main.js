@@ -4,10 +4,10 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 // 导入组件
-import NavTop from './components/NavTop'
-import NavBottom from './components/NavBottom'
-import Paging from './components/Paging'
-import LoginRegister from './components/LoginRegister'
+import NavTop from './components/publicvue/NavTop'
+import NavBottom from './components/publicvue/NavBottom'
+import Paging from './components/publicvue/Paging'
+import LoginRegister from './components/publicvue/LoginRegister'
 
 // 导入第三方库
 // import $ from 'jquery'

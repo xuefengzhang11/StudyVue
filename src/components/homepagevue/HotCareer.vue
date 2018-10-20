@@ -12,7 +12,7 @@
       <div class="col-md-3" v-for="he in hotCareer" :key="he.id" :id="he.id"  @click.prevent.stop="toCareerDetail">
           <div class="career">
               <a href="#">
-                  <div class="career-img"><img src="../assets/images/courses/1.jpg" alt=""></div>
+                  <div class="career-img"><img src="../../assets/images/courses/1.jpg" alt=""></div>
                   <div class="career-info">
                       <p class="career-title">{{he.name | hotmot(15,16)}}</p>
                       <p>
@@ -169,17 +169,17 @@ export default {
     float:right;
     padding-top: 2px;
     background: pink;
-    background: url('../assets/icons/user-logo.svg') no-repeat;
+    background: url('../../assets/icons/user-logo.svg') no-repeat;
   }
   .career .career-info .career-title {
     font-size: 1.1em;
     font-weight: bold;
   }
   .icon-career-l {
-    background: url("../assets/icons/home-icons.png") 0 -792px;
+    background: url("../../assets/icons/home-icons.png") 0 -792px;
   }
 
   .icon-career-r {
-    background: url("../assets/icons/home-icons.png") 0 -720px;
+    background: url("../../assets/icons/home-icons.png") 0 -720px;
   }
 </style>
