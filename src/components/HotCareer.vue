@@ -50,7 +50,7 @@ export default {
       .then(function (response) {
         vm.hotCareer = response.data.hotCareers
         // vm.coursecount = response.data.course_count
-        console.log(vm.hotCareer)
+        // console.log(vm.hotCareer)
         // console.log(vm.coursecount)
       })
       .catch(function (error) {

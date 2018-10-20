@@ -53,6 +53,7 @@ export default {
     },
     funca: function () {
       this.islogin = true
+      this.funcc()
     },
     funcb: function () {
       this.islogin = false
