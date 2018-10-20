@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row">
         <div class="col-md-2 u-left">
-          <img src="../assets/images/users/user-icon.jpg" alt="">
+          <img :src="imgurl" alt="">
         </div>
         <div class="col-md-6 u-mid">
           <p class="u-name" v-text="user.name"></p>
@@ -37,7 +37,7 @@
             <span>粉丝</span>
           </div>
           <div>
-            <button class="btn-user-set">个人设置</button>
+            <button class="btn-user-set" @click="toPSetting">个人设置</button>
           </div>
         </div>
       </div>
@@ -55,6 +55,7 @@ export default {
       url: 'http://localhost:8000/',
       msg: '个人中心头部',
       usertel: '',
+      imgurl: '',
       user: {}
     }
   },
@@ -62,15 +63,23 @@ export default {
     this.usertel = window.sessionStorage.getItem('usertel')
   },
   mounted: function () {
-    console.log(this.usertel)
     let vm = this
     axios.get(this.url + 'user/getUser/' + this.usertel + '/')
       .then(function (response) {
         vm.user = response.data.user[0]
+        vm.imgurl = 'http://pgu05jbff.bkt.clouddn.com/' + vm.user.icon__iconurl
       })
       .catch(function (error) {
         console.log(error)
       })
+  },
+  methods: {
+    // 跳转个人设置页
+    toPSetting: function () {
+      this.$router.push({
+        path: '/setting'
+      })
+    }
   }
 }
 </script>

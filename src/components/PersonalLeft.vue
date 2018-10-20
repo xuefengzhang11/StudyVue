@@ -28,6 +28,12 @@ export default {
       nowRight: 'freeCourse'
     }
   },
+  created: function () {
+    let left = this.$route.params.leftF
+    if (left) {
+      this.nowRight = left
+    }
+  },
   methods: {
     changeRight: function (e) {
       this.nowRight = $(e.target).attr('data-value')
@@ -62,6 +68,7 @@ export default {
   .gray_white {
     background: red;
     color: white;
+    font-weight: bold;
     border-radius: 0 30px 30px 0;
   }
 </style>
