@@ -32,7 +32,7 @@
         <div class="row"  style="margin-top: 15px">
           <div class="col-md-3"></div>
           <div class="col-md-3 text-center">
-            <button @click="filesubmit">确定</button>
+            <button @click="filesubmitx">确定</button>
           </div>
           <div class="col-md-3 text-center">
               <button @click.prevent.stop="cancelChange">取消</button>
