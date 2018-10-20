@@ -37,6 +37,7 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
+      'qiniu': resolve('static/qiniu.min.js')
     }
   },
   module: {
@@ -93,7 +94,10 @@ module.exports = {
   plugins: [
     new webpack.ProvidePlugin({
       $: "jquery",
-      jQuery: "jquery"
+      jQuery: "jquery",
+      upload: "qiniu",
+      region: "qiniu",
     })
-  ]
+  ],
+
 }

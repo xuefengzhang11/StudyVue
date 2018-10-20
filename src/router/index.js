@@ -50,8 +50,8 @@ export default new Router({
       component: CareerDetail
     },
     {
-      path: '/person',
-      name: 'personalcentercontainer',
+      path: '/personal',
+      name: 'personal',
       component: PersonalCenterContainer
     },
     {
