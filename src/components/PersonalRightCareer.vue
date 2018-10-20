@@ -24,10 +24,12 @@ export default {
       havecareer: false
     }
   },
-  toCareer: function () {
-    this.$router.push({
-      path: '/career'
-    })
+  methods: {
+    toCareer: function () {
+      this.$router.push({
+        path: '/career'
+      })
+    }
   }
   // judgeCollect: function () {
   //   if (this.nums) {
