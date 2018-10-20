@@ -32,7 +32,7 @@
               </div>
               <div class="yzm">
                 <input type="text" placeholder="请输入验证码" class="ver_code" v-model="valiimg">
-                <img src="../assets/images/courses/timg.png" alt="" class="get_ver_yzm">
+                <img src="../../assets/images/courses/timg.png" alt="" class="get_ver_yzm">
                 <p class="warn" data-error-hide="验证码不正确，请重新输入"></p>
               </div>
               <div class="auto">
@@ -131,7 +131,6 @@ export default {
     },
     // 登录提交数据
     login: function () {
-      console.log(123)
       let user = {
         'tel_email': this.tel_email,
         'pwd': this.pwd
@@ -217,7 +216,7 @@ export default {
     height: 30px;
     margin-top: 12px;
     margin-left: 120px;
-    background: url("../assets/icons/X.svg") no-repeat;
+    background: url("../../assets/icons/X.svg") no-repeat;
     border: none;
     outline: none;
   }

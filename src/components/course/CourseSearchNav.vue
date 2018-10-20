@@ -253,7 +253,7 @@ export default {
     display: inline-block;
     width: 100%;
     height: 100%;
-    background: url("../assets/icons/search.svg") no-repeat 4px 3px;
+    background: url("../../assets/icons/search.svg") no-repeat 4px 3px;
   }
 
   .search-nav .search .search-ipt .search-icon span:hover {

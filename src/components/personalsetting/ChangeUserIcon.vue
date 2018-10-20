@@ -6,7 +6,7 @@
         <div class="row">
           <div class="col-md-6 title">更换头像</div>
           <div class="col-md-6 text-right cancel">
-            <img src="../assets/icons/X.svg" @click="cancelChange" alt="">
+            <img src="../../assets/icons/X.svg" @click="cancelChange" alt="">
           </div>
         </div>
         <div class="row">
@@ -43,7 +43,7 @@
     </div>
   </div>
 </template>
-<script src="../../static/qiniu.min.js"></script>
+<script src="../../../static/qiniu.min.js"></script>
 <script>
 import $ from 'jquery'
 import {upload} from 'qiniu'

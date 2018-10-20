@@ -22,7 +22,7 @@
           <div class="row course center-block">
             <!-- 第一列 课程图片 -->
             <div class="col-md-2 course-img">
-              <img src="../assets/images/courses/1.jpg" alt="">
+              <img src="../../assets/images/courses/1.jpg" alt="">
             </div>
             <div class="col-md-10">
               <!--第一行,放章节-->
@@ -164,13 +164,13 @@ export default {
 
   .icon-career1 {
     width: 188px;
-    background: url("../assets/icons/icon-career.png");
+    background: url("../../assets/icons/icon-career.png");
   }
 
   .icon-career2 {
     width: 480px;
     margin-left: 30px;
-    background: url("../assets/icons/icon-career2.png") 0 -48px;
+    background: url("../../assets/icons/icon-career2.png") 0 -48px;
   }
 
   /*职业路径视频部分*/
@@ -277,7 +277,7 @@ export default {
     cursor: pointer;
   }
   .much{
-    background: url("../assets/icons/more.svg") no-repeat 22px -2px;
+    background: url("../../assets/icons/more.svg") no-repeat 22px -2px;
   }
   .u_icon {
     display: inline-block;
@@ -286,7 +286,7 @@ export default {
     padding-top: 2px;
     margin-bottom: -5px;
     background: pink;
-    background: url('../assets/icons/user-logo.svg') no-repeat;
+    background: url('../../assets/icons/user-logo.svg') no-repeat;
   }
 
   .course-container .icon-circle {
@@ -295,10 +295,10 @@ export default {
     position: absolute;
     left: -16px;
     top: -2px;
-    background: url("../assets/icons/icon-circle-purple.svg");
+    background: url("../../assets/icons/icon-circle-purple.svg");
   }
   .course-container>a:hover>div.icon-circle{
-    background: url("../assets/icons/icon-circle-blue.svg");
+    background: url("../../assets/icons/icon-circle-blue.svg");
   }
 
   .career-finish {
@@ -321,7 +321,7 @@ export default {
     position: relative;
     top: -8px;
     left: 3px;
-    background: url("../assets/icons/icon-career-flag.svg") no-repeat
+    background: url("../../assets/icons/icon-career-flag.svg") no-repeat
   }
   .career-finish .career-plan-finish {
     padding-left: 50px;

@@ -17,7 +17,7 @@
           </div>
           <div class="col-md-2">
             <div class="collections-like">
-              <img src="../assets/icons/like.svg"/>
+              <img src="../../assets/icons/like.svg"/>
               <span class="like-num">{{art.like}}</span>
             </div>
           </div>

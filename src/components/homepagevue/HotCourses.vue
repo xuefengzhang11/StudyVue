@@ -15,7 +15,7 @@
              :id="hc.id"  @click.prevent.stop="toCourseDetail"
         >
           <div class="content-video">
-            <div class="course_img"><img src="../assets/images/courses/1.jpg" alt=""></div>
+            <div class="course_img"><img src="../../assets/images/courses/1.jpg" alt=""></div>
             <div class="course_info">
               <span class="info_name" v-text="hc.name">课程名称</span>
               <div><span v-text="hc.cs_degree__name">难度</span><span class="u_icon">{{hc.learn}}</span><span></span></div>
@@ -145,13 +145,13 @@ export default {
     padding-left: 17px;
     margin-bottom: -5px;
     background: pink;
-    background: url('../assets/icons/user-logo.svg') no-repeat;
+    background: url('../../assets/icons/user-logo.svg') no-repeat;
   }
   .icon-course-l {
-    background: url("../assets/icons/home-icons.png") 0 -216px;
+    background: url("../../assets/icons/home-icons.png") 0 -216px;
   }
 
   .icon-course-r {
-    background: url("../assets/icons/home-icons.png") 0 -144px;
+    background: url("../../assets/icons/home-icons.png") 0 -144px;
   }
 </style>
