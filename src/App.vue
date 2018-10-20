@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!--顶部-->
-    <nav-top @tologrgstclick="toLogRgst" :islogin="islogin" @logout="funcb"></nav-top>
+    <nav-top @tologrgstclick="toLogRgst" v-if="hackReset" :islogin="islogin" @logout="funcb"></nav-top>
     <loginregister :nowstatus="nowstatus" @on-close="closeDialog" v-if="isShow"
                    @logrgstsuccessclick="funca"
     >
@@ -9,7 +9,7 @@
     </loginregister>
     <div style="min-height: 520px;">
       <!--中间-->
-      <router-view v-if="isRouterAlive"></router-view>
+      <router-view v-if="isRouterAlive" @upfather="funcc"></router-view>
     </div>
     <!--底部-->
     <nav-bottom></nav-bottom>
@@ -27,6 +27,8 @@ export default {
   data () {
     return {
       isRouterAlive: true,
+      // 强制子组件刷新
+      hackReset: true,
       // 模态框显示登录还是注册 login register
       nowstatus: '',
       isShow: false,
@@ -54,6 +56,15 @@ export default {
     },
     funcb: function () {
       this.islogin = false
+    },
+    // 更换用户头像后刷新头部
+    funcc: function () {
+      // 强制刷新子组件
+      this.hackReset = false
+      // this.hackReset = true
+      this.$nextTick(() => {
+        this.hackReset = true
+      })
     }
   }
 }

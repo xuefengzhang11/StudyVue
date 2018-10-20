@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row">
         <div class="col-md-2 u-left">
-          <img src="../assets/images/users/user-icon.jpg" alt="">
+          <img :src="imgurl" alt="">
         </div>
         <div class="col-md-6 u-mid">
           <p class="u-name" v-text="user.name"></p>
@@ -55,6 +55,7 @@ export default {
       url: 'http://localhost:8000/',
       msg: '个人中心头部',
       usertel: '',
+      imgurl: '',
       user: {}
     }
   },
@@ -66,6 +67,7 @@ export default {
     axios.get(this.url + 'user/getUser/' + this.usertel + '/')
       .then(function (response) {
         vm.user = response.data.user[0]
+        vm.imgurl = 'http://pgu05jbff.bkt.clouddn.com/' + vm.user.icon__iconurl
       })
       .catch(function (error) {
         console.log(error)

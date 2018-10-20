@@ -78,7 +78,7 @@
           <!--登录成功后的用户头像-->
           <div v-else class="col-md-1 user-img">
             <span>
-              <img src="../assets/images/users/user-icon.jpg" alt="" class="user-top-img" @click="toPerson"
+              <img :src="imgurl" alt="" class="user-top-img" @click="toPerson"
                    @mouseenter.prevent.stop="enterUser" @mouseleave.prevent.stop="leaveUser"
               >
             </span>
@@ -160,23 +160,41 @@
 
 <script>
 import $ from 'jquery'
-// 用户头像悬停触发事件
+import axios from 'axios'
 
 export default {
   name: 'NavTop',
   props: ['nowstatus', 'islogin'],
   data () {
     return {
-      // 登录状态
-      // islogin: false
+      url: 'http://localhost:8000/',
       // 悬浮状态
       isHover: false,
       shopHover: false,
       exist: false,
-      person_exist: false
+      person_exist: false,
+      usertel: '',
+      imgurl: ''
     }
   },
+  created: function () {
+    this.usertel = window.sessionStorage.getItem('usertel')
+  },
+  mounted () {
+    this.getUser()
+  },
   methods: {
+    // 通过用户电话号码获取用户信息
+    getUser: function () {
+      let vm = this
+      axios.get(this.url + 'user/getUser/' + this.usertel + '/')
+        .then(function (response) {
+          vm.imgurl = 'http://pgu05jbff.bkt.clouddn.com/' + response.data.user[0].icon__iconurl
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
     toLoginRegister: function (e) {
       let $d = $(e.target).text()
       let cur = $d === '登录' ? 'login' : 'register'

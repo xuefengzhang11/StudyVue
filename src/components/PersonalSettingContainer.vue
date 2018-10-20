@@ -53,6 +53,8 @@ export default {
     changeSuccess: function () {
       this.changeStatus()
       this.changed = true
+      // 通知父组件更新（头部导航）
+      this.$emit('upfather')
       // 强制刷新子组件
       this.hackReset = false
       this.$nextTick(() => {
