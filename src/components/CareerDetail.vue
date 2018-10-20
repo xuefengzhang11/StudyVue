@@ -60,7 +60,7 @@
       <div class="career-finish">
         <span class="icon-finish">&nbsp;</span>
         <span class="tip">完成路径学习</span>
-        <p class="career-plan-finish"></p>
+        <p class="career-plan-finish">{{career.careers.finish}}</p>
       </div>
     </div>
   </div>
@@ -100,6 +100,7 @@ export default {
       axios.get('http://localhost:8000/career/getcareerdetail/' + vm.careerid + '/')
         .then(function (response) {
           vm.career = response.data.careers
+          console.log(response)
         })
         .catch(function (error) {
           console.log(error)
@@ -325,7 +326,6 @@ export default {
   }
   .career-finish .career-plan-finish {
     padding-left: 50px;
-    width: 600px;
     color: gray;
     font-size: 1.1em;
     margin-bottom: 30px;

@@ -12,12 +12,14 @@
             <div class="row">
               <div class="col-md-3">
                 <a href="#">
-                  <img src="../assets/images/users/user-icon.jpg" class="study-img" id="collect.course_id">
+                  <img src="../assets/images/users/user-icon.jpg" class="study-img" id="collect.course_id" @click.prevent.stop="toCourseDetail">
                 </a>
               </div>
               <div class="col-md-6" style="margin-left: 70px">
                 <div class="row">
-                  <span class="study-name" v-text="collect.course_name"></span>
+                  <span class="study-name" v-text="collect.course_name"
+                        @click.prevent.stop="toCourseDetail">
+                  </span>
                 </div>
                 <div class="row" style="margin-top: 80px">
                   <span>价格 : <span v-text="collect.course_price"></span></span>
@@ -61,7 +63,6 @@ export default {
       axios.get('http://localhost:8000/course/getcollectcourse/' + vm.tel + '/')
         .then(function (response) {
           vm.collectcourse = response.data.collectcourse
-          console.log(response.data.collectcourse)
         })
     },
     deletecollectcourse: function (e) {
@@ -72,10 +73,20 @@ export default {
         .then(function (response) {
           vm.collectcourse = response.data.code
           if (vm.collectcourse === '888') {
-            // console.log('okokok')
             vm.getcollectcourse()
           }
         })
+    },
+    toCourseDetail: function (e) {
+      let $courid = $(e.target).parents('.def-study').attr('id')
+      if ($courid) {
+        this.$router.push({
+          name: 'coursedetail',
+          params: {
+            courseid: $courid
+          }
+        })
+      }
     }
   }
 }
@@ -117,6 +128,9 @@ export default {
 
     position:absolute;
     top:30px;
+  }
+  .study-name:hover{
+    cursor: pointer;
   }
   .my-quest{
     margin-top: 50px;

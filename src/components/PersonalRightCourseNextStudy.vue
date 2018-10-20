@@ -13,7 +13,7 @@
             <div class="row">
               <div class="col-md-3">
                 <a href="#">
-                  <img src="../assets/images/users/user-icon.jpg" class="study-img">
+                  <img src="../assets/images/users/user-icon.jpg" class="study-img" @click.prevent.stop="toCourseDetail">
                 </a>
               </div>
               <div class="col-md-6" style="margin-left: 70px">
@@ -76,6 +76,17 @@ export default {
             vm.getnextstudy()
           }
         })
+    },
+    toCourseDetail: function (e) {
+      let $courid = $(e.target).parents('.def-study').attr('id')
+      if ($courid) {
+        this.$router.push({
+          name: 'coursedetail',
+          params: {
+            courseid: $courid
+          }
+        })
+      }
     }
   }
 }
