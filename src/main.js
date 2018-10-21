@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import global from './components/publicvue/Global'
 // 导入组件
 import NavTop from './components/publicvue/NavTop'
 import NavBottom from './components/publicvue/NavBottom'
@@ -15,6 +16,8 @@ import LoginRegister from './components/publicvue/LoginRegister'
 // import 'bootstrap/dist/js/bootstrap.min'
 
 Vue.config.productionTip = false
+
+Vue.prototype.Global = global
 
 /* 注册全局组件 */
 // 头部导航栏组件
