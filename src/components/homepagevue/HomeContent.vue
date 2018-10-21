@@ -37,18 +37,18 @@ export default {
   }
 
   .icon-article-l {
-    background: url("../assets/icons/home-icons.png") 0 -792px;
+    background: url("../../assets/icons/home-icons.png") 0 -792px;
   }
 
   .icon-article-r {
-    background: url("../assets/icons/home-icons.png") 0 -720px;
+    background: url("../../assets/icons/home-icons.png") 0 -720px;
   }
 
   .icon-career-l {
-    background: url("../assets/icons/home-icons.png") 0 -72px;
+    background: url("../../assets/icons/home-icons.png") 0 -72px;
   }
 
   .icon-career-r {
-    background: url("../assets/icons/home-icons.png") 0 0;
+    background: url("../../assets/icons/home-icons.png") 0 0;
   }
 </style>

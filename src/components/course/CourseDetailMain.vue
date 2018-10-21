@@ -33,12 +33,12 @@
           <!--推荐课程模板-->
           <div class="cour" v-for="c in hotCourses" :id="c.id" :key="c.id" @click.prevent.stop="toCourseDetail">
             <div class="course_img">
-              <img src="../assets/images/courses/1.jpg" alt="">
+              <img src="../../assets/images/courses/1.jpg" alt="">
             </div>
             <div style="border-bottom: 1px rgba(128,128,128,0.22) solid; width: 251.86px; height: 70px">
               <div class="course-name" v-text="c.name"></div>
               <span class="course-degree" v-text="c.cs_degree__name"></span>
-              <img src="../assets/icons/user-logo.svg" alt="">
+              <img src="../../assets/icons/user-logo.svg" alt="">
               <span class="course-l-people" v-text="c.learn"></span>
             </div>
           </div>
@@ -117,13 +117,13 @@ export default {
     color: red;
   }
   .chapter .section:hover > span.icon-section {
-    background: url("../assets/icons/enter_red.svg") no-repeat 0 5px;
+    background: url("../../assets/icons/enter_red.svg") no-repeat 0 5px;
   }
   .course_detail .chapter .section .icon-section {
     display: inline-block;
     width: 5px;
     height: 40px;
-    background: url("../assets/icons/enter_gray.svg") no-repeat 0 5px;
+    background: url("../../assets/icons/enter_gray.svg") no-repeat 0 5px;
   }
 
   /*--右侧-*/

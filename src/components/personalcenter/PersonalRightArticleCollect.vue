@@ -1,28 +1,29 @@
 <template>
   <div class="container-fluid">
     <div class="col-md-12 foot">
-      <div class="context" v-show="studynotarticle">
-        你还没有创作文章，快去<span @click="toArticle" class="go-article">写文章</span>吧！
+      <div class="context" v-show="studynotcollect">
+        你还没有收藏文章，快去<span @click="toArticle" class="go-article">收藏文章</span>吧！
       </div>
-      <div class="mycollections" v-show="studyarticle" v-for="art in article" :key="art.id" :id="art.id">
+      <div class="mycollections" v-show="studycollect" v-for="art in article" :key="art.id" :id="art.id">
         <div class="collections-title">
           {{art.title}}
         </div>
         <p class="collections-introduce">{{art.introduce}}</p>
         <div class="row">
-          <div class="col-md-2">
+          <div class="col-md-3">
+            <div class="collections-name">{{art.userinfo__name}}</div>
           </div>
           <div class="col-md-3">
             <div class="collections-time">{{art.upload.toString().slice(0,10)}}</div>
           </div>
           <div class="col-md-2">
             <div class="collections-like">
-              <img src="../assets/icons/like.svg"/>
+              <img src="../../assets/icons/like.svg"/>
               <span class="like-num">{{art.like}}</span>
             </div>
           </div>
           <div class="col-md-2">
-            <div class="collections-delete" @click="deleteArticle">删除文章</div>
+            <div class="collections-delete" @click="deleteArticle">取消收藏</div>
           </div>
           <div class="col-md-2">
             <router-link :to="{name: 'articledetailcontainer', params: {artid: art.id}}">
@@ -44,8 +45,8 @@ export default {
   data () {
     return {
       msg: '我的文章',
-      studynotarticle: true,
-      studyarticle: false,
+      studynotcollect: true,
+      studycollect: false,
       article: '',
       usertel: window.sessionStorage.getItem('usertel'),
       more: '',
@@ -54,38 +55,37 @@ export default {
   },
   created: function () {
     this.as = this.$route.params.artid
+    // 取出tel
     window.sessionStorage.getItem('usertel')
   },
   mounted: function () {
     this.getDate()
   },
   methods: {
-    // 判断数量
-    judgeArticle: function () {
+    // 判断收藏文章的数量，从而改变前端样式
+    judgeCollect: function () {
       if (this.nums) {
-        console.log(12)
-        this.studynotarticle = false
-        this.studyarticle = true
+        this.studynotcollect = false
+        this.studycollect = true
       } else {
-        console.log(34)
-        this.studynotarticle = true
-        this.studyarticle = false
+        this.studynotcollect = true
+        this.studycollect = false
       }
     },
     // 取数据
     getDate: function () {
       let vm = this
-      axios.get('http://localhost:8000/article/getMyArticle/' + vm.usertel + '/')
+      axios.get('http://localhost:8000/article/getCollectArticle/' + vm.usertel + '/')
         .then(function (response) {
           vm.article = response.data.article
           vm.nums = response.data.article.length
-          vm.judgeArticle()
+          vm.judgeCollect()
         })
         .catch(function (error) {
           console.log(error)
         })
     },
-    // 跳转
+    // 跳转到文章首页
     toArticle: function () {
       this.$router.push({
         path: '/article'
@@ -94,9 +94,8 @@ export default {
     // 删除文章
     deleteArticle: function (e) {
       let $courid = $(e.target).parents('.mycollections').attr('id')
-      console.log($courid)
       let vm = this
-      axios.get('http://localhost:8000/article/deleteUserArticle/' + $courid + '/')
+      axios.get('http://localhost:8000/article/deleteArticle/' + $courid + '/')
         .then(function (response) {
           vm.collectcourse = response.data.code
           if (vm.collectcourse === '888') {
@@ -143,7 +142,7 @@ export default {
     box-shadow: 2px 2px 15px black;
   }
   .mycollections .collections-title {
-    font-size: 1.5em;
+   font-size: 1.5em;
     color: black;
   }
   .mycollections .collections-introduce {
@@ -154,6 +153,11 @@ export default {
   }
   .mycollections .collections-time {
     font-size: 1.3em;
+    margin-top: 10px;
+  }
+  .mycollections .collections-name {
+    font-size: 1.3em;
+    color: black;
     margin-top: 10px;
   }
   .mycollections .collections-like{

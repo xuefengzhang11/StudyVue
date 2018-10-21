@@ -38,6 +38,7 @@ export default {
       axios.get(this.url + 'course/getCourse/' + this.courseid + '/')
         .then(function (response) {
           vm.course = response.data
+          sessionStorage.setItem('courseid', vm.course.id)
         })
         .catch(function (error) {
           console.log(error)

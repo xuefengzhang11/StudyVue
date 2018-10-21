@@ -16,10 +16,10 @@
                 <p class="article_introduce">{{hot.introduce | hotmot(130,140)}}</p>
                 <div class="row">
                     <div class="col-md-5">
-                        <img class="icon-user" src="../assets/images/courses/1.jpg" alt=""><span v-text="hot.user_name"></span>
+                        <img class="icon-user" src="../../assets/images/courses/1.jpg" alt=""><span v-text="hot.user_name"></span>
                     </div>
                     <div class="col-md-4" v-text="hot.upload"></div>
-                    <div class="col-md-3 text-center"><img class="icon-like" src="../assets/icons/like.svg" alt="">
+                    <div class="col-md-3 text-center"><img class="icon-like" src="../../assets/icons/like.svg" alt="">
                         <span v-text="hot.like"></span></div>
                 </div>
             </a>
@@ -143,11 +143,11 @@ export default {
     top: -2px;
   }
   .icon-article-l {
-    background: url("../assets/icons/home-icons.png") 0 -792px;
+    background: url("../../assets/icons/home-icons.png") 0 -792px;
   }
 
   .icon-article-r {
-    background: url("../assets/icons/home-icons.png") 0 -720px;
+    background: url("../../assets/icons/home-icons.png") 0 -720px;
   }
 
 </style>

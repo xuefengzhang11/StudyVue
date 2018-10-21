@@ -41,7 +41,7 @@
                   <img class="icon-user" src="" alt=""><span v-text="article.userinfo__name"></span>
                 </div>
                 <div class="col-md-4" v-text="article.upload.slice(0,10)"></div>
-                <div class="col-md-3 text-center"><img class="icon-like" src="../assets/icons/like.svg" alt="">
+                <div class="col-md-3 text-center"><img class="icon-like" src="../../assets/icons/like.svg" alt="">
                   <span v-text="article.like"></span></div>
               </div>
             </a>
@@ -159,7 +159,7 @@ export default {
   .article-logo {
     width: 274px;
     height: 60px;
-    background: url("../assets/icons/article-logo.png");
+    background: url("../../assets/icons/article-logo.png");
   }
 
   .search {
@@ -206,7 +206,7 @@ export default {
     display: inline-block;
     width: 100%;
     height: 100%;
-    background: url("../assets/icons/search.svg") no-repeat 4px 8px;
+    background: url("../../assets/icons/search.svg") no-repeat 4px 8px;
   }
 
   .search .search-ipt .search-icon span:hover {

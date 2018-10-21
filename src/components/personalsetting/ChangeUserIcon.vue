@@ -6,20 +6,20 @@
         <div class="row">
           <div class="col-md-6 title">更换头像</div>
           <div class="col-md-6 text-right cancel">
-            <img src="../assets/icons/X.svg" @click="cancelChange" alt="">
+            <img src="../../assets/icons/X.svg" @click="cancelChange" alt="">
           </div>
         </div>
         <div class="row">
           <div class="col-md-12 text-center">
             <div class="userIcon">
-              <img class="userIcon_img" src="../assets/images/users/user-icon.jpg" alt="">
+              <img class="userIcon_img" :src="imgurl" alt="">
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-md-1"></div>
           <div class="col-md-5 text-right">
-            <span class="change">换一换</span>
+            <span class="change" @click="randomIcon">换一换</span>
           </div>
           <div class="col-md-5">
               <input id="file" type="file">
@@ -32,7 +32,7 @@
         <div class="row"  style="margin-top: 15px">
           <div class="col-md-3"></div>
           <div class="col-md-3 text-center">
-            <button @click="filesubmit">确定</button>
+            <button @click="filesubmitx">确定</button>
           </div>
           <div class="col-md-3 text-center">
               <button @click.prevent.stop="cancelChange">取消</button>
@@ -43,7 +43,7 @@
     </div>
   </div>
 </template>
-<script src="../../static/qiniu.min.js"></script>
+<script src="../../../static/qiniu.min.js"></script>
 <script>
 import $ from 'jquery'
 import {upload} from 'qiniu'
@@ -56,16 +56,42 @@ export default {
       url: 'http://127.0.0.1:8000/',
       msg: '更换头像',
       usertel: '',
+      imgurl: '',
       nowfile: {}
     }
   },
   created () {
     this.usertel = window.sessionStorage.getItem('usertel')
   },
+  mounted () {
+    this.getUser()
+  },
   methods: {
+    // 通过用户电话号码获取用户信息
+    getUser: function () {
+      let vm = this
+      axios.get(this.url + 'user/getUser/' + this.usertel + '/')
+        .then(function (response) {
+          vm.imgurl = 'http://pgu05jbff.bkt.clouddn.com/' + response.data.user[0].icon__iconurl
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
     // 取消修改头像框
     cancelChange: function () {
       this.$emit('cancelclick')
+    },
+    // 用户随机更换头像
+    randomIcon: function () {
+      let vm = this
+      axios.get(this.url + 'user/randomIcon/')
+        .then(function (response) {
+          vm.imgurl = 'http://pgu05jbff.bkt.clouddn.com/' + response.data.userIcon
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     },
     // 展示图片
     preview: function (f) {
@@ -106,6 +132,7 @@ export default {
       // 需要上传的图片
       let file = this.file
       if (file) {
+        // 上传头像点击确定时执行
         let that = this
         $.ajax({
           url: that.url + 'user/qiniutoken/?key=' + file.name,
@@ -154,11 +181,26 @@ export default {
                   .catch(function (error) {
                     console.log(error)
                   })
-
               }
             });
           }
         })
+      } else {
+        // 随机头像是更换点击执行
+        let imgurl =  this.imgurl.split('/')[3]
+        let that = this
+        axios.get(that.url + 'user/upIcon/' + imgurl + '/' + that.usertel + '/')
+          .then(function (response) {
+            let res = response.data.res
+            if (res === '修改成功') {
+              that.$emit('sureclick')
+            } else {
+              alert(res)
+            }
+          })
+          .catch(function (error) {
+            console.log(error)
+          })
       }
     }
   }

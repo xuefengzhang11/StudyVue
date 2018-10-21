@@ -3,7 +3,7 @@
     <div class="article-content">
       <div class="row">
         <!--左侧--文章主体-->
-        <div class="col-sm-8 bg-white article-container">
+        <div class="col-md-8 bg-white article-container">
           <!--&lt;!&ndash;文章标题&ndash;&gt;-->
           <h2 class="text-center" v-text="article.title"></h2>
           <!--&lt;!&ndash;发表时间、点赞数&ndash;&gt;-->
@@ -13,7 +13,7 @@
               </div>
               <div class="col-md-6"></div>
               <div class="col-md-3 text-right">
-                  <img src="../assets/icons/like.svg" class="icon-like" alt="">
+                  <img src="../../assets/icons/like.svg" class="icon-like" alt="">
                   <span class="like_num" v-text="article.like"></span>
               </div>
           </div>
@@ -22,7 +22,7 @@
           <p class="content" v-html="article.content"></p>
         </div>
         <!--右侧--作者信息 作者其他文章 相关视频-->
-        <div class="col-sm-3">
+        <div class="col-md-3">
           <!--作者全部信息-->
           <div class="row">
             <div class="col-md-12 user-info"  style="padding-left: 30px;">
@@ -30,7 +30,7 @@
                   <!--&lt;!&ndash;作者头像&ndash;&gt;-->
                   <div class="col-md-3 text-center">
                       <span class="user-logo">
-                          <a href="#"><img src="../assets/images/users/user-icon.jpg" alt=""></a>
+                          <a href="#"><img src="../../assets/images/users/user-icon.jpg" alt=""></a>
                       </span>
                   </div>
                   <!--&lt;!&ndash;作者信息&ndash;&gt;-->
@@ -67,12 +67,12 @@
             <!--模板-->
             <a href="#">
               <div class="course-img">
-                <img src="../assets/images/users/user-icon.jpg" alt="">
+                <img src="../../assets/images/users/user-icon.jpg" alt="">
               </div>
               <div class="" style=" border-bottom: 1px rgba(128,128,128,0.22) solid;">
                 <div class="course-name">{{hot.title | mot(6,8)}}</div>
                 <span class="course-degree" v-text="hot.user_name"></span>
-                <img src="../assets/icons/like.svg" alt="" style="margin-left: 5px">
+                <img src="../../assets/icons/like.svg" alt="" style="margin-left: 5px">
                 <span class="course-l-people" v-text="hot.like"></span>
               </div>
             </a>
@@ -307,7 +307,7 @@ export default {
 
   .article .icon-article {
     width: 32px;
-    background: url("../assets/icons/article-logo.svg");
+    background: url("../../assets/icons/article-logo.svg");
   }
 
   /*相关视频推荐*/

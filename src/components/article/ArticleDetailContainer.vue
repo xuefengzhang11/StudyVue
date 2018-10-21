@@ -105,7 +105,7 @@ export default {
   .article-logo {
     width: 274px;
     height: 60px;
-    background: url("../assets/icons/article-logo.png");
+    background: url("../../assets/icons/article-logo.png");
   }
 
   .search {
@@ -152,7 +152,7 @@ export default {
     display: inline-block;
     width: 100%;
     height: 100%;
-    background: url("../assets/icons/search.svg") no-repeat 4px 8px;
+    background: url("../../assets/icons/search.svg") no-repeat 4px 8px;
   }
 
   .search .search-ipt .search-icon span:hover {

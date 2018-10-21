@@ -17,7 +17,7 @@
               <!--<router-link :to="{ name: 'careerdetail',params: { id: d.id }}"></router-link>-->
               <!--&lt;!&ndash;图片&ndash;&gt;-->
               <div class="career-img">
-                <img src="../assets/images/careers/1.jpg" alt="">
+                <img src="../../assets/images/careers/1.jpg" alt="">
               </div>
               <!--&lt;!&ndash;简介&ndash;&gt;-->
               <div class="career-info">
@@ -48,7 +48,7 @@
 import CareerDetail from './CareerDetail'
 import $ from 'jquery'
 import axios from 'axios'
-import Paging from './Paging'
+import Paging from '../publicvue/Paging'
 export default {
   name: 'CareerHome',
   data () {
@@ -162,13 +162,13 @@ export default {
 
   .icon-career1 {
     width: 188px;
-    background: url("../assets/icons/icon-career.png");
+    background: url("../../assets/icons/icon-career.png");
   }
 
   .icon-career2 {
     width: 480px;
     margin-left: 30px;
-    background: url("../assets/icons/icon-career2.png") 0 -48px;
+    background: url("../../assets/icons/icon-career2.png") 0 -48px;
   }
 
   /*职业路径部分*/
@@ -240,7 +240,7 @@ export default {
     float:right;
     padding-top: 2px;
     background: pink;
-    background: url('../assets/icons/user-logo.svg') no-repeat;
+    background: url('../../assets/icons/user-logo.svg') no-repeat;
   }
   .a{
     height: 19px;

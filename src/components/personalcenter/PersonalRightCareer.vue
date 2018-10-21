@@ -6,7 +6,7 @@
         <li role="presentation" class="note"><a href="#" class="color">我的路径</a></li>
       </ul>
       <div class="context" v-show="notcareer">
-        你没有参与任何路径，可以先去找找<span @click="toCareer" class="go-career">路径</span>
+        你没有参与任何路径，可以先去找找<span class="go-career">路径</span>
       </div>
       <div class="mycollections" v-show="havecareer">
       </div>

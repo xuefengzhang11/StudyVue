@@ -1,14 +1,25 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import StudyHome from '@/components/StudyHome'
-import CourseSearch from '@/components/CourseSearch'
-import CourseDetailContainer from '@/components/CourseDetailContainer'
-import ArticleHome from '@/components/ArticleHome'
-import ArticleDetailContainer from '@/components/ArticleDetailContainer'
-import CareerHome from '@/components/CareerHome'
-import CareerDetail from '@/components/CareerDetail'
-import PersonalCenterContainer from '@/components/PersonalCenterContainer'
-import PersonalSettingContainer from '@/components/PersonalSettingContainer'
+
+// 主页面组件
+import StudyHome from '@/components/homepagevue/StudyHome'
+
+// 课程模块组件
+import CourseSearch from '@/components/course/CourseSearch'
+import CourseDetailContainer from '@/components/course/CourseDetailContainer'
+
+// 文章模块组件
+import ArticleHome from '@/components/article/ArticleHome'
+import ArticleDetailContainer from '@/components/article/ArticleDetailContainer'
+
+// 职业计划模块组件
+import CareerHome from '@/components/career/CareerHome'
+import CareerDetail from '@/components/career/CareerDetail'
+
+// 个人中心模块组件
+import PersonalCenterContainer from '@/components/personalcenter/PersonalCenterContainer'
+// 个人设置模块组件
+import PersonalSettingContainer from '@/components/personalsetting/PersonalSettingContainer'
 
 Vue.use(Router)
 

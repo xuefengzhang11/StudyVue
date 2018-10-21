@@ -8,7 +8,7 @@
       >
           <div class="content-video">
             <div class="course_img">
-              <img src="../assets/images/courses/1.jpg" alt="">
+              <img src="../../assets/images/courses/1.jpg" alt="">
             </div>
             <div class="course_info">
               <span class="info_name" v-text="c.name"></span>
@@ -182,6 +182,6 @@ export default {
     height: 20px;
     padding-left: 17px;
     margin-bottom: -5px;
-    background: url('../assets/icons/user-logo.svg') no-repeat;
+    background: url('../../assets/icons/user-logo.svg') no-repeat;
   }
 </style>
