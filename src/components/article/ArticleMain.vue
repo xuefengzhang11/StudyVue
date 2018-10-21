@@ -28,7 +28,7 @@
           <span class="img">
             <img src="../../assets/images/users/user-icon.jpg" alt="">
           </span>
-              <span class="sta">共同学习，写下你的评论</span>
+              <span class="sta" @click="toComment">共同学习，写下你的评论</span>
               <div class="line"></div>
               <div class="b-comment">
                 <span class="comment-num">{{comment_num}}评论</span>
@@ -47,12 +47,10 @@
                     <!--点赞和评论-->
                     <div class="like_upcom" style="float: right">
                       <span class="like text-center">点赞</span>
-                      <span class="upcom text-center">回复</span>
+                      <span class="upcom text-center" @click="toReplay">回复</span>
                     </div>
-
                     <!--评论内容-->
                     <div class="ucontent" v-text="comm.content"></div>
-
                     <!--子评论模板-->
                     <div class="ucomment son" v-for="reply in comm.replys" :key="reply.id" :id="reply.id">
                       <div class="uimg">
@@ -142,16 +140,25 @@
         </div>
       </div>
     </div>
+    <!--发表评论组件-->
+    <Commentary v-show="isUpCommentary" @closeupcom="isUpCommentary=false"></Commentary>
+    <!--回复评论组件-->
+    <ReplyCommentary v-show="isReplyCommentary" @closereplycom="isReplyCommentary=false"></ReplyCommentary>
+    <!--未登录提示组件-->
+    <tiplogin v-show="isTipLogin" @sureclick="isTipLogin=false"></tiplogin>
   </div>
 </template>
 
 <script>
+import Commentary from './Commentary'
+import ReplyCommentary from './ReplyCommentary'
 import axios from 'axios'
 import $ from 'jquery'
 
 export default {
   props: ['artid'],
   name: 'ArticleMain',
+  components: {Commentary, ReplyCommentary},
   data () {
     return {
       msg: '文章详情页',
@@ -172,7 +179,13 @@ export default {
       // 当前文章评论数
       comment_num: '0',
       // 当前文章的一级评论、二级评论
-      comments: {}
+      comments: {},
+      // 发表评论组件
+      isUpCommentary: false,
+      // 回复评论组件
+      isReplyCommentary: false,
+      // 是否显示登录提示
+      isTipLogin: false
     }
   },
   created: function () {
@@ -246,6 +259,29 @@ export default {
       if (bid) {
         this.articleid = bid
         this.getDate()
+      }
+    },
+    // 点击发表评论
+    toComment: function () {
+      let usertel = window.sessionStorage.getItem('usertel')
+      if (usertel) {
+        // 用户已经登录
+        this.isUpCommentary = true
+      } else {
+        // 用户未登录
+        this.isTipLogin = true
+      }
+    },
+    // 点击回复
+    toReplay: function () {
+      // 获取当前用户电话号码
+      let usertel = window.sessionStorage.getItem('usertel')
+      if (usertel) {
+        // 用户已经登录
+        this.isReplyCommentary = true
+      } else {
+        // 用户未登录
+        this.isTipLogin = true
       }
     }
   },

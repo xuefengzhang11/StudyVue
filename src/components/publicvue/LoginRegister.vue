@@ -193,8 +193,9 @@ export default {
     width: 360px;
     height: 400px;
     background: white;
-    z-index: 99;
+    /*z-index: 99;*/
     position: fixed;
+    border-radius: 10px;
     margin-top: 150px;
     margin-left: 500px;
   }

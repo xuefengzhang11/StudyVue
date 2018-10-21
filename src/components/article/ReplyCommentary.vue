@@ -5,11 +5,11 @@
     <div class="com-container">
       <div class="row">
         <div class="col-md-6" style="font-size: 1.3em; font-weight: 600; margin-bottom: 10px">
-          发表评论
+          回复评论
         </div>
         <div class="col-md-4"></div>
         <div class="col-md-2 text-center">
-          <span class="quxiao text-right" @click="$emit('closeupcom')"></span>
+          <span class="quxiao text-right" @click="$emit('closereplycom')"></span>
         </div>
       </div>
       <div class="row">
@@ -29,10 +29,10 @@
 
 <script>
 export default {
-  name: 'Commentary',
+  name: 'ReplyCommentary',
   data () {
     return {
-      msg: '发评论',
+      msg: '回复评论',
       comment_content: ''
     }
   }

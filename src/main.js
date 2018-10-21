@@ -9,6 +9,7 @@ import NavTop from './components/publicvue/NavTop'
 import NavBottom from './components/publicvue/NavBottom'
 import Paging from './components/publicvue/Paging'
 import LoginRegister from './components/publicvue/LoginRegister'
+import TipLogin from './components/publicvue/TipLogin'
 
 // 导入第三方库
 // import $ from 'jquery'
@@ -28,6 +29,8 @@ Vue.component('nav-bottom', NavBottom)
 Vue.component('paging', Paging)
 // 登录注册模态框
 Vue.component('loginregister', LoginRegister)
+// 注册未登录提示组件
+Vue.component('tiplogin', TipLogin)
 
 /* eslint-disable no-new */
 new Vue({
