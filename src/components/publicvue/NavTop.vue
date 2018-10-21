@@ -296,11 +296,11 @@ export default {
     height: 90px;
     position: relative;
     /*top:30px;*/
-    margin-left: 20px;
+    margin-left: 10px;
   }
   .user-img .person {
     position: absolute;
-    right: 30px;
+    right: 20px;
     top: 80px;
     width: 314px;
     height: 330px;
@@ -433,6 +433,7 @@ export default {
     line-height: 60px;
     border-radius: 50%;
     margin-top: 20px;
+    margin-left: 40px;
   }
   /*.header .user-img img {*/
     /*width: 100%;*/
