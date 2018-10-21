@@ -4,8 +4,8 @@
       <div class="u-title">
         个人信息
       </div>
-      <span style="position: absolute; right: 50px; top: 20px;">
-                             <a href="">修改</a>
+      <span style="position: absolute; right: 50px; top: 20px;" @click="toUpdate">
+                             <div>修改</div>
                          </span>
       <!--昵称 职位 城市 性别 个性签名-->
       <div class="u-n">
@@ -56,13 +56,17 @@ export default {
     let vm = this
     axios.get(this.url + 'user/getUser/' + this.usertel + '/')
       .then(function (response) {
-        console.log('***')
         vm.user = response.data.user[0]
-        console.log(response.data.user[0])
       })
       .catch(function (error) {
         console.log(error)
       })
+  },
+  methods: {
+    // 弹出修改用户信息
+    toUpdate: function () {
+      this.$emit('uuclick')
+    }
   }
 }
 </script>
