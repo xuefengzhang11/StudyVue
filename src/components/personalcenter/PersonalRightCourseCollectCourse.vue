@@ -1,79 +1,79 @@
 <template>
   <div>
     <div class="col-md-12 study-top a">
-      <div>
-        <!--最近学习-->
-        <div class="row def-study" v-show="isnextstudy" v-for="next in nextstudy" :key="next.section_id" :id="next.section_id">
+        <!--收藏课程-->
+      <div class="row def-study" v-show="iscollectcourse" v-for="(collect,i) in collectcourse" :key="i" :id="collect.course_id">
           <div class="col-md-1 course-time">
-            <div class="study-year" v-text="next.history_watchtime.toString().slice(0,4)"></div>
-            <div class="study-data"  v-text="next.history_watchtime.toString().slice(5,10)"></div>
+            <div class="study-year" v-text="collect.collecttime.toString().slice(0,4)"></div>
+            <div class="study-data" v-text="collect.collecttime.toString().slice(5,10)"></div>
           </div>
           <div class="col-md-11 pull-right study-course">
             <div class="row circle"></div>
             <div class="row">
               <div class="col-md-3">
                 <a href="#">
-                  <img src="../assets/images/users/user-icon.jpg" class="study-img" @click.prevent.stop="toCourseDetail">
+                  <img src="../../assets/images/users/user-icon.jpg" class="study-img" id="collect.course_id" @click.prevent.stop="toCourseDetail">
                 </a>
               </div>
               <div class="col-md-6" style="margin-left: 70px">
                 <div class="row">
-                  <span class="study-name" v-text="next.course_name"></span>
+                  <span class="study-name" v-text="collect.course_name"
+                        @click.prevent.stop="toCourseDetail">
+                  </span>
                 </div>
                 <div class="row" style="margin-top: 80px">
-                  <span>学习至 1- <span v-text="next.section_id"></span>&nbsp;&nbsp;<span v-text="next.section_name"></span></span>
+                  <span>价格 : <span v-text="collect.course_price"></span></span>
                 </div>
                 <div class="row my-quest">
-                  <span>学习人数: <span v-text="next.course_learn"></span></span>
+                  <span>课程收藏数: <span v-text="collect.collectnum"></span></span>
                 </div>
               </div>
             </div>
-            <div class="study-delete" @click="deletenextstudy">删除课程</div>
-            <div class="study-go">继续学习</div>
+            <div class="study-delete">继续学习</div>
+            <div class="study-go" @click="deletecollectcourse">取消收藏</div>
           </div>
         </div>
-      </div>
     </div>
   </div>
+
 </template>
 
 <script>
 import axios from 'axios'
 import $ from 'jquery'
 export default {
-  name: 'PersonalRightCourseNextStudy',
+  name: 'PersonalRightCourseCollectCourse',
   data () {
     return {
       msg: '免费课程',
-      isnextstudy: true,
-      iscollectcourse: false,
+      isnextstudy: false,
+      iscollectcourse: true,
       url: 'http://localhost:8000/',
       nextstudy: '',
       collectcourse: ''
     }
   },
   created: function () {
-    this.getnextstudy()
+    this.getcollectcourse()
   },
   methods: {
-    getnextstudy: function () {
+    getcollectcourse: function () {
       let vm = this
       vm.tel = window.sessionStorage.getItem('usertel')
-      axios.get('http://localhost:8000/course/getnextstudy/' + vm.tel + '/')
+      axios.get('http://localhost:8000/course/getcollectcourse/' + vm.tel + '/')
         .then(function (response) {
-          vm.nextstudy = response.data.nextstudy
-          console.log(response)
+          vm.collectcourse = response.data.collectcourse
         })
     },
-    deletenextstudy: function (e) {
+    deletecollectcourse: function (e) {
       let $courid = $(e.target).parents('.def-study').attr('id')
       console.log($courid)
       let vm = this
-      axios.get('http://localhost:8000/course/deletenextstudy/' + $courid + '/')
+      axios.get('http://localhost:8000/course/deletecollectcourse/' + $courid + '/')
         .then(function (response) {
           vm.collectcourse = response.data.code
           if (vm.collectcourse === '888') {
-            vm.getnextstudy()
+            vm.getcollectcourse()
           }
         })
     },
@@ -105,7 +105,6 @@ export default {
     /*margin-left: 10px;*/
     color: grey;
   }
-
   .study-course{
     height: 200px;
     border-left: solid 1px rgba(141, 141, 141, 0.54);
@@ -130,11 +129,13 @@ export default {
     position:absolute;
     top:30px;
   }
+  .study-name:hover{
+    cursor: pointer;
+  }
   .my-quest{
     margin-top: 50px;
     font-size: 1.2em;
   }
-
   .study-delete{
     width: 80px;
     height: 40px;
