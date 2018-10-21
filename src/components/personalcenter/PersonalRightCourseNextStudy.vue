@@ -59,17 +59,15 @@ export default {
     getnextstudy: function () {
       let vm = this
       vm.tel = window.sessionStorage.getItem('usertel')
-      axios.get('http://localhost:8000/course/getnextstudy/' + vm.tel + '/')
+      axios.get('http://localhost:8000/course/getFreeCoursePersonal/' + vm.tel + '/')
         .then(function (response) {
           vm.nextstudy = response.data.nextstudy
-          console.log(response)
         })
     },
     deletenextstudy: function (e) {
       let $courid = $(e.target).parents('.def-study').attr('id')
-      console.log($courid)
       let vm = this
-      axios.get('http://localhost:8000/course/deletenextstudy/' + $courid + '/')
+      axios.get('http://localhost:8000/course/deleteFreeCoursePersonal/' + $courid + '/')
         .then(function (response) {
           vm.collectcourse = response.data.code
           if (vm.collectcourse === '888') {
