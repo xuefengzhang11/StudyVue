@@ -16,7 +16,7 @@
                 <p class="chapter-info" v-text="chap.introduce"></p>
                 <div class="sections">
                   <!--节模板-->
-                  <div class="section" v-for="(sect,i) in chap.sections" :key="sect.id">
+                  <div class="section" v-for="(sect,i) in chap.sections" :key="sect.id" :id="sect.id" @click.stop.prevent="toSectionDetail">
                     <span class="icon-section">&nbsp;</span>
                     <span class="sect-name" v-text="'第'+(parseInt(i)+1)+'节：'+sect.name"></span>
                   </div>
@@ -51,7 +51,7 @@
 <script>
 import axios from 'axios'
 import $ from 'jquery'
-
+import SectionDetail from '../course/SectionDetail'
 export default {
   name: 'CourseDetailMain',
   props: ['course'],
@@ -80,8 +80,21 @@ export default {
         // 跳转到当前页面(返回父组件重新加载)
         this.$emit('regetcourse', this.courseid)
       }
+    },
+    toSectionDetail: function (e) {
+      let $sectid = $(e.target).parents('.section').attr('id')
+      if ($sectid) {
+        this.$router.push({
+          path: 'sectiondetail/',
+          name: 'sectiondetail',
+          params: {
+            sectid: $sectid
+          }
+        })
+      }
     }
-  }
+  },
+  components: { SectionDetail }
 }
 </script>
 
