@@ -93,6 +93,7 @@ export default {
     // }
   },
   methods: {
+    // 关闭模态框
     userupdate: function () {
       this.$emit('updateuserclick')
     },
@@ -125,6 +126,7 @@ export default {
           console.log(error)
         })
     },
+    // 修改用户信息
     updateUser: function () {
       let user = {
         'usertel': this.usertel,
@@ -142,7 +144,6 @@ export default {
         data: JSON.stringify(user),
         success: function (response, textStatus, request) {
           let res = response.res
-          console.log(res)
           if (res === '修改成功') {
             vm.closeMyself()
             vm.$emit('updateclick')

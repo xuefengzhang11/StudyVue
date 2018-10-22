@@ -63,7 +63,7 @@ export default {
       })
   },
   methods: {
-    // 弹出修改用户信息
+    // 弹出修改用户个人信模态框
     toUpdate: function () {
       this.$emit('uuclick')
     }

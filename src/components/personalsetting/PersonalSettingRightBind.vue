@@ -21,10 +21,12 @@
       <div class="u-pwd">
         <span class="pwd-img"></span>
         <span class="tip">密码已设置</span>
-        <button @click="updateUser">修改</button>
+        <button @click="updateUserPwd">修改</button>
       </div>
     </div>
-    <UpdateUserPassword v-if="showUpdateUserPwd"></UpdateUserPassword>
+    <UpdateUserPassword v-if="showUpdateUserPwd" @updatepwdclick="updateUserPwd"
+                        @updateUserPwdclick="updatePwdSuccess"
+    ></UpdateUserPassword>
   </div>
 </template>
 
@@ -68,12 +70,12 @@ export default {
       this.$emit('upwdclick')
     },
     // 显示修改用户信息组建
-    updateUser: function () {
+    updateUserPwd: function () {
       this.showUpdateUserPwd = !this.showUpdateUserPwd
     },
     // 修改个人信息成功、刷新
-    updateSuccess: function () {
-      this.updateUser()
+    updatePwdSuccess: function () {
+      this.updateUserPwd()
       this.updatedPwd = true
       // 强制刷新子组件
       this.hackResetPwd = false
