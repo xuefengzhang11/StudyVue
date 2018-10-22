@@ -32,7 +32,7 @@
         <div class="row"  style="margin-top: 15px">
           <div class="col-md-3"></div>
           <div class="col-md-3 text-center">
-            <button @click="filesubmitx">确定</button>
+            <button @click="filesubmit">确定</button>
           </div>
           <div class="col-md-3 text-center">
               <button @click.prevent.stop="cancelChange">取消</button>
@@ -57,6 +57,8 @@ export default {
       msg: '更换头像',
       usertel: '',
       imgurl: '',
+      // 纪录用户是否点击更换头像
+      beforeurl: false,
       nowfile: {}
     }
   },
@@ -87,6 +89,8 @@ export default {
       let vm = this
       axios.get(this.url + 'user/randomIcon/')
         .then(function (response) {
+          // 暂存用户头像名
+          vm.beforeurl = true
           vm.imgurl = 'http://pgu05jbff.bkt.clouddn.com/' + response.data.userIcon
         })
         .catch(function (error) {
@@ -131,6 +135,7 @@ export default {
     filesubmit: function () {
       // 需要上传的图片
       let file = this.file
+      // 用户选择了图片
       if (file) {
         // 上传头像点击确定时执行
         let that = this
@@ -154,7 +159,6 @@ export default {
               params: {},
               mimeType: ['image/png', 'image/jpeg', 'image/gif', 'image/jpg']
             }
-
             let key = newfile.name
             // 添加上传dom面板
             putExtra.params['x:name'] = key.split('.')[0]
@@ -186,21 +190,25 @@ export default {
           }
         })
       } else {
-        // 随机头像是更换点击执行
-        let imgurl =  this.imgurl.split('/')[3]
-        let that = this
-        axios.get(that.url + 'user/upIcon/' + imgurl + '/' + that.usertel + '/')
-          .then(function (response) {
-            let res = response.data.res
-            if (res === '修改成功') {
-              that.$emit('sureclick')
-            } else {
-              alert(res)
-            }
-          })
-          .catch(function (error) {
-            console.log(error)
-          })
+        if (this.beforeurl) {
+          // 随机头像确认更换点击执行
+          let imgurl =  this.imgurl.split('/')[3]
+          let that = this
+          axios.get(that.url + 'user/upIcon/' + imgurl + '/' + that.usertel + '/')
+            .then(function (response) {
+              let res = response.data.res
+              if (res === '修改成功') {
+                that.$emit('sureclick')
+              } else {
+                alert(res)
+              }
+            })
+            .catch(function (error) {
+              console.log(error)
+            })
+        }else {
+          this.$emit('cancelclick')
+        }
       }
     }
   }

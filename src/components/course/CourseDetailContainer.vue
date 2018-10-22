@@ -31,6 +31,7 @@ export default {
     // 得到路由跳转传来的参数（课程ID）
     getCourseId: function () {
       this.courseid = this.$route.params.courseid
+      window.sessionStorage.setItem('courid', this.courseid)
     },
     getCourseDetail: function () {
       // 通过课程Id获取课程详情
@@ -38,7 +39,6 @@ export default {
       axios.get(this.url + 'course/getCourse/' + this.courseid + '/')
         .then(function (response) {
           vm.course = response.data
-          sessionStorage.setItem('courseid', vm.course.id)
         })
         .catch(function (error) {
           console.log(error)

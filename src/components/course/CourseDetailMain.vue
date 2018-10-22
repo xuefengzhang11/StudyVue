@@ -16,7 +16,7 @@
                 <p class="chapter-info" v-text="chap.introduce"></p>
                 <div class="sections">
                   <!--节模板-->
-                  <div class="section" v-for="(sect,i) in chap.sections" :key="sect.id">
+                  <div class="section" v-for="(sect,i) in chap.sections" :key="sect.id" :id="sect.id" @click.stop.prevent="toSectionDetail">
                     <span class="icon-section">&nbsp;</span>
                     <span class="sect-name" v-text="'第'+(parseInt(i)+1)+'节：'+sect.name"></span>
                   </div>
@@ -33,7 +33,7 @@
           <!--推荐课程模板-->
           <div class="cour" v-for="c in hotCourses" :id="c.id" :key="c.id" @click.prevent.stop="toCourseDetail">
             <div class="course_img">
-              <img src="../../assets/images/courses/1.jpg" alt="">
+              <img :src="Global.IMG + c.imgurl" alt="">
             </div>
             <div style="border-bottom: 1px rgba(128,128,128,0.22) solid; width: 251.86px; height: 70px">
               <div class="course-name" v-text="c.name"></div>
@@ -51,14 +51,13 @@
 <script>
 import axios from 'axios'
 import $ from 'jquery'
-
+import SectionDetail from '../course/SectionDetail'
 export default {
   name: 'CourseDetailMain',
   props: ['course'],
   data () {
     return {
       msg: '课程详情主体',
-      url: 'http://localhost:8000/',
       courseid: '',
       hotCourses: {}
     }
@@ -66,7 +65,7 @@ export default {
   mounted: function () {
     // 获取热门课程
     let vm = this
-    axios.get(this.url + 'course/getHotCourse/')
+    axios.get(this.Global.HOST + 'course/getHotCourse/')
       .then(function (response) {
         vm.hotCourses = response.data.hotCourses
       })
@@ -81,8 +80,21 @@ export default {
         // 跳转到当前页面(返回父组件重新加载)
         this.$emit('regetcourse', this.courseid)
       }
+    },
+    toSectionDetail: function (e) {
+      let $sectid = $(e.target).parents('.section').attr('id')
+      if ($sectid) {
+        this.$router.push({
+          path: 'sectiondetail/',
+          name: 'sectiondetail',
+          params: {
+            sectid: $sectid
+          }
+        })
+      }
     }
-  }
+  },
+  components: { SectionDetail }
 }
 </script>
 

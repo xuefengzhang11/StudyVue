@@ -106,10 +106,12 @@ export default {
           console.log(error)
         })
     },
+    // 得到职业的id
     getCareerId: function () {
       let cid = this.$route.params.careerid
       this.careerid = cid
     },
+    // 跳转到课程详情页
     toCourseDetail: function (e) {
       let $courid = $(e.target).parents('.course-container').attr('id')
       console.log($courid)
@@ -129,6 +131,7 @@ export default {
       }
       return snum
     },
+    // 字的个数
     'more': function (intro, minlen, len) {
       if (intro.length <= minlen) {
         return intro

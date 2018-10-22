@@ -2,94 +2,163 @@
   <div>
     <div class="article-content">
       <div class="row">
-        <!--左侧--文章主体-->
-        <div class="col-md-8 bg-white article-container">
-          <!--&lt;!&ndash;文章标题&ndash;&gt;-->
-          <h2 class="text-center" v-text="article.title"></h2>
-          <!--&lt;!&ndash;发表时间、点赞数&ndash;&gt;-->
+        <div class="col-md-8">
           <div class="row">
-              <div class="col-md-3 text-left">
+            <!--左侧文章主题-->
+            <div class="col-md-12 bg-white article-container">
+              <!--&lt;!&ndash;文章标题&ndash;&gt;-->
+              <h2 class="text-center" v-text="article.title"></h2>
+              <!--&lt;!&ndash;发表时间、点赞数&ndash;&gt;-->
+              <div class="row">
+                <div class="col-md-3 text-left">
                   <span class="up_time" v-text="article.upload"></span>
-              </div>
-              <div class="col-md-6"></div>
-              <div class="col-md-3 text-right">
+                </div>
+                <div class="col-md-6"></div>
+                <div class="col-md-3 text-right">
                   <img src="../../assets/icons/like.svg" class="icon-like" alt="">
                   <span class="like_num" v-text="article.like"></span>
+                </div>
               </div>
+              <p class="introduce" v-html="article.introduce"></p>
+              <!--&lt;!&ndash;文章内容&ndash;&gt;-->
+              <p class="content" v-html="article.content"></p>
+            </div>
+            <!--左侧评论-->
+            <div class="col-md-12 article-bottom">
+          <span class="img">
+            <img src="../../assets/images/users/user-icon.jpg" alt="">
+          </span>
+              <span class="sta" @click="toComment">共同学习，写下你的评论</span>
+              <div class="line"></div>
+              <div class="b-comment">
+                <span class="comment-num">{{comment_num}}评论</span>
+                <!--没有评论时显示-->
+                <p class="no-comment" v-if="comment_num == '0'" v-text="'暂无评论'"></p>
+                <!--<div class="line"></div>-->
+                <div class="com-content" v-else>
+                  <!--评论展示模板-->
+                  <div class="ucomment" v-for="comm in comments" :key="comm.id" :id="comm.id">
+                    <div class="uimg">
+                      <!--用户头像-->
+                      <img :src="Global.IMG + comm.user.icon__iconurl" alt="">
+                    </div>
+                    <!--用户名-->
+                    <div class="uname" v-text="comm.user.name"></div>
+                    <!--点赞和评论-->
+                    <div class="like_upcom" style="float: right">
+                      <span class="like text-center">点赞</span>
+                      <span class="upcom text-center" @click="toReplay">回复</span>
+                    </div>
+                    <!--评论内容-->
+                    <div class="ucontent" v-text="comm.content"></div>
+                    <!--子评论模板-->
+                    <div class="ucomment son" v-for="reply in comm.replys" :key="reply.id" :id="reply.id">
+                      <div class="uimg">
+                        <img :src="Global.IMG + reply.user.icon__iconurl" alt="">
+                      </div>
+                      <!--二级评论用户名-->
+                      <div class="uname" v-text="reply.user.name"></div>
+                      <!--点赞二级评论-->
+                      <div class="like_upcom" style="float: right">
+                        <span class="like text-center">点赞</span>
+                      </div>
+                      <!--二级评论内容-->
+                      <div class="ucontent" v-text="reply.content"></div>
+                    </div>
+                    <div class="line"></div>
+                    <div>
+                    </div>
+                  </div>
+                </div>
+                <!--<div class="line"></div>-->
+              </div>
+            </div>
           </div>
-          <p class="introduce" v-html="article.introduce"></p>
-          <!--&lt;!&ndash;文章内容&ndash;&gt;-->
-          <p class="content" v-html="article.content"></p>
         </div>
-        <!--右侧--作者信息 作者其他文章 相关视频-->
-        <div class="col-md-3">
-          <!--作者全部信息-->
+        <div class="col-md-3" style="margin-left: 60px">
           <div class="row">
-            <div class="col-md-12 user-info"  style="padding-left: 30px;">
+            <!--右侧-->
+            <div class="col-md-12">
+              <!--作者全部信息-->
               <div class="row">
-                  <!--&lt;!&ndash;作者头像&ndash;&gt;-->
-                  <div class="col-md-3 text-center">
+                <div class="col-md-12 user-info" style="padding-left: 30px;">
+                  <div class="row">
+                    <!--&lt;!&ndash;作者头像&ndash;&gt;-->
+                    <div class="col-md-3 text-center">
                       <span class="user-logo">
                           <a href="#"><img src="../../assets/images/users/user-icon.jpg" alt=""></a>
                       </span>
-                  </div>
-                  <!--&lt;!&ndash;作者信息&ndash;&gt;-->
-                  <div class="col-md-7">
+                    </div>
+                    <!--&lt;!&ndash;作者信息&ndash;&gt;-->
+                    <div class="col-md-7">
                       <a href="#"><span class="user-name" v-text="user.name"></span></a>
                       <span class="user-job" v-text="user.user_job"></span>
                       <a href="#">共发表 <span class="article-num" v-text="artcount"></span> 篇文章</a>
+                    </div>
                   </div>
+                </div>
+              </div>
+              <!--作者其他文章-->
+              <div class="row">
+                <div class="col-md-8">
+                  <div class="title">作者相关文章</div>
+                </div>
+                <div class="col-md-4 more text-center"><a href="#">更多 &gt;</a></div>
+              </div>
+              <div class="row">
+                <!--一个文章模板-->
+                <div class="col-md-12 article related-art" v-for="i in arttitle" :key="i.id" :id="i.id"
+                     @click.prevent.stop="changeIId">
+                  <a href="#">
+                    <span class="icon-article">&nbsp;</span>
+                    <!--文章标题-->
+                    <span class="article-title">{{i.title | mot(10,12)}}</span>
+                  </a>
+                </div>
+              </div>
+              <!--相关课程-->
+              <div class="row">
+                <div class="col-md-12 title">热门文章</div>
+              </div>
+              <div class="row hot-course" v-for="hot in hotarticle" :key="hot.id" :id="hot.id"
+                   @click.prevent.stop="changeHotId">
+                <!--模板-->
+                <a href="#">
+                  <div class="course-img">
+                    <img src="../../assets/images/users/user-icon.jpg" alt="">
+                  </div>
+                  <div class="" style=" border-bottom: 1px rgba(128,128,128,0.22) solid;">
+                    <div class="course-name">{{hot.title | mot(6,8)}}</div>
+                    <span class="course-degree" v-text="hot.user_name"></span>
+                    <img src="../../assets/icons/like.svg" alt="" style="margin-left: 5px">
+                    <span class="course-l-people" v-text="hot.like"></span>
+                  </div>
+                </a>
               </div>
             </div>
-          </div>
-          <!--作者其他文章-->
-          <div class="row">
-            <div class="col-md-8">
-              <div class="title">作者相关文章</div>
-            </div>
-            <div class="col-md-4 more text-center"><a href="#">更多 &gt;</a></div>
-          </div>
-          <div class="row">
-            <!--一个文章模板-->
-            <div class="col-md-12 article related-art" v-for="i in arttitle" :key="i.id" :id="i.id" @click.prevent.stop="changeIId">
-              <a href="#">
-                <span class="icon-article">&nbsp;</span>
-                <!--文章标题-->
-                <span class="article-title">{{i.title | mot(10,12)}}</span>
-              </a>
-            </div>
-          </div>
-          <!--相关课程-->
-          <div class="row">
-            <div class="col-md-12 title">热门文章</div>
-          </div>
-          <div class="row hot-course" v-for="hot in hotarticle" :key="hot.id" :id="hot.id" @click.prevent.stop="changeHotId">
-            <!--模板-->
-            <a href="#">
-              <div class="course-img">
-                <img src="../../assets/images/users/user-icon.jpg" alt="">
-              </div>
-              <div class="" style=" border-bottom: 1px rgba(128,128,128,0.22) solid;">
-                <div class="course-name">{{hot.title | mot(6,8)}}</div>
-                <span class="course-degree" v-text="hot.user_name"></span>
-                <img src="../../assets/icons/like.svg" alt="" style="margin-left: 5px">
-                <span class="course-l-people" v-text="hot.like"></span>
-              </div>
-            </a>
           </div>
         </div>
       </div>
     </div>
+    <!--发表评论组件-->
+    <Commentary v-show="isUpCommentary" @closeupcom="isUpCommentary=false"></Commentary>
+    <!--回复评论组件-->
+    <ReplyCommentary v-show="isReplyCommentary" @closereplycom="isReplyCommentary=false"></ReplyCommentary>
+    <!--未登录提示组件-->
+    <tiplogin v-show="isTipLogin" @sureclick="isTipLogin=false"></tiplogin>
   </div>
 </template>
 
 <script>
+import Commentary from './Commentary'
+import ReplyCommentary from './ReplyCommentary'
 import axios from 'axios'
 import $ from 'jquery'
 
 export default {
   props: ['artid'],
   name: 'ArticleMain',
+  components: {Commentary, ReplyCommentary},
   data () {
     return {
       msg: '文章详情页',
@@ -106,7 +175,17 @@ export default {
       arttitle: '',
       // 热门文件
       hotarticle: [],
-      articleid: ''
+      articleid: '',
+      // 当前文章评论数
+      comment_num: '0',
+      // 当前文章的一级评论、二级评论
+      comments: {},
+      // 发表评论组件
+      isUpCommentary: false,
+      // 回复评论组件
+      isReplyCommentary: false,
+      // 是否显示登录提示
+      isTipLogin: false
     }
   },
   created: function () {
@@ -117,8 +196,22 @@ export default {
     this.getDate()
     this.getuserart()
     this.gethotart()
+    this.getComments()
   },
   methods: {
+    // 获取所有评论
+    getComments () {
+      let vm = this
+      axios.get(this.Global.HOST + 'article/getComment/' + this.articleid + '/')
+        .then(function (response) {
+          vm.comment_num = response.data.comments.length
+          vm.comments = response.data.comments
+          console.log(vm.Global.IMG)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
     // 获取数据
     getDate: function () {
       let vm = this
@@ -142,16 +235,6 @@ export default {
           console.log(error)
         })
     },
-    gethotart: function () {
-      let vm = this
-      axios.get('http://localhost:8000/article/hotArticle/')
-        .then(function (response) {
-          vm.hotarticle = response.data.articles
-        })
-        .catch(function (error) {
-          console.log(error)
-        })
-    },
     changeHotId: function (e) {
       let aid = $(e.target).parents('.hot-course').attr('id')
       if (aid) {
@@ -164,6 +247,42 @@ export default {
       if (bid) {
         this.articleid = bid
         this.getDate()
+      }
+    },
+    gethotart: function () {
+      let vm = this
+      axios.get('http://localhost:8000/article/hotArticle/')
+        .then(function (response) {
+          vm.hotarticle = response.data.articles
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
+    // 获取当前用户头像
+    // 发表评论需要用户登录，未登录时用一个默认头像。
+
+    // 点击发表评论
+    toComment: function () {
+      let usertel = window.sessionStorage.getItem('usertel')
+      if (usertel) {
+        // 用户已经登录
+        this.isUpCommentary = true
+      } else {
+        // 用户未登录
+        this.isTipLogin = true
+      }
+    },
+    // 点击回复
+    toReplay: function () {
+      // 获取当前用户电话号码
+      let usertel = window.sessionStorage.getItem('usertel')
+      if (usertel) {
+        // 用户已经登录
+        this.isReplyCommentary = true
+      } else {
+        // 用户未登录
+        this.isTipLogin = true
       }
     }
   },
@@ -180,6 +299,77 @@ export default {
 </script>
 
 <style scoped>
+  /*评论部分*/
+  .like{
+    display: inline-block;
+    width: 50px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 15px;
+    background: gray;
+    color: #ceced5 !important;
+  }
+  .upcom{
+    display: inline-block;
+    width: 50px;
+    height: 30px;
+    line-height: 30px;
+  }
+  .like:hover, .upcom:hover{
+    cursor: pointer;
+    color: black !important;
+  }
+  .b-comment  .comment-num {
+    font-size: 18px;
+    font-weight: 700;
+    color: black;
+  }
+  .com-content{
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 1px solid #ceced5;
+    margin: 20px 0;
+  }
+  .ucomment{
+    overflow: hidden;
+  }
+  .ucomment .uimg {
+    float: left;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+  }
+  .ucomment .uimg img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .com-content .uname{
+    float: left;
+    height: 50px;
+    line-height: 50px;
+    font-size: 1.1em;
+    font-weight: 700;
+  }
+
+  .ucontent{
+    clear: left;
+    padding-left: 50px;
+  }
+  .son{
+    padding-left: 50px;
+  }
+  /*评论部分*/
+
+  .line {
+    margin: 10px 0;
+    height: 1px;
+    background: #ceced5;
+  }
+
   a, a:hover {
     text-decoration: none;
   }
@@ -201,11 +391,46 @@ export default {
     margin: 20px auto;
   }
 
-  .article-content .article-container {
+  .article-content .article-container, .article-bottom {
     box-shadow: 0 2px 5px gray;
     margin-right: 20px;
     padding: 10px 20px;
     border-radius: 10px;
+  }
+
+  .article-bottom {
+    background: white;
+    margin-top: 30px;
+    line-height: 40px;
+    padding-left: 35px;
+    padding-right: 35px;
+
+  }
+
+  .article-bottom .sta {
+    display: inline-block;
+    width: 520px;
+    height: 50px;
+    line-height: 40px;
+    background: #e8e8ef;
+    border-radius: 10px;
+    color: gray;
+    font-size: 1.2em;
+    padding: 5px 30px;
+    margin-left: 20px;
+  }
+  .article-bottom .img {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: red;
+  }
+  .article-bottom .img img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
   }
 
   .bg-white {
@@ -221,7 +446,7 @@ export default {
     top: -3px;
   }
 
-  .article-content .introduce{
+  .article-content .introduce {
     margin-top: 20px;
     font-size: 1.3em;
   }
@@ -339,9 +564,11 @@ export default {
     margin-left: 10px;
     margin-bottom: 10px;
   }
-  .hot-course .course-degree{
+
+  .hot-course .course-degree {
     margin-left: 5px;
   }
+
   .hot-course a {
     display: inline-block;
     margin: 10px 0;

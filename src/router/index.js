@@ -20,6 +20,8 @@ import CareerDetail from '@/components/career/CareerDetail'
 import PersonalCenterContainer from '@/components/personalcenter/PersonalCenterContainer'
 // 个人设置模块组件
 import PersonalSettingContainer from '@/components/personalsetting/PersonalSettingContainer'
+// 导入节详情页视频组件
+import SectionDetail from '@/components/course/SectionDetail'
 
 Vue.use(Router)
 
@@ -69,6 +71,11 @@ export default new Router({
       path: '/setting',
       name: '/personalsettingcontainer',
       component: PersonalSettingContainer
+    },
+    {
+      path: '/sectiondetail',
+      name: 'sectiondetail',
+      component: SectionDetail
     }
   ]
 })

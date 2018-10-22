@@ -94,7 +94,7 @@ export default {
     // 获取数据
     getDate: function () {
       let vm = this
-      axios.get('http://localhost:8000/article/getArticle/' + vm.pageIndex + '/' + vm.condition + '/')
+      axios.get(vm.Global.HOST + 'article/getArticle/' + vm.pageIndex + '/' + vm.condition + '/')
         .then(function (response) {
           vm.list = response.data.articles
         })
@@ -105,7 +105,7 @@ export default {
     // 获取分页数和文章总数
     getPageSize: function () {
       let vm = this
-      axios.get('http://localhost:8000/article/acountArticle/' + vm.condition + '/')
+      axios.get(vm.Global.HOST + 'article/acountArticle/' + vm.condition + '/')
         .then(function (response) {
           vm.alllenght = response.data.acount
           vm.pagesize = Math.ceil(response.data.acount / 12)

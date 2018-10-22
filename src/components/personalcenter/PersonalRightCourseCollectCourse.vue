@@ -4,8 +4,8 @@
         <!--收藏课程-->
       <div class="row def-study" v-show="iscollectcourse" v-for="(collect,i) in collectcourse" :key="i" :id="collect.course_id">
           <div class="col-md-1 course-time">
-            <div class="study-year" v-text="collect.collecttime.toString().slice(0,4)"></div>
-            <div class="study-data" v-text="collect.collecttime.toString().slice(5,10)"></div>
+            <div class="study-year" v-text="collect.course_collecttime.toString().slice(0,4)"></div>
+            <div class="study-data" v-text="collect.course_collecttime.toString().slice(5,10)"></div>
           </div>
           <div class="col-md-11 pull-right study-course">
             <div class="row circle"></div>
@@ -25,7 +25,7 @@
                   <span>价格 : <span v-text="collect.course_price"></span></span>
                 </div>
                 <div class="row my-quest">
-                  <span>课程收藏数: <span v-text="collect.collectnum"></span></span>
+                  <span>课程收藏数: <span v-text="collect.coursenum"></span></span>
                 </div>
               </div>
             </div>
@@ -60,7 +60,7 @@ export default {
     getcollectcourse: function () {
       let vm = this
       vm.tel = window.sessionStorage.getItem('usertel')
-      axios.get('http://localhost:8000/course/getcollectcourse/' + vm.tel + '/')
+      axios.get('http://localhost:8000/course/getCollectCoursePersonal/' + vm.tel + '/')
         .then(function (response) {
           vm.collectcourse = response.data.collectcourse
         })
@@ -69,7 +69,7 @@ export default {
       let $courid = $(e.target).parents('.def-study').attr('id')
       console.log($courid)
       let vm = this
-      axios.get('http://localhost:8000/course/deletecollectcourse/' + $courid + '/')
+      axios.get('http://localhost:8000/course/deleteCollectCoursePersonal/' + $courid + '/')
         .then(function (response) {
           vm.collectcourse = response.data.code
           if (vm.collectcourse === '888') {

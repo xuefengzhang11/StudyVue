@@ -58,7 +58,7 @@ export default {
     // 获取数据
     getDate: function () {
       let vm = this
-      axios.get('http://localhost:8000/article/getArticleById/' + vm.as + '/')
+      axios.get(vm.Global.HOST + 'article/getArticleById/' + vm.as + '/')
         .then(function (response) {
           vm.article = response.data.article
           vm.user = response.data.user

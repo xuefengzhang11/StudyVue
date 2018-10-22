@@ -2,7 +2,7 @@
   <!--课程头部-->
   <div class="container-fluid course_header">
     <div class="container">
-      <div class="row">
+      <div class="row" >
         <div class="col-md-4">
           <span>
             <router-link class="r-link" to="/course/">课程</router-link>
@@ -32,7 +32,7 @@
           </span>
         </div>
         <div class="col-md-4"></div>
-        <div class="col-md-4 text-right">
+        <div class="col-md-4 text-right" :id="course.id">
           <img src="../../assets/icons/collect-de.svg" alt="" @click.stop.prevent="collectsection" v-show="flag">
           <img src="../../assets/icons/collect-su.svg" alt="" @click.stop.prevent="collectsection" v-show="!flag">
         </div>
@@ -62,66 +62,60 @@ export default {
   data () {
     return {
       msg: '课程详情页头部',
-      flag: true
+      flag: true,
+      course_id: ''
     }
   },
+  created: function () {
+    this.getCourseId()
+  },
   mounted: function () {
-    var courseid = sessionStorage.getItem('courseid')
-    this.collectjudge(courseid)
+    this.course_id = this.course_id
+    this.collectjudge()
   },
   methods: {
+    getCourseId: function () {
+      this.course_id = this.$route.params.courseid
+    },
     myFlush: function () {
       this.reload()
     },
-    collectsection: function (e) {
+    collectsection: function () {
+      let vm = this
       if (this.flag === true) {
-        let courid = sessionStorage.getItem('courseid')
-        console.log(courid)
-        let vm = this
         vm.tel = window.sessionStorage.getItem('usertel')
-        // console.log(vm.tel)
-        axios.get('http://localhost:8000/course/collectcourse/' + courid + '/' + vm.tel + '/')
+        axios.get('http://localhost:8000/course/insertCollectCourse/' + vm.course_id + '/' + vm.tel + '/')
           .then(function (response) {
             vm.collectcourse = response.data.code
             // console.log(response.data.code)
             if (vm.collectcourse === 888) {
               vm.flag = false
-            } else {
-              vm.flag = true
             }
+            vm.myFlush()
           })
       } else {
-        let courid = sessionStorage.getItem('courseid')
-        // alert(1)
-        // console.log(courid)
-        let vm = this
         vm.tel = window.sessionStorage.getItem('usertel')
         // console.log(vm.tel)
-        axios.get('http://localhost:8000/course/deteleCollectCourse/' + courid + '/' + vm.tel + '/')
+        axios.get('http://localhost:8000/course/deteleCollectCourse/' + vm.course_id + '/' + vm.tel + '/')
           .then(function (response) {
             vm.collectcourse = response.data.code
             // console.log(response.data.code)
             if (vm.collectcourse === 888) {
-              vm.flag = false
-            } else {
               vm.flag = true
             }
+            vm.myFlush()
           })
       }
     },
-    collectjudge: function (courseid) {
-      // let $courid = $(e.target).parents('.container').attr('id')
-      // console.log($courid)
+    collectjudge: function (e) {
       let vm = this
       vm.tel = window.sessionStorage.getItem('usertel')
-      console.log(vm.tel)
-      axios.get('http://localhost:8000/course/collectJudge/' + courseid + '/' + vm.tel + '/')
+      // console.log(vm.tel)
+      axios.get('http://localhost:8000/course/collectJudge/' + vm.course_id + '/' + vm.tel + '/')
         .then(function (response) {
           vm.collectcourse = response.data.code
           if (vm.collectcourse === 888) {
             vm.flag = false
-          } else {
-            vm.flag = true
           }
         })
     }

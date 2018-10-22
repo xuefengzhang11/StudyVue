@@ -21,23 +21,24 @@
         <div role="tabpanel" class="tab-pane def_login" id="login"  v-if="logorregister === 'login'">
           <div class="midd">
             <form action="" id="btns_login">
-              <p class="white"></p>
+              <!--登录失败时的提示信息-->
+              <p class="warn" v-text="loginError"></p>
               <div class="text">
-                <input type="text" id="tel_login" placeholder="请输入手机号或邮箱" class="btn_tel" v-model="tel_email">
-                <p class="warn" data-error-hide="请输入正确的邮箱或手机号"></p>
+                <input type="text" id="tel_login" @blur.prevent="showTip1" placeholder="请输入手机号或邮箱" class="btn_tel" v-model="tel_email">
+                <p class="warn" v-if="isTip1">请输入正确的邮箱或手机号</p>
               </div>
               <div class="pwd">
-                <input type="text" id="pwd_login" placeholder="请输入密码" class="btn_tel" v-model="pwd">
-                <p class="warn" data-error-hide="请输入6-16位密码，区分大小写，不能使用空格！"></p>
+                <input type="text" id="pwd_login" @blur.prevent="showTip2" placeholder="请输入密码" class="btn_tel" v-model="pwd">
+                <p class="warn" v-if="isTip2">请输入6-16位密码，区分大小写！</p>
               </div>
               <div class="yzm">
-                <input type="text" placeholder="请输入验证码" class="ver_code" v-model="valiimg">
-                <img src="../../assets/images/courses/timg.png" alt="" class="get_ver_yzm">
-                <p class="warn" data-error-hide="验证码不正确，请重新输入"></p>
+                <input type="text" placeholder="请输入验证码" @blur.prevent="showTip3" class="ver_code" v-model="userIptValidate">
+                <img @click="getValidate" :src="val_fname" alt="" class="get_ver_yzm">
+                <p class="warn" v-if="isTip3">验证码不正确，请重新输入</p>
               </div>
               <div class="auto">
                 <label for="auto_sign">
-                  <input type="checkbox" id="auto_sign">自动登录
+                  <input type="checkbox" id="auto_sign" checked>记住密码
                 </label>
                 <a href="#" class="forget">忘记密码？</a>
               </div>
@@ -82,9 +83,8 @@
 </template>
 
 <script>
-// import axios from 'axios'
-// import Qs from 'qs'
 import $ from 'jquery'
+import axios from 'axios'
 
 export default {
   props: [
@@ -94,62 +94,74 @@ export default {
   data () {
     return {
       msg: '登录注册',
-      url: 'http://localhost:8000/',
       // 用户电话
       tel: '',
       // 用户电话或邮箱
       tel_email: '14796686075',
       // 用户密码
       pwd: '123456',
-      // 用户确认密码
-      valiimg: '3n3D',
-      validate: '666666',
-      logorregister: ''
+      // 用户输入的验证码
+      userIptValidate: '',
+      // 服务器返回验证码图片名
+      val_fname: '',
+      // 服务器返回的验证码
+      validate: '',
+      logorregister: '',
+      loginError: '',
+      // 是否显示前端验证错误提示
+      isTip1: false,
+      isTip2: false,
+      isTip3: false
     }
   },
   created: function () {
     this.logorregister = this.nowstatus
   },
+  mounted: function () {
+    this.getValidate()
+  },
   watch: {
     nowstatus: function (now, before) {
       this.logorregister = this.nowstatus
-    },
-    logorregister: function (now, before) {
-
     }
   },
   methods: {
-    tologin: function () {
-      this.logorregister = 'login'
-    },
-    toregister: function () {
-      this.logorregister = 'register'
-    },
-    closeMyself: function () {
-      this.status = ''
-      this.$emit('on-close')
-    },
     // 登录提交数据
     login: function () {
-      let user = {
-        'tel_email': this.tel_email,
-        'pwd': this.pwd
-      }
-      let vm = this
-      $.ajax({
-        url: this.url + 'user/login/',
-        type: 'POST',
-        data: user,
-        success: function (response, textStatus, request) {
-          let res = response.res
-          if (res[0] === '登录成功') {
-            // 存储用户
-            window.sessionStorage.setItem('usertel', res[1])
-            vm.closeMyself()
-            vm.$emit('logrgstsuccessclick')
-          }
+      this.loginError = ''
+      // 登录提交之前先验证用户的输入
+      this.showTip1()
+      this.showTip2()
+      this.showTip3()
+      if (!this.isTip1 && !this.isTip2 && !this.isTip3) {
+        // 前端通过验证通过
+        let user = {
+          'tel_email': this.tel_email,
+          'pwd': this.pwd
         }
-      })
+        let vm = this
+        $.ajax({
+          url: vm.Global.HOST + 'user/login/',
+          type: 'POST',
+          data: user,
+          success: function (response, textStatus, request) {
+            if (response.res === '登录成功') {
+              // 存储用户
+              window.sessionStorage.setItem('usertel', response.tel_email)
+              // 存储token
+              window.sessionStorage.setItem('token', response.token)
+              console.log(response)
+              vm.closeMyself()
+              vm.$emit('logrgstsuccessclick')
+            } else {
+              // 登录失败，给出错误提示
+              vm.loginError = response.res
+            }
+          }
+        })
+      } else {
+
+      }
     },
     // 用户注册
     register: function () {
@@ -172,6 +184,63 @@ export default {
           }
         }
       })
+    },
+    // 获取验证码图片
+    getValidate: function () {
+      let vm = this
+      axios.get(this.Global.HOST + 'user/randomValidate/')
+        .then(function (response) {
+          vm.validate = response.data.validateIcon[0]
+          vm.val_fname = vm.Global.IMG + response.data.validateIcon[1]
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
+    // 判断登录验证码是否正确
+    showTip3: function () {
+      this.loginError = ''
+      if (this.userIptValidate.toString().toLowerCase() !== this.validate) {
+        this.isTip3 = true
+      } else {
+        this.isTip3 = false
+      }
+      return this.isTip3
+    },
+    // 判断用户输入的电话号或邮箱是否符合要求
+    showTip1: function () {
+      this.loginError = ''
+      let TelRegex = /^((13[0-9])|(14[5,7])|(15[0-3,5-9])|(17[0,3,5-8])|(18[0-9])|166|198|199|(147))\d{8}$/
+      let EmailRegex = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/
+      if (TelRegex.test(this.tel_email) || EmailRegex.test(this.tel_email)) {
+        this.isTip1 = false
+      } else {
+        this.isTip1 = true
+      }
+      return this.isTip1
+    },
+    // 判断密码是否符合要求
+    showTip2: function () {
+      this.loginError = ''
+      if (/\w{6,16}/.test(this.pwd)) {
+        this.isTip2 = false
+      } else {
+        this.isTip2 = true
+      }
+      return this.isTip2
+    },
+    // 切换未登录界面
+    tologin: function () {
+      this.logorregister = 'login'
+    },
+    // 切换未注册界面
+    toregister: function () {
+      this.logorregister = 'register'
+    },
+    // 关闭登录注册组件
+    closeMyself: function () {
+      this.status = ''
+      this.$emit('on-close')
     }
   }
 }
@@ -193,9 +262,10 @@ export default {
     width: 360px;
     height: 400px;
     background: white;
-    z-index: 99;
+    /*z-index: 99;*/
     position: fixed;
-    margin-top: 150px;
+    border-radius: 10px;
+    margin-top: 100px;
     margin-left: 500px;
   }
   .top {
@@ -312,6 +382,9 @@ export default {
     float: right;
     text-align: center;
   }
+  .warn{
+    color: red;
+  }
   .get_ver_yzm {
     width: 120px;
     height: 50px;
@@ -320,5 +393,8 @@ export default {
   }
   .active{
     background: #eee;
+  }
+  img:hover{
+    cursor: pointer;
   }
 </style>
