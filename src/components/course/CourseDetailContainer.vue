@@ -31,6 +31,7 @@ export default {
     // 得到路由跳转传来的参数（课程ID）
     getCourseId: function () {
       this.courseid = this.$route.params.courseid
+      window.sessionStorage.setItem('courid', this.courseid)
     },
     getCourseDetail: function () {
       // 通过课程Id获取课程详情
