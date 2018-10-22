@@ -21,15 +21,16 @@
       <div class="u-pwd">
         <span class="pwd-img"></span>
         <span class="tip">密码已设置</span>
-        <button>修改</button>
+        <button @click="updateUser">修改</button>
       </div>
     </div>
+    <UpdateUserPassword v-if="showUpdateUserPwd"></UpdateUserPassword>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-
+import UpdateUserPassword from './UpdateUserPassword'
 export default {
   name: 'PersonalSettingRightBind',
   data () {
@@ -37,7 +38,11 @@ export default {
       url: 'http://localhost:8000/',
       msg: '右侧账号绑定',
       usertel: '',
-      user: {}
+      user: {},
+      // 修改用户信息
+      showUpdateUserPwd: false,
+      updatedPwd: false,
+      hackResetPwd: true
     }
   },
   created: function () {
@@ -53,6 +58,29 @@ export default {
       .catch(function (error) {
         console.log(error)
       })
+  },
+  components: {
+    UpdateUserPassword
+  },
+  methods: {
+    // 弹出修改用户密码
+    toUserPassword: function () {
+      this.$emit('upwdclick')
+    },
+    // 显示修改用户信息组建
+    updateUser: function () {
+      this.showUpdateUserPwd = !this.showUpdateUserPwd
+    },
+    // 修改个人信息成功、刷新
+    updateSuccess: function () {
+      this.updateUser()
+      this.updatedPwd = true
+      // 强制刷新子组件
+      this.hackResetPwd = false
+      this.$nextTick(() => {
+        this.hackResetPwd = true
+      })
+    }
   }
 }
 </script>

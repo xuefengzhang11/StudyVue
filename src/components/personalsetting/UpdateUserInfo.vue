@@ -7,7 +7,7 @@
             <div class="col-md-1"></div>
             <div class="col-md-9">编辑个人信息</div>
             <div class="col-md-2" @click="userupdate">
-              <img src="../assets/icons/X.svg">
+              <img src="../../assets/icons/X.svg">
             </div>
           </div>
           <div class="information-name">
