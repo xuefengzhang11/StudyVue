@@ -33,7 +33,7 @@
           <!--推荐课程模板-->
           <div class="cour" v-for="c in hotCourses" :id="c.id" :key="c.id" @click.prevent.stop="toCourseDetail">
             <div class="course_img">
-              <img src="../../assets/images/courses/1.jpg" alt="">
+              <img :src="Global.IMG + c.imgurl" alt="">
             </div>
             <div style="border-bottom: 1px rgba(128,128,128,0.22) solid; width: 251.86px; height: 70px">
               <div class="course-name" v-text="c.name"></div>
@@ -58,7 +58,6 @@ export default {
   data () {
     return {
       msg: '课程详情主体',
-      url: 'http://localhost:8000/',
       courseid: '',
       hotCourses: {}
     }
@@ -66,7 +65,7 @@ export default {
   mounted: function () {
     // 获取热门课程
     let vm = this
-    axios.get(this.url + 'course/getHotCourse/')
+    axios.get(this.Global.HOST + 'course/getHotCourse/')
       .then(function (response) {
         vm.hotCourses = response.data.hotCourses
       })

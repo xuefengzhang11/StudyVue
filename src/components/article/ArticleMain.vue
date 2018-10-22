@@ -235,18 +235,6 @@ export default {
           console.log(error)
         })
     },
-    gethotart: function () {
-      let vm = this
-      axios.get('http://localhost:8000/article/hotArticle/')
-        .then(function (response) {
-          vm.hotarticle = response.data.articles
-        })
-        .catch(function (error) {
-          console.log(error)
-        })
-    },
-    // 获取当前用户头像
-    // 发表评论需要用户登录，未登录时用一个默认头像。
     changeHotId: function (e) {
       let aid = $(e.target).parents('.hot-course').attr('id')
       if (aid) {
@@ -261,6 +249,19 @@ export default {
         this.getDate()
       }
     },
+    gethotart: function () {
+      let vm = this
+      axios.get('http://localhost:8000/article/hotArticle/')
+        .then(function (response) {
+          vm.hotarticle = response.data.articles
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
+    // 获取当前用户头像
+    // 发表评论需要用户登录，未登录时用一个默认头像。
+
     // 点击发表评论
     toComment: function () {
       let usertel = window.sessionStorage.getItem('usertel')

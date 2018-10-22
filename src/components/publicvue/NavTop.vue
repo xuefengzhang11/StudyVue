@@ -33,34 +33,6 @@
                   <div class="shop-name col-md-6">买的课程名</div>
                   <div class="shop-price col-md-6">￥价格</div>
                 </div>
-                <div class="shop-course row">
-                  <div class="shop-dimg col-md-6">
-                    <img src="../../assets/images/courses/1.jpg" class="shop-img" />
-                  </div>
-                  <div class="shop-name col-md-6">买的课程名</div>
-                  <div class="shop-price col-md-6">￥价格</div>
-                </div>
-                <div class="shop-course row">
-                  <div class="shop-dimg col-md-6">
-                    <img src="../../assets/images/courses/1.jpg" class="shop-img" />
-                  </div>
-                  <div class="shop-name col-md-6">买的课程名</div>
-                  <div class="shop-price col-md-6">￥价格</div>
-                </div>
-                <div class="shop-course row">
-                  <div class="shop-dimg col-md-6">
-                    <img src="../../assets/images/courses/1.jpg" class="shop-img" />
-                  </div>
-                  <div class="shop-name col-md-6">买的课程名</div>
-                  <div class="shop-price col-md-6">￥价格</div>
-                </div>
-                <div class="shop-course row">
-                  <div class="shop-dimg col-md-6">
-                    <img src="../../assets/images/courses/1.jpg" class="shop-img" />
-                  </div>
-                  <div class="shop-name col-md-6">买的课程名</div>
-                  <div class="shop-price col-md-6">￥价格</div>
-                </div>
               </div>
               <div class="container-fluid">
                 <div class="row">
@@ -185,7 +157,7 @@ export default {
     // 通过用户电话号码获取用户信息
     getUser: function () {
       let vm = this
-      axios.get(this.url + 'user/getUser/' + this.usertel + '/')
+      axios.get(this.Global.HOST + 'user/getUser/' + this.usertel + '/')
         .then(function (response) {
           vm.user = response.data.user[0]
           vm.imgurl = 'http://pgu05jbff.bkt.clouddn.com/' + vm.user.icon__iconurl

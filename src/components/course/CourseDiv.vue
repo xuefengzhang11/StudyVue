@@ -8,7 +8,7 @@
       >
           <div class="content-video">
             <div class="course_img">
-              <img src="../../assets/images/courses/1.jpg" alt="">
+              <img :src="Global.IMG + c.imgurl" alt="">
             </div>
             <div class="course_info">
               <span class="info_name" v-text="c.name"></span>
@@ -31,7 +31,6 @@ export default {
   props: ['dire', 'cate', 'degr', 'con'],
   data () {
     return {
-      url: 'http://localhost:8000/',
       pageIndex: 1,
       all_courses: [],
       pagesize: 10,
@@ -46,7 +45,7 @@ export default {
     // 获取课程(多条件：方向、分类、难度、页码)
     getCourses: function () {
       let vm = this
-      axios.get(this.url + 'course/getCourses/' + this.dire + ',' + this.cate + ',' +
+      axios.get(this.Global.HOST + 'course/getCourses/' + this.dire + ',' + this.cate + ',' +
         this.degr + ',' + this.con + ',' + this.pageIndex + '/')
         .then(function (response) {
           vm.all_courses = response.data.courses
@@ -58,7 +57,7 @@ export default {
     // 获取课程总数（多条件）
     getCount: function () {
       let vm = this
-      axios.get(this.url + 'course/getCoursesCount/' + this.dire +
+      axios.get(this.Global.HOST + 'course/getCoursesCount/' + this.dire +
         ',' + this.cate + ',' + this.degr + ',' + this.con + '/')
         .then(function (response) {
           vm.alllength = response.data.alllength
@@ -91,10 +90,6 @@ export default {
     // 监听搜索条件的变化，发生变化时重新搜索课程
     $props: {
       handler: function (n, o) {
-        console.log('深度监听new')
-        console.log(n)
-        console.log('深度监听old')
-        console.log(o)
         this.setIndex()
         this.getCourses()
         this.getCount()

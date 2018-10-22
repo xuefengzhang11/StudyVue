@@ -97,6 +97,7 @@ module.exports = {
       jQuery: "jquery",
       upload: "qiniu",
       region: "qiniu",
+      tooltip: 'tooltip'
     })
   ],
 
