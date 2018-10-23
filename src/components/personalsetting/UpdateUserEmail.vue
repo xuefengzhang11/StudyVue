@@ -4,34 +4,23 @@
     <form action="" >
       <div class="row alter-text">
         <div class="col-md-1"></div>
-        <div class="col-md-9">修改密码</div>
-        <div class="col-md-2" @click="toupdatepwd">
+        <div class="col-md-9">绑定邮箱</div>
+        <div class="col-md-2" @click="toUpdateEmail">
           <img src="../../assets/icons/X.svg">
         </div>
       </div>
-      <div class="original-password">
-        <span class="original-text">请输入原密码：</span>
-        <input type="password" class="btn_tel" id="oldpwd" placeholder="输入原始密码" data-validate="require-password" v-model="uoldpwd">
-        <p class="warn" v-if="isTipPwd1">与原密码不符，请重新输入</p>
+      <div class="original-email">
+        <span class="original-text">邮箱地址：</span>
+        <input type="text" class="btn_tel" placeholder="请输入您的邮箱" v-model="uemail" @blur="showEmail">
+        <p class="warn" v-if="isTipEmail">邮箱格式错误！</p>
       </div>
-      <div class="original-password">
-        <span class="original-text">请输入新密码：</span>
-        <input type="password" class="btn_tel" id="pwd1" placeholder="输入新密码" @blur="showNewPwd" v-model="unewpwd">
-        <p class="warn" v-if="isTipPwd2">请输入6-16位密码，区分大小写，不能使用空格！</p>
-      </div>
-      <div class="original-password">
-        <span class="original-text">请确认新密码：</span>
-        <input type="password" class="btn_tel" id="pwd2" placeholder="再次输入新密码" @blur="showAgainNewPwd" v-model="uagainnewpwd">
-        <p class="warn" v-if="isTipPwd3">两次输入不同，请重新输入！</p>
-      </div>
-
       <div class="container-fluid bg-input">
         <div class="row">
           <div class="col-md-6 bg-confirm">
-            <input type="button" value="确认" class="confirm" @click="updateUserPwd">
+            <input type="button" value="确认" class="confirm" @click="updateUserEmail">
           </div>
           <div class="col-md-6">
-            <input type="button" value="取消" class="cancel" @click="toupdatepwd">
+            <input type="button" value="取消" class="cancel" @click="toUpdateEmail">
           </div>
         </div>
       </div>
@@ -45,17 +34,13 @@
 // import axios from 'axios'
 import $ from 'jquery'
 export default {
-  name: 'UpdateUserPassword',
+  name: 'UpdateUserEmail',
   data () {
     return {
       msg: '修改个人信息',
       url: 'http://localhost:8000/',
-      uoldpwd: '',
-      unewpwd: '',
-      uagainnewpwd: '',
-      isTipPwd1: false,
-      isTipPwd2: false,
-      isTipPwd3: false
+      uemail: '',
+      isTipEmail: false
     }
   },
   created () {
@@ -63,22 +48,20 @@ export default {
   },
   methods: {
     // 关闭模态框
-    toupdatepwd: function () {
-      this.$emit('updatepwdclick')
+    toUpdateEmail: function () {
+      this.$emit('updateemclick')
     },
     // 修改用户密码
-    updateUserPwd: function () {
-      this.showNewPwd()
-      this.showAgainNewPwd()
-      if (this.isTipPwd2 === false && this.isTipPwd3 === false) {
+    updateUserEmail: function () {
+      this.showEmail()
+      if (this.isTipEmail === false) {
         let user = {
           'usertel': this.usertel,
-          'oldpwd': this.uoldpwd,
-          'newpwd': this.unewpwd
+          'email': this.uemail
         }
         let vm = this
         $.ajax({
-          url: this.url + 'user/updatePwd/',
+          url: this.url + 'user/updateEmail/',
           type: 'POST',
           data: JSON.stringify(user),
           success: function (response, textStatus, request) {
@@ -86,35 +69,21 @@ export default {
             console.log(response.res)
             if (res === '修改成功') {
               vm.closeMyself()
-              vm.$emit('updateUserPwdclick')
-              vm.isTipPwd1 = false
-            } else if (res === '与原密码不符') {
-              vm.isTipPwd1 = true
-            } else {
-              vm.isTipPwd1 = false
+              vm.$emit('updateUserEmailclick')
             }
           }
         })
       }
     },
-    // 判断新密码格式
-    showNewPwd: function () {
-      let PwdRegex = /\w{6,16}/
-      if (PwdRegex.test(this.unewpwd)) {
-        this.isTipPwd2 = false
+    // 判断邮箱格式
+    showEmail: function () {
+      let EmRegex = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/
+      if (EmRegex.test(this.uemail)) {
+        this.isTipEmail = false
       } else {
-        this.isTipPwd2 = true
+        this.isTipEmail = true
       }
-      return this.isTipPwd2
-    },
-    // 判断重新输入的格式
-    showAgainNewPwd: function () {
-      if (this.unewpwd === this.uagainnewpwd) {
-        this.isTipPwd3 = false
-      } else {
-        this.isTipPwd3 = true
-      }
-      return this.isTipPwd3
+      return this.isTipEmail
     },
     closeMyself: function () {
       this.status = ''
@@ -151,9 +120,9 @@ export default {
     font-size: 1.4em;
     font-weight: bold;
   }
-  .original-password{
+  .original-email{
     height: 60px;
-    margin-top: 10px;
+    margin-top: 80px;
     margin-left: 60px;
   }
   .original-text{
@@ -168,12 +137,12 @@ export default {
     border-radius: 3px;
   }
   .warn{
-    margin-left: 50px;
+    margin-left: 100px;
     height: 30px;
     color: red;
   }
   .bg-input {
-    margin-top: 30px;
+    margin-top: 80px;
     margin-bottom: 20px;
   }
   .bg-confirm {
