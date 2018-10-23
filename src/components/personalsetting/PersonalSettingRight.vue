@@ -1,7 +1,7 @@
 <template>
   <div>
     <PersonalSettingRightBind v-show="nowRight==='userBind'"></PersonalSettingRightBind>
-    <PersonalSettingRightPInfo v-show="nowRight==='userInfo'"></PersonalSettingRightPInfo>
+    <PersonalSettingRightPInfo v-show="nowRight==='userInfo'" @uuclick="toUpdateUser" @click="toUpdateUser" ></PersonalSettingRightPInfo>
   </div>
 </template>
 
@@ -19,6 +19,12 @@ export default {
   components: {
     PersonalSettingRightBind,
     PersonalSettingRightPInfo
+  },
+  methods: {
+    toUpdateUser: function () {
+      console.log(34)
+      this.$emit('upuclick')
+    }
   }
 }
 </script>

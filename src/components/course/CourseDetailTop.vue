@@ -32,7 +32,7 @@
           </span>
         </div>
         <div class="col-md-4"></div>
-        <div class="col-md-4 text-right" :id="course.id">
+        <div class="col-md-4 text-right poin" :id="course.id">
           <img src="../../assets/icons/collect-de.svg" alt="" @click.stop.prevent="collectsection" v-show="flag">
           <img src="../../assets/icons/collect-su.svg" alt="" @click.stop.prevent="collectsection" v-show="!flag">
         </div>
@@ -70,7 +70,6 @@ export default {
     this.getCourseId()
   },
   mounted: function () {
-    // this.course_id = this.course_id
     this.collectjudge()
   },
   methods: {
@@ -110,7 +109,6 @@ export default {
     collectjudge: function (e) {
       let vm = this
       vm.tel = window.sessionStorage.getItem('usertel')
-      // console.log(vm.tel)
       axios.get('http://localhost:8000/course/collectJudge/' + vm.course_id + '/' + vm.tel + '/')
         .then(function (response) {
           vm.collectcourse = response.data.code
@@ -152,5 +150,7 @@ export default {
     color: black;
     cursor: pointer;
   }
-
+  .poin{
+    cursor: pointer;
+  }
 </style>
