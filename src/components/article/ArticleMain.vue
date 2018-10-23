@@ -15,7 +15,8 @@
                 </div>
                 <div class="col-md-6"></div>
                 <div class="col-md-3 text-right">
-                  <img src="../../assets/icons/like.svg" class="icon-like" alt="">
+                  <img src="../../assets/icons/like_before.svg" class="icon-like" alt="" v-if="!like_flag" @click="articlelike">
+                  <img src="../../assets/icons/like_after.svg" class="icon-like" alt="" v-else @click="articlelike">
                   <span class="like_num" v-text="article.like"></span>
                 </div>
               </div>
@@ -25,15 +26,15 @@
             </div>
             <!--左侧评论-->
             <div class="col-md-12 article-bottom">
-          <span class="img">
-            <img src="../../assets/images/users/user-icon.jpg" alt="">
-          </span>
+              <span class="img">
+                <img src="../../assets/images/users/user-icon.jpg" alt="">
+              </span>
               <span class="sta" @click="toComment">共同学习，写下你的评论</span>
               <div class="line"></div>
               <div class="b-comment">
                 <span class="comment-num">{{comment_num}}评论</span>
                 <!--没有评论时显示-->
-                <p class="no-comment" v-if="comment_num == '0'" v-text="'暂无评论'"></p>
+                <p class="no-comment" v-if="comment_num === '0'" v-text="'暂无评论'"></p>
                 <!--<div class="line"></div>-->
                 <div class="com-content" v-else>
                   <!--评论展示模板-->
@@ -46,7 +47,11 @@
                     <div class="uname" v-text="comm.user.name"></div>
                     <!--点赞和评论-->
                     <div class="like_upcom" style="float: right">
-                      <span class="like text-center">点赞</span>
+                      <span class="like text-center">
+                        <img src="../../assets/icons/like_before.svg" class="icon-like" alt="" v-if="!comm.like_flag" @click="commentlike">
+                        <img src="../../assets/icons/like_after.svg" class="icon-like" alt="" v-else @click="commentlike">
+                        <span class="like_num" v-text="comm.like"></span>
+                      </span>
                       <span class="upcom text-center" @click="toReplay">回复</span>
                     </div>
                     <!--评论内容-->
@@ -60,7 +65,9 @@
                       <div class="uname" v-text="reply.user.name"></div>
                       <!--点赞二级评论-->
                       <div class="like_upcom" style="float: right">
-                        <span class="like text-center">点赞</span>
+                        <img src="../../assets/icons/like_before.svg" class="icon-like" alt="" v-if="!reply.like_flag" @click="replylike">
+                        <img src="../../assets/icons/like_after.svg" class="icon-like" alt="" v-else @click="replylike">
+                        <span class="like_num" v-text="reply.like"></span>
                       </div>
                       <!--二级评论内容-->
                       <div class="ucontent" v-text="reply.content"></div>
@@ -141,9 +148,9 @@
       </div>
     </div>
     <!--发表评论组件-->
-    <Commentary v-show="isUpCommentary" @closeupcom="isUpCommentary=false"></Commentary>
+    <Commentary v-if="isUpCommentary" @closeupcom="isUpCommentary=false" :artid="articleid" @toParentCode="showCode"></Commentary>
     <!--回复评论组件-->
-    <ReplyCommentary v-show="isReplyCommentary" @closereplycom="isReplyCommentary=false"></ReplyCommentary>
+    <ReplyCommentary v-if="isReplyCommentary" @closereplycom="isReplyCommentary=false" :commid="comment_id" @toParentCode="showCode"></ReplyCommentary>
     <!--未登录提示组件-->
     <tiplogin v-show="isTipLogin" @sureclick="isTipLogin=false"></tiplogin>
   </div>
@@ -157,6 +164,7 @@ import $ from 'jquery'
 
 export default {
   props: ['artid'],
+  inject: ['reload'],
   name: 'ArticleMain',
   components: {Commentary, ReplyCommentary},
   data () {
@@ -185,7 +193,11 @@ export default {
       // 回复评论组件
       isReplyCommentary: false,
       // 是否显示登录提示
-      isTipLogin: false
+      isTipLogin: false,
+      // 点赞状态
+      like_flag: '',
+      // 评论id
+      comment_id: ''
     }
   },
   created: function () {
@@ -199,10 +211,17 @@ export default {
     this.getComments()
   },
   methods: {
+    myFlush: function () {
+      this.reload()
+    },
     // 获取所有评论
-    getComments () {
+    getComments: function () {
       let vm = this
-      axios.get(this.Global.HOST + 'article/getComment/' + this.articleid + '/')
+      vm.tel = window.sessionStorage.getItem('usertel')
+      if (!vm.tel) {
+        vm.tel = ''
+      }
+      axios.get(this.Global.HOST + 'article/getComment/' + this.articleid + '/' + vm.tel + '/')
         .then(function (response) {
           vm.comment_num = response.data.comments.length
           vm.comments = response.data.comments
@@ -214,10 +233,16 @@ export default {
     },
     // 获取数据
     getDate: function () {
+      this.tel = window.sessionStorage.getItem('usertel')
+      if (!this.tel) {
+        // 未登录时
+        this.tel = null
+      }
       let vm = this
-      axios.get('http://localhost:8000/article/getArticleById/' + vm.articleid + '/')
+      axios.get(this.Global.HOST + 'article/getArticleById/' + this.articleid + '/' + this.tel + '/')
         .then(function (response) {
           vm.article = response.data.article
+          vm.like_flag = vm.article.like_flag
           vm.user = response.data.user
         })
         .catch(function (error) {
@@ -274,15 +299,87 @@ export default {
       }
     },
     // 点击回复
-    toReplay: function () {
+    toReplay: function (e) {
       // 获取当前用户电话号码
       let usertel = window.sessionStorage.getItem('usertel')
       if (usertel) {
+        let $comid = $(e.target).parents('.ucomment').attr('id')
+        this.comment_id = $comid
         // 用户已经登录
         this.isReplyCommentary = true
       } else {
         // 用户未登录
         this.isTipLogin = true
+      }
+    },
+    // 文章点赞
+    articlelike: function () {
+      let vm = this
+      vm.tel = window.sessionStorage.getItem('usertel')
+      if (vm.tel) {
+        if (this.like_flag === false) {
+          axios.get('http://localhost:8000/article/insertArticleLike/' + vm.articleid + '/' + vm.tel + '/')
+            .then(function (response) {
+              vm.articlelike = response.data.code
+              if (vm.articlelike === 999) {
+                vm.like_flag = true
+              }
+              vm.myFlush()
+            })
+        } else {
+          axios.get('http://localhost:8000/article/deteleArticleLike/' + vm.articleid + '/' + vm.tel + '/')
+            .then(function (response) {
+              vm.articlelike = response.data.code
+              // console.log(response.data.code)
+              if (vm.articlelike === 999) {
+                vm.like_flag = false
+              }
+              vm.myFlush()
+            })
+        }
+      } else {
+        // 用户未登录
+        this.isTipLogin = true
+      }
+    },
+    // 评论点赞
+    commentlike: function (e) {
+      let $commid = $(e.target).parents('.ucomment').attr('id')
+      let vm = this
+      vm.tel = window.sessionStorage.getItem('usertel')
+      if (vm.tel) {
+        axios.get('http://localhost:8000/article/insertCommentLike/' + $commid + '/' + vm.tel + '/')
+          .then(function (response) {
+            vm.commentlike = response.data.code
+            vm.myFlush()
+          })
+      } else {
+        // 用户未登录
+        this.isTipLogin = true
+      }
+    },
+    // 评论回复点赞
+    replylike: function (e) {
+      let $replyid = $(e.target).parents('.son').attr('id')
+      let vm = this
+      vm.tel = window.sessionStorage.getItem('usertel')
+      if (vm.tel) {
+        axios.get('http://localhost:8000/article/insertReplyLike/' + $replyid + '/' + vm.tel + '/')
+          .then(function (response) {
+            vm.replylike = response.data.code
+            vm.myFlush()
+          })
+      } else {
+        // 用户未登录
+        this.isTipLogin = true
+      }
+    },
+    // 接受文章评论传过来的code
+    showCode: function (data) {
+      if (data === 'success') {
+        this.isUpCommentary = false
+        this.isReplyCommentary = false
+        this.myFlush()
       }
     }
   },
@@ -306,7 +403,6 @@ export default {
     height: 30px;
     line-height: 30px;
     border-radius: 15px;
-    background: gray;
     color: #ceced5 !important;
   }
   .upcom{
@@ -314,6 +410,7 @@ export default {
     width: 50px;
     height: 30px;
     line-height: 30px;
+    /*padding-top: 1px;*/
   }
   .like:hover, .upcom:hover{
     cursor: pointer;

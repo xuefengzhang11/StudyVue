@@ -83,7 +83,7 @@ export default {
           data: JSON.stringify(user),
           success: function (response, textStatus, request) {
             let res = response.res
-            console.log(response.res)
+            // console.log(response.res)
             if (res === '修改成功') {
               vm.closeMyself()
               vm.$emit('updateUserPwdclick')

@@ -20,7 +20,7 @@
       <div class="row">
         <div class="col-md-9"></div>
         <div class="col-md-3 text-center">
-          <button>提交</button>
+          <button @click="com_submit">提交</button>
         </div>
       </div>
     </div>
@@ -28,12 +28,41 @@
 </template>
 
 <script>
+import $ from 'jquery'
 export default {
+  props: ['commid'],
   name: 'ReplyCommentary',
   data () {
     return {
       msg: '回复评论',
-      comment_content: ''
+      comment_content: '',
+      commentid: this.commid
+    }
+  },
+  methods: {
+    // 添加评论回复内容
+    com_submit: function () {
+      let vm = this
+      vm.tel = window.sessionStorage.getItem('usertel')
+      if (vm.comment_content) {
+        let comment = {
+          'usertel': vm.tel,
+          'commentid': vm.commentid,
+          'comment_content': vm.comment_content
+        }
+        $.ajax({
+          url: vm.Global.HOST + 'article/insertCommentContent/',
+          type: 'POST',
+          data: JSON.stringify(comment),
+          success: function (response, textStatus, request) {
+            vm.res = response.code
+            vm.successcomment = vm.res
+            if (vm.res === 888) {
+              vm.$emit('toParentCode', 'success')
+            }
+          }
+        })
+      }
     }
   }
 }
