@@ -5,8 +5,14 @@
       <div class="row nav">
         <div class="col-md-5">
           <ul class="row nav-left">
-            <li class="return"><span class="col-md-1 ret"><img @click="go" src="../../assets/icons/return.svg" alt="a"></span></li>
-            <li><span class="col-md-11 cour" v-text="sect.name"></span></li>
+            <li class="return">
+              <span class="col-md-1 ret">
+                <img @click="go" src="../../assets/icons/return.svg" alt="a">
+              </span>
+            </li>
+            <li>
+              <span class="col-md-11 cour" v-text="sect.name"></span>
+            </li>
             <!--<li><span class="col-md-4"></span></li>-->
           </ul>
         </div>
@@ -350,10 +356,9 @@ export default {
     width: 900px;
     height: 440px;
     background: lightgrey;
-    margin: auto;
-    margin-top: 3px;
+    margin: 3px auto 0;
     position: relative;
-    z-index: 999;
+    /*z-index: 999;*/
   }
   .logo-in{
     width: 110px;

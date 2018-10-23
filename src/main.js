@@ -10,6 +10,7 @@ import NavBottom from './components/publicvue/NavBottom'
 import Paging from './components/publicvue/Paging'
 import LoginRegister from './components/publicvue/LoginRegister'
 import TipLogin from './components/publicvue/TipLogin'
+import Cart from './components/publicvue/Cart'
 
 // 导入第三方库
 // import $ from 'jquery'
@@ -31,6 +32,8 @@ Vue.component('paging', Paging)
 Vue.component('loginregister', LoginRegister)
 // 注册未登录提示组件
 Vue.component('tiplogin', TipLogin)
+// 注册购物车组件
+Vue.component('cart', Cart)
 
 /* eslint-disable no-new */
 new Vue({

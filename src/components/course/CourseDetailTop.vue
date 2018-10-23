@@ -70,7 +70,7 @@ export default {
     this.getCourseId()
   },
   mounted: function () {
-    this.course_id = this.course_id
+    // this.course_id = this.course_id
     this.collectjudge()
   },
   methods: {

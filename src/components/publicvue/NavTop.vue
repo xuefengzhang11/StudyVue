@@ -1,129 +1,133 @@
 <template>
-    <div class="container-fluid header bg-header">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-2 text-right">
-            <div class="logo">
-              <span><em class="h2"><router-link style="color: black;" class="r-link" to="/">思达迪</router-link></em></span>
-              <span><router-link to="/"><img src="../../assets/icons/logo.svg"></router-link></span>
+    <div>
+      <div class="container-fluid header bg-header">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-2 text-right">
+              <div class="logo">
+                <span><em class="h2"><router-link style="color: black;" class="r-link" to="/">思达迪</router-link></em></span>
+                <span><router-link to="/"><img src="../../assets/icons/logo.svg"></router-link></span>
+              </div>
             </div>
-          </div>
-          <div class="col-md-5 header-nav ">
-            <!--<router-link to="/">Home</router-link>-->
-            <span class="nav-btn"><router-link class="r-link" to="/course">免费课程</router-link></span>
-            <span class="nav-btn"><router-link class="r-link" to="/career">职业路径</router-link></span>
-            <span class="nav-btn"><router-link class="r-link" to="/article">手记</router-link></span>
-            <span class="nav-btn">猿问</span>
-            <span class="nav-btn">找工作</span>
-          </div>
-          <!--购物车-->
-          <div class="col-md-4 text-right">
-            <button class="btn-cart" @mouseover.prevent.stop="enterShop" @mouseout.prevent.stop="leaveShop">
-              <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> 购物车
-            </button>
-            <!--购物车悬浮-->
-            <div class="shopcart" v-show="shopHover"
-                 @mouseenter.prevent.stop="enterShop" @mouseleave.prevent.stop="leaveshops">
-              <div class="shopcart-text">我的购物车</div>
-              <div class="shop-content container-fluid">
-                <div class="shop-course row">
-                  <div class="shop-dimg col-md-6">
-                    <img src="../../assets/images/courses/1.jpg" class="shop-img" />
+            <div class="col-md-5 header-nav ">
+              <!--<router-link to="/">Home</router-link>-->
+              <span class="nav-btn"><router-link class="r-link" to="/course">免费课程</router-link></span>
+              <span class="nav-btn"><router-link class="r-link" to="/career">职业路径</router-link></span>
+              <span class="nav-btn"><router-link class="r-link" to="/article">手记</router-link></span>
+              <span class="nav-btn">猿问</span>
+              <span class="nav-btn">找工作</span>
+            </div>
+            <!--购物车-->
+            <div class="col-md-4 text-right">
+              <button class="btn-cart" @click="toMyCart" @mouseover.prevent.stop="enterShop" @mouseout.prevent.stop="leaveShop">
+                <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> 购物车
+              </button>
+              <!--购物车悬浮-->
+              <div class="shopcart" v-show="shopHover"
+                   @mouseenter.prevent.stop="enterShop" @mouseleave.prevent.stop="leaveshops">
+                <div class="shopcart-text">我的购物车</div>
+                <div class="shop-content container-fluid">
+                  <div class="shop-course row">
+                    <div class="shop-dimg col-md-6">
+                      <img src="../../assets/images/courses/1.jpg" class="shop-img" />
+                    </div>
+                    <div class="shop-name col-md-6">买的课程名</div>
+                    <div class="shop-price col-md-6">￥价格</div>
                   </div>
-                  <div class="shop-name col-md-6">买的课程名</div>
-                  <div class="shop-price col-md-6">￥价格</div>
                 </div>
-              </div>
-              <div class="container-fluid">
-                <div class="row">
-                  <div class="col-md-6 shop-center">我的订单中心</div>
-                  <div class="col-md-6 shop-car">去购物车</div>
+                <div class="container-fluid">
+                  <div class="row">
+                    <div class="col-md-6 shop-center">我的订单中心</div>
+                    <div class="col-md-6 shop-car">去购物车</div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <!--登录注册链接-->
-          <div v-if="!islogin" class="col-md-1 login-rgst">
-            <span class="nav-btn" @click.prevent.stop="toLoginRegister">登录</span> /
-            <span class="nav-btn" @click.prevent.stop="toLoginRegister">注册</span>
-          </div>
-          <!--登录成功后的用户头像-->
-          <div v-else class="col-md-1 user-img">
+            <!--登录注册链接-->
+            <div v-if="!islogin" class="col-md-1 login-rgst">
+              <span class="nav-btn" @click.prevent.stop="toLoginRegister">登录</span> /
+              <span class="nav-btn" @click.prevent.stop="toLoginRegister">注册</span>
+            </div>
+            <!--登录成功后的用户头像-->
+            <div v-else class="col-md-1 user-img">
             <span>
               <img :src="imgurl" alt="" class="user-top-img" @click="toPerson"
                    @mouseenter.prevent.stop="enterUser" @mouseleave.prevent.stop="leaveUser"
               >
             </span>
-            <div class="person" v-show="isHover"
-                 @mouseenter.prevent.stop="enterUser" @mouseleave.prevent.stop="leavesUser"
-            >
-              <!--用户头像悬浮-->
-              <div class="container user">
-                <div class="row user-top">
-                  <div class="row">
-                    <div class="user-icon-box">
-                      <div class="col-md-4">
-                        <img @click="toPerson" :src="imgurl" alt="" class="user-icon"
-                        >
-                      </div>
-                      <div class="col-md-4">
-                        <div class="row user-name" v-text="user.name"></div>
-                        <div class="row user-expen">
-                          {{user.job__name}}&nbsp;&nbsp;&nbsp;&nbsp;{{user.gender__name}}
+              <div class="person" v-show="isHover"
+                   @mouseenter.prevent.stop="enterUser" @mouseleave.prevent.stop="leavesUser"
+              >
+                <!--用户头像悬浮-->
+                <div class="container user">
+                  <div class="row user-top">
+                    <div class="row">
+                      <div class="user-icon-box">
+                        <div class="col-md-4">
+                          <img @click="toPerson" :src="imgurl" alt="" class="user-icon"
+                          >
                         </div>
+                        <div class="col-md-4">
+                          <div class="row user-name" v-text="user.name"></div>
+                          <div class="row user-expen">
+                            {{user.job__name}}&nbsp;&nbsp;&nbsp;&nbsp;{{user.gender__name}}
+                          </div>
+                        </div>
+                        <div class="col-md-4"></div>
                       </div>
-                      <div class="col-md-4"></div>
                     </div>
-                  </div>
-                  <div class="row user-item">
-                    <div class="col-md-12">
-                      <div class="row">
+                    <div class="row user-item">
+                      <div class="col-md-12">
+                        <div class="row">
                       <span class="col-md-6 my-user" @click.prevent.stop="toPerson">
                         <img src="../../assets/icons/my-course.svg" alt="">&nbsp;&nbsp;我的课程
                       </span>
-                        <span class="col-md-6 my-user" @click.prevent.stop="toPersonArticle">
+                          <span class="col-md-6 my-user" @click.prevent.stop="toPersonArticle">
                         <img src="../../assets/icons/article-logo.svg" alt="">&nbsp;&nbsp;我的文章
                       </span>
+                        </div>
                       </div>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="row">
+                      <div class="col-md-12">
+                        <div class="row">
                       <span class="col-md-6 my-user" @click.prevent.stop="toPersonOrder">
                         <img src="../../assets/icons/my-write-article.svg" alt="">&nbsp;&nbsp;订单中心
                       </span>
-                        <span class="col-md-6 my-user" @click.prevent.stop="toPersonalSetting">
+                          <span class="col-md-6 my-user" @click.prevent.stop="toPersonalSetting">
                         <img src="../../assets/icons/my-person-set.svg" alt="">&nbsp;&nbsp;个人设置
                       </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row my-white"></div>
+                    <div class="row">
+                      <div class="col-md-1 my-time">
+                        <img src="../../assets/icons/my-time.svg" alt="">
+                      </div>
+                      <div class="col-md-6">
+                        <div class="row my-course-name">
+                          课程名称aaaa
+                        </div>
+                        <div class="row my-chapter-name">
+                          课程章名称aaaa
+                        </div>
+                      </div>
+                      <div class="col-md-2"></div>
+                      <div class="col-md-3 continue">
+                        继续
                       </div>
                     </div>
                   </div>
-                  <div class="row my-white"></div>
-                  <div class="row">
-                    <div class="col-md-1 my-time">
-                      <img src="../../assets/icons/my-time.svg" alt="">
-                    </div>
-                    <div class="col-md-6">
-                      <div class="row my-course-name">
-                        课程名称aaaa
-                      </div>
-                      <div class="row my-chapter-name">
-                        课程章名称aaaa
-                      </div>
-                    </div>
-                    <div class="col-md-2"></div>
-                    <div class="col-md-3 continue">
-                      继续
-                    </div>
+                  <div class="row my-cancel" @click="logout">
+                    安全退出
                   </div>
-                </div>
-                <div class="row my-cancel" @click="logout">
-                  安全退出
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <!--未登录提示框-->
+      <tiplogin v-if="isTipLogin" @sureclick="isTipLogin=false"></tiplogin>
     </div>
 </template>
 
@@ -136,9 +140,9 @@ export default {
   props: ['nowstatus', 'islogin'],
   data () {
     return {
-      url: 'http://localhost:8000/',
       // 悬浮状态
       isHover: false,
+      isTipLogin: false,
       shopHover: false,
       exist: false,
       person_exist: false,
@@ -160,7 +164,7 @@ export default {
       axios.get(this.Global.HOST + 'user/getUser/' + this.usertel + '/')
         .then(function (response) {
           vm.user = response.data.user[0]
-          vm.imgurl = 'http://pgu05jbff.bkt.clouddn.com/' + vm.user.icon__iconurl
+          vm.imgurl = vm.Global.IMG + vm.user.icon__iconurl
         })
         .catch(function (error) {
           console.log(error)
@@ -255,6 +259,17 @@ export default {
       this.$router.push({
         path: '/setting'
       })
+    },
+    // 前往购物车
+    toMyCart: function () {
+      let usertel = window.sessionStorage.getItem('usertel')
+      if (usertel) {
+        this.$router.push({
+          path: '/cart'
+        })
+      } else {
+        this.isTipLogin = true
+      }
     }
   }
 }

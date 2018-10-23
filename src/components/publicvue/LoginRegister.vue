@@ -25,16 +25,16 @@
               <p class="warn" v-text="loginError"></p>
               <div class="text">
                 <input type="text" id="tel_login" @blur.prevent="showTip1" placeholder="请输入手机号或邮箱" class="btn_tel" v-model="tel_email">
-                <p class="warn" v-if="isTip1">请输入正确的邮箱或手机号</p>
+                <p class="warn" v-show="isTip1">请输入正确的邮箱或手机号</p>
               </div>
               <div class="pwd">
                 <input type="text" id="pwd_login" @blur.prevent="showTip2" placeholder="请输入密码" class="btn_tel" v-model="pwd">
-                <p class="warn" v-if="isTip2">请输入6-16位密码，区分大小写！</p>
+                <p class="warn" v-show="isTip2">请输入6-16位密码，区分大小写！</p>
               </div>
               <div class="yzm">
                 <input type="text" placeholder="请输入验证码" @blur.prevent="showTip3" class="ver_code" v-model="userIptValidate">
                 <img @click="getValidate" :src="val_fname" alt="" class="get_ver_yzm">
-                <p class="warn" v-if="isTip3">验证码不正确，请重新输入</p>
+                <p class="warn" v-show="isTip3">验证码不正确，请重新输入</p>
               </div>
               <div class="auto">
                 <label for="auto_sign">
@@ -52,27 +52,27 @@
         <div role="tabpanel" class="tab-pane def_register" id="register" v-if="logorregister === 'register'">
           <div class="midd">
             <form action="" id="btns_register">
-              <p class="white"></p>
+              <p class="white" v-text="registerError"></p>
               <div class="text">
-                <input type="text" placeholder="请输入手机号" class="btn_tel" v-model="tel">
-                <p class="warn" data-error-hide="请输入正确的邮箱或手机号"></p>
+                <input type="text" placeholder="请输入手机号" @blur="showTip4" class="btn_tel" v-model="user_tel">
+                <p class="warn" v-show="isTip4">请输入正确的手机号</p>
               </div>
               <div class="pwd">
-                <input type="text" placeholder="请输入密码" class="btn_tel" v-model="tel">
-                <p class="warn" data-error-hide="输入密码不符合要求"></p>
+                <input type="text" placeholder="请输入密码" @blur="showTip5" class="btn_tel" v-model="user_pwd">
+                <p class="warn" v-show="isTip5">请输入6-16位密码，区分大小写！</p>
               </div>
               <div class="pwd">
-                <input type="text" placeholder="请输入验证码" class="ver_code" v-model="validate">
-                <button type="button" class="get_ver">获取验证码</button>
-                <p class="warn" data-error-hide="验证码不正确，请重新输入"></p>
+                <input type="text" placeholder="请输入验证码" @blur="showTip6" class="ver_code" v-model="user_validate">
+                <button type="button" class="get_ver" @click="sendValidate">获取验证码</button>
+                <p class="warn" v-show="isTip6">请输入验证码</p>
               </div>
               <div class="auto">
                 <label for="auto_sign">
-                  <input type="checkbox" id="degree">我已同意思达迪协议
+                  <input type="checkbox" id="degree" checked>我已同意思达迪协议
                 </label>
               </div>
               <div class="btn">
-                <input type="button" value="注册" class="log_reg">
+                <input type="button" @click.prevent.stop="register" value="注册" class="log_reg">
               </div>
             </form>
           </div>
@@ -94,30 +94,46 @@ export default {
   data () {
     return {
       msg: '登录注册',
-      // 用户电话
-      tel: '',
-      // 用户电话或邮箱
-      tel_email: '14796686075',
-      // 用户密码
-      pwd: '123456',
+      logorregister: '',
+      // -----登录部分data-----
+      // 用户输入的电话或邮箱
+      tel_email: '',
+      // 用户输入的密码
+      pwd: '',
       // 用户输入的验证码
       userIptValidate: '',
       // 服务器返回验证码图片名
       val_fname: '',
       // 服务器返回的验证码
       validate: '',
-      logorregister: '',
+      // 登录提示信息
       loginError: '',
       // 是否显示前端验证错误提示
       isTip1: false,
       isTip2: false,
-      isTip3: false
+      isTip3: false,
+      // -----注册部分data-----
+      // 注册失败提示信息
+      registerError: '',
+      // 是否显示前端验证错误提示
+      isTip4: false,
+      isTip5: false,
+      isTip6: false,
+      // 用户输入的电话
+      user_tel: '',
+      // 用户输入的密码
+      user_pwd: '',
+      // 用户输入的验证码
+      user_validate: '',
+      // 可以获取验证码的间隔时间，秒
+      seconds: 5
     }
   },
   created: function () {
     this.logorregister = this.nowstatus
   },
   mounted: function () {
+    // 首次加载登录验证码图片
     this.getValidate()
   },
   watch: {
@@ -150,7 +166,6 @@ export default {
               window.sessionStorage.setItem('usertel', response.tel_email)
               // 存储token
               window.sessionStorage.setItem('token', response.token)
-              console.log(response)
               vm.closeMyself()
               vm.$emit('logrgstsuccessclick')
             } else {
@@ -159,31 +174,66 @@ export default {
             }
           }
         })
-      } else {
-
       }
     },
-    // 用户注册
-    register: function () {
+    // 点击获取验证码
+    sendValidate: function (e) {
+      // 更换按钮状态
+      $(e.target).css('background', 'gray').attr('disabled', true)
+      // 每一秒钟执行一次
+      let timer = window.setInterval(() => {
+        $(e.target).text(--this.seconds + '秒后获取')
+        if (this.seconds < 1) {
+          // 清除定时器
+          window.clearInterval(timer)
+          // 恢复原始状态
+          $(e.target).css('background', 'white').attr('disabled', false).text('获取验证码')
+          // 秒数重新变为60
+          this.seconds = 5
+        }
+      }, 1000)
+      // 发送ajax，后台调用接口发送验证码给用户
       let user = {
-        'tel_email': this.tel_email,
-        'pwd': this.pwd,
-        'validate': this.validate
+        'user_tel': this.user_tel
       }
       let vm = this
       $.ajax({
-        url: this.url + 'user/register/',
+        url: this.Global.HOST + 'user/sendValidate/',
         type: 'POST',
         data: user,
         success: function (response, textStatus, request) {
-          let res = response.res
-          console.log(res)
-          if (res === '注册成功') {
-            vm.closeMyself()
-            vm.$emit('logrgstsuccessclick')
-          }
+          console.log(response.msg)
+          vm.registerError = response.msg
         }
       })
+    },
+    // 用户注册
+    register: function () {
+      if (!this.isTip4 && !this.isTip5 && !this.isTip6) {
+        let user = {
+          'tel': this.user_tel,
+          'pwd': this.user_pwd
+        }
+        let vm = this
+        $.ajax({
+          url: this.Global.HOST + 'user/register/',
+          type: 'POST',
+          data: user,
+          success: function (response, textStatus, request) {
+            if (response.res === '注册成功') {
+              // 存储用户
+              window.sessionStorage.setItem('usertel', vm.user_tel)
+              // 存储token
+              window.sessionStorage.setItem('token', response.token)
+              vm.closeMyself()
+              vm.$emit('logrgstsuccessclick')
+            } else {
+              // 注册失败
+              vm.registerError = response.res
+            }
+          }
+        })
+      }
     },
     // 获取验证码图片
     getValidate: function () {
@@ -197,17 +247,7 @@ export default {
           console.log(error)
         })
     },
-    // 判断登录验证码是否正确
-    showTip3: function () {
-      this.loginError = ''
-      if (this.userIptValidate.toString().toLowerCase() !== this.validate) {
-        this.isTip3 = true
-      } else {
-        this.isTip3 = false
-      }
-      return this.isTip3
-    },
-    // 判断用户输入的电话号或邮箱是否符合要求
+    // 判断用户登录时输入的电话号或邮箱是否符合要求
     showTip1: function () {
       this.loginError = ''
       let TelRegex = /^((13[0-9])|(14[5,7])|(15[0-3,5-9])|(17[0,3,5-8])|(18[0-9])|166|198|199|(147))\d{8}$/
@@ -219,7 +259,7 @@ export default {
       }
       return this.isTip1
     },
-    // 判断密码是否符合要求
+    // 判断用户登录时输入的密码是否符合要求
     showTip2: function () {
       this.loginError = ''
       if (/\w{6,16}/.test(this.pwd)) {
@@ -228,6 +268,47 @@ export default {
         this.isTip2 = true
       }
       return this.isTip2
+    },
+    // 判断登录验证码是否正确
+    showTip3: function () {
+      this.loginError = ''
+      if (this.userIptValidate.toString().toLowerCase() !== this.validate) {
+        this.isTip3 = true
+      } else {
+        this.isTip3 = false
+      }
+      return this.isTip3
+    },
+    // 判断用户注册时输入的电话号是否符合要求
+    showTip4: function () {
+      this.registerError = ''
+      let TelRegex = /^((13[0-9])|(14[5,7])|(15[0-3,5-9])|(17[0,3,5-8])|(18[0-9])|166|198|199|(147))\d{8}$/
+      if (TelRegex.test(this.user_tel)) {
+        this.isTip4 = false
+      } else {
+        this.isTip4 = true
+      }
+      return this.isTip4
+    },
+    // 判断用户注册时输入的密码是否符合要求
+    showTip5: function () {
+      this.registerError = ''
+      if (/\w{6,16}/.test(this.user_pwd)) {
+        this.isTip5 = false
+      } else {
+        this.isTip5 = true
+      }
+      return this.isTip2
+    },
+    // 判断用户是否输入验证码
+    showTip6: function () {
+      this.registerError = ''
+      if (this.user_validate) {
+        this.isTip6 = false
+      } else {
+        this.isTip6 = true
+      }
+      return this.isTip6
     },
     // 切换未登录界面
     tologin: function () {
