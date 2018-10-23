@@ -22,7 +22,7 @@
           <div class="row course center-block">
             <!-- 第一列 课程图片 -->
             <div class="col-md-2 course-img">
-              <img src="../../assets/images/courses/1.jpg" alt="">
+              <img :src="Global.IMG+cour.imgurl" alt="">
             </div>
             <div class="col-md-10">
               <!--第一行,放章节-->
@@ -47,7 +47,7 @@
                   <span class="u_icon" v-text="cour.learn"></span>
                 </div>
                 <div class="col-md-1"></div>
-                <div class="col-md-3 text-right"><span>加入购物车</span></div>
+                <div class="col-md-3 text-right"><span @click="joinCart">加入购物车</span></div>
                 <div class="col-md-2 text-center" >
                   <span class="much" @click="toCourseDetail">更多&nbsp;&nbsp;&nbsp;</span>
                 </div>
@@ -60,15 +60,24 @@
       <div class="career-finish">
         <span class="icon-finish">&nbsp;</span>
         <span class="tip">完成路径学习</span>
-        <p class="career-plan-finish">{{career.careers.finish}}</p>
+        <p class="career-plan-finish" v-text="cfinish"></p>
       </div>
     </div>
+
+    <!--未购买提示框-->
+    <NotBuy v-show="showNotBuy" @sureclick="showNotBuy=false"></NotBuy>
+    <!--未登录提示-->
+    <tiplogin v-show="isTipLogin" @sureclick="isTipLogin=false"></tiplogin>
+    <!--加入购物车反馈信息-->
+    <JoinCartMsg v-show="addCartBack" :joincartmsg="joincartmsg" @sureclick="addCartBack=false"></JoinCartMsg>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import $ from 'jquery'
+import NotBuy from './NotBuy'
+import JoinCartMsg from './JoinCartMsg'
 
 export default {
   name: 'CareerDetail',
@@ -79,28 +88,34 @@ export default {
       career: [],
       more: '',
       sectnum: '',
-      flag: false
+      flag: false,
+      cfinish: '',
+      showNotBuy: false,
+      isTipLogin: false,
+      // 添加购物车反馈信息
+      addCartBack: false,
+      joincartmsg: '添加成功'
     }
   },
+  components: {NotBuy, JoinCartMsg},
   mounted: function () {
     this.getData()
   },
   created: function () {
     this.getCareerId()
+    if (!this.careerid) {
+      this.careerid = sessionStorage.getItem('tempid')
+    }
   },
   methods: {
     // 得到数据
     getData: function () {
       let vm = this
-      // 解决返回错误（不成功）
       window.sessionStorage.setItem('tempid', this.careerid)
-      if (!this.careerid) {
-        vm.careerid = sessionStorage.getItem('tempid')
-      }
-      axios.get('http://localhost:8000/career/getcareerdetail/' + vm.careerid + '/')
+      axios.get(this.Global.HOST + 'career/getcareerdetail/' + this.careerid + '/')
         .then(function (response) {
           vm.career = response.data.careers
-          console.log(response)
+          vm.cfinish = vm.career.careers.finish
         })
         .catch(function (error) {
           console.log(error)
@@ -111,14 +126,53 @@ export default {
       let cid = this.$route.params.careerid
       this.careerid = cid
     },
-    // 跳转到课程详情页
+    // 跳转到课程详情页(首先看是否购买)
     toCourseDetail: function (e) {
       let $courid = $(e.target).parents('.course-container').attr('id')
-      console.log($courid)
-      if ($courid) {
-        this.$router.push({
-          path: 'coursedetail/' + $courid
-        })
+      let usertel = window.sessionStorage.getItem('usertel')
+      if (!usertel) {
+        // 提示未登录
+        this.isTipLogin = true
+      } else {
+        // 发送ajax 判断用户是否购买
+        let vm = this
+        axios.get(this.Global.HOST + 'order/isBuy/' + $courid + '/' + usertel + '/')
+          .then(function (response) {
+            if (response.data.res === '已购买') {
+              vm.$router.push({
+                path: 'coursedetail/' + $courid
+              })
+            } else {
+              // 未购买
+              vm.showNotBuy = true
+            }
+          })
+          .catch(function (error) {
+            console.log(error)
+          })
+      }
+      //
+    },
+    // 加入购物车
+    joinCart: function (e) {
+      // 获取当前课程id
+      let $courid = $(e.target).parents('.course-container').attr('id')
+      let usertel = window.sessionStorage.getItem('usertel')
+      if (!usertel) {
+        // 提示未登录
+        this.isTipLogin = true
+      } else {
+        // 加入购物车
+        let vm = this
+        axios.get(this.Global.HOST + 'order/joinCart/' + $courid + '/' + usertel + '/')
+          .then(function (response) {
+            vm.joincartmsg = response.data.res
+            // 弹出反馈信息
+            vm.addCartBack = true
+          })
+          .catch(function (error) {
+            console.log(error)
+          })
       }
     }
   },

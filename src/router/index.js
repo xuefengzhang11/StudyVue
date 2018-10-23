@@ -7,6 +7,7 @@ import StudyHome from '@/components/homepagevue/StudyHome'
 // 课程模块组件
 import CourseSearch from '@/components/course/CourseSearch'
 import CourseDetailContainer from '@/components/course/CourseDetailContainer'
+import SectionDetail from '@/components/course/SectionDetail'
 
 // 文章模块组件
 import ArticleHome from '@/components/article/ArticleHome'
@@ -20,8 +21,8 @@ import CareerDetail from '@/components/career/CareerDetail'
 import PersonalCenterContainer from '@/components/personalcenter/PersonalCenterContainer'
 // 个人设置模块组件
 import PersonalSettingContainer from '@/components/personalsetting/PersonalSettingContainer'
-// 导入节详情页视频组件
-import SectionDetail from '@/components/course/SectionDetail'
+// 购物车组件
+import Cart from '@/components/publicvue/Cart'
 
 Vue.use(Router)
 
@@ -76,6 +77,11 @@ export default new Router({
       path: '/sectiondetail',
       name: 'sectiondetail',
       component: SectionDetail
+    },
+    {
+      path: '/cart',
+      name: 'cart',
+      component: Cart
     }
   ]
 })

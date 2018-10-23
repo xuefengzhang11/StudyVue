@@ -15,7 +15,7 @@
              :id="hc.id"  @click.prevent.stop="toCourseDetail"
         >
           <div class="content-video">
-            <div class="course_img"><img src="../../assets/images/courses/1.jpg" alt=""></div>
+            <div class="course_img"><img :src="Global.IMG+hc.imgurl" alt=""></div>
             <div class="course_info">
               <span class="info_name" v-text="hc.name">课程名称</span>
               <div><span v-text="hc.cs_degree__name">难度</span><span class="u_icon">{{hc.learn}}</span><span></span></div>
