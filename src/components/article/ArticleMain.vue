@@ -148,9 +148,9 @@
       </div>
     </div>
     <!--发表评论组件-->
-    <Commentary v-show="isUpCommentary" @closeupcom="isUpCommentary=false"></Commentary>
+    <Commentary v-if="isUpCommentary" @closeupcom="isUpCommentary=false" :artid="articleid" @toParentCode="showCode"></Commentary>
     <!--回复评论组件-->
-    <ReplyCommentary v-show="isReplyCommentary" @closereplycom="isReplyCommentary=false"></ReplyCommentary>
+    <ReplyCommentary v-if="isReplyCommentary" @closereplycom="isReplyCommentary=false" :commid="comment_id" @toParentCode="showCode"></ReplyCommentary>
     <!--未登录提示组件-->
     <tiplogin v-show="isTipLogin" @sureclick="isTipLogin=false"></tiplogin>
   </div>
@@ -195,7 +195,9 @@ export default {
       // 是否显示登录提示
       isTipLogin: false,
       // 点赞状态
-      like_flag: ''
+      like_flag: '',
+      // 评论id
+      comment_id: ''
     }
   },
   created: function () {
@@ -231,12 +233,13 @@ export default {
     },
     // 获取数据
     getDate: function () {
-      let vm = this
-      vm.tel = window.sessionStorage.getItem('usertel')
-      if (!vm.tel) {
-        vm.tel = ''
+      this.tel = window.sessionStorage.getItem('usertel')
+      if (!this.tel) {
+        // 未登录时
+        this.tel = null
       }
-      axios.get('http://localhost:8000/article/getArticleById/' + vm.articleid + '/' + vm.tel + '/')
+      let vm = this
+      axios.get(this.Global.HOST + 'article/getArticleById/' + this.articleid + '/' + this.tel + '/')
         .then(function (response) {
           vm.article = response.data.article
           vm.like_flag = vm.article.like_flag
@@ -296,10 +299,12 @@ export default {
       }
     },
     // 点击回复
-    toReplay: function () {
+    toReplay: function (e) {
       // 获取当前用户电话号码
       let usertel = window.sessionStorage.getItem('usertel')
       if (usertel) {
+        let $comid = $(e.target).parents('.ucomment').attr('id')
+        this.comment_id = $comid
         // 用户已经登录
         this.isReplyCommentary = true
       } else {
@@ -346,7 +351,6 @@ export default {
         axios.get('http://localhost:8000/article/insertCommentLike/' + $commid + '/' + vm.tel + '/')
           .then(function (response) {
             vm.commentlike = response.data.code
-            // console.log(response.data.code)
             vm.myFlush()
           })
       } else {
@@ -357,19 +361,25 @@ export default {
     // 评论回复点赞
     replylike: function (e) {
       let $replyid = $(e.target).parents('.son').attr('id')
-      alert($replyid)
       let vm = this
       vm.tel = window.sessionStorage.getItem('usertel')
       if (vm.tel) {
         axios.get('http://localhost:8000/article/insertReplyLike/' + $replyid + '/' + vm.tel + '/')
           .then(function (response) {
             vm.replylike = response.data.code
-            // console.log(response.data.code)
             vm.myFlush()
           })
       } else {
         // 用户未登录
         this.isTipLogin = true
+      }
+    },
+    // 接受文章评论传过来的code
+    showCode: function (data) {
+      if (data === 'success') {
+        this.isUpCommentary = false
+        this.isReplyCommentary = false
+        this.myFlush()
       }
     }
   },

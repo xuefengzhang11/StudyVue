@@ -84,17 +84,17 @@ export default {
           data: JSON.stringify(user),
           success: function (response, textStatus, request) {
             let res = response.res
-            console.log(response.res)
+            // console.log(response.res)
             if (res === '修改成功') {
-              console.log('0000000')
+              // console.log('0000000')
               vm.closeMyself()
               vm.$emit('updateUserPwdclick')
               vm.isTipPwd1 = false
             } else if (res === '与原密码不符') {
-              console.log('123456')
+              // console.log('123456')
               vm.isTipPwd1 = true
             } else {
-              console.log('999999')
+              // console.log('999999')
               vm.isTipPwd1 = false
             }
           }
