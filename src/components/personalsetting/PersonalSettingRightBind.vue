@@ -8,7 +8,7 @@
       <div class="u-email">
         <span class="e-img"></span>
         <span class="tip">邮箱未绑定</span>
-        <button>绑定</button>
+        <button @click="updateUserEmail">绑定</button>
       </div>
       <div class="u-phone">
         <span class="p-img"></span>
@@ -27,12 +27,16 @@
     <UpdateUserPassword v-if="showUpdateUserPwd" @updatepwdclick="updateUserPwd"
                         @updateUserPwdclick="updatePwdSuccess"
     ></UpdateUserPassword>
+    <UpdateUserEmail v-if="showUpdateUserEmail" @updateemclick="updateUserEmail"
+                     @updateUserEmailclick="updateEmailSuccess"
+    ></UpdateUserEmail>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import UpdateUserPassword from './UpdateUserPassword'
+import UpdateUserEmail from './UpdateUserEmail'
 export default {
   name: 'PersonalSettingRightBind',
   data () {
@@ -44,7 +48,11 @@ export default {
       // 修改用户信息
       showUpdateUserPwd: false,
       updatedPwd: false,
-      hackResetPwd: true
+      hackResetPwd: true,
+      // 绑定邮箱
+      showUpdateUserEmail: false,
+      updatedEmail: false,
+      hackResetEmail: true
     }
   },
   created: function () {
@@ -62,7 +70,8 @@ export default {
       })
   },
   components: {
-    UpdateUserPassword
+    UpdateUserPassword,
+    UpdateUserEmail
   },
   methods: {
     // 弹出修改用户密码
@@ -81,6 +90,20 @@ export default {
       this.hackResetPwd = false
       this.$nextTick(() => {
         this.hackResetPwd = true
+      })
+    },
+    // 显示绑定用户邮箱组建
+    updateUserEmail: function () {
+      this.showUpdateUserEmail = !this.showUpdateUserEmail
+    },
+    // 修改个人信息成功、刷新
+    updateEmailSuccess: function () {
+      this.updateUserEmail()
+      this.updatedEmail = true
+      // 强制刷新子组件
+      this.hackResetEmail = false
+      this.$nextTick(() => {
+        this.hackResetEmail = true
       })
     }
   }

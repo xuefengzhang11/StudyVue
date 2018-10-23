@@ -81,7 +81,7 @@
           </div>
         </div>
       </div>
-      <div class="row  none">
+      <div class="row none">
         <div class="col-md-7">
           <div class="row comment">评论</div>
         </div>
@@ -90,44 +90,63 @@
       <div class="row contain">
         <div class="col-md-1"></div>
         <div class="col-md-6 push">
-          <div class="row">
-            <span class="col-md-2 all">全部</span>
-            <span class="col-md-8"></span>
-            <span class="col-md-2 publish">发布评论</span>
-          </div>
           <!--模板-->
-          <div class="row comment-contain">
-            <!--发表评论组件-->
-            <Commentary v-show="isUpCommentary" @closeupcom="isUpCommentary=false"></Commentary>
-            <!--回复评论组件-->
-            <ReplyCommentary v-show="isReplyCommentary" @closereplycom="isReplyCommentary=false"></ReplyCommentary>
-            <!--未登录提示组件-->
-            <tiplogin v-show="isTipLogin" @sureclick="isTipLogin=false"></tiplogin>
-            <!--<span class="col-md-2"></span>-->
-            <!--<span class="col-md-8 comment-box">-->
-              <!--<div class="row">-->
-              <!--<div class="col-md-2">-->
-                <!--<img src="../../assets/images/careers/1.jpg" alt="" class="icon">-->
-              <!--</div>-->
-              <!--<div class="col-md-10">-->
-                <!--<div class="row username">用户姓名</div>-->
-                  <!--<div class="row comment-con">评论内容</div>-->
-                  <!--<div class="row comment-bottom">-->
-                    <!--<span class="col-md-2 good">-->
-                      <!--<img src="../../assets/icons/like_before.svg" alt="" v-show="like">-->
-                      <!--<img src="../../assets/icons/like_after.svg" alt="" v-show="!like">-->
-                      <!--&nbsp;-->
-                      <!--<span style="padding-top: 4px">0</span>-->
-                    <!--</span>-->
-                    <!--<span class="col-md-8"></span>-->
-                    <!--<span class="col-md-2 date">-->
-                      <!--年 - 月 - 日-->
-                    <!--</span>-->
-                  <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--</span>-->
-            <!--<span class="col-md-2"></span>-->
+          <div class="row">
+            <div class="col-md-12 article-bottom">
+              <span class="img">
+                <img src="../../assets/images/users/user-icon.jpg" alt="">
+              </span>
+              <span class="sta" @click="toComment">共同学习，写下你的评论</span>
+              <div class="line"></div>
+              <div class="b-comment">
+                <span class="comment-num">{{comment_num}}评论</span>
+                <!--没有评论时显示-->
+                <p class="no-comment" v-if="comment_num === '0'" v-text="'暂无评论'"></p>
+                <!--<div class="line"></div>-->
+                <div class="com-content" v-else>
+                  <!--评论展示模板-->
+                  <div class="ucomment" v-for="comm in comments" :key="comm.id" :id="comm.id">
+                    <div class="uimg">
+                      <!--用户头像-->
+                      <img :src="Global.IMG + comm.user.icon__iconurl" alt="">
+                    </div>
+                    <!--用户名-->
+                    <div class="uname" v-text="comm.user.name"></div>
+                    <!--点赞和评论-->
+                    <div class="like_upcom" style="float: right">
+                      <span class="like text-center">
+                        <img src="../../assets/icons/like_before.svg" class="icon-like" alt="" v-if="!comm.like_flag" @click="commentlike">
+                        <img src="../../assets/icons/like_after.svg" class="icon-like" alt="" v-else @click="commentlike">
+                        <span class="like_num" v-text="comm.like"></span>
+                      </span>
+                      <span class="upcom text-center" @click="toReplay">回复</span>
+                    </div>
+                    <!--评论内容-->
+                    <div class="ucontent" v-text="comm.content"></div>
+                    <!--子评论模板-->
+                    <div class="ucomment son" v-for="reply in comm.replys" :key="reply.id" :id="reply.id">
+                      <div class="uimg">
+                        <img :src="Global.IMG + reply.user.icon__iconurl" alt="">
+                      </div>
+                      <!--二级评论用户名-->
+                      <div class="uname" v-text="reply.user.name"></div>
+                      <!--点赞二级评论-->
+                      <div class="like_upcom" style="float: right">
+                        <img src="../../assets/icons/like_before.svg" class="icon-like" alt="" v-if="!reply.like_flag" @click="replylike">
+                        <img src="../../assets/icons/like_after.svg" class="icon-like" alt="" v-else @click="replylike">
+                        <span class="like_num" v-text="reply.like"></span>
+                      </div>
+                      <!--二级评论内容-->
+                      <div class="ucontent" v-text="reply.content"></div>
+                    </div>
+                    <div class="line"></div>
+                    <div>
+                    </div>
+                  </div>
+                </div>
+                <!--<div class="line"></div>-->
+              </div>
+            </div>
           </div>
         </div>
         <div class="col-md-1"></div>
@@ -139,27 +158,34 @@
               推荐课程
             </div>
             <div class="hot-video">
-            <span class="col-md-5">
-              <img src="../../assets/images/courses/1.jpg" alt="" class="hot-v-img">
-            </span>
+              <span class="col-md-5">
+                <img src="../../assets/images/courses/1.jpg" alt="" class="hot-v-img">
+              </span>
               <span class=" col-md-7">
                 <div class="row hot-name" v-text="c.name">
                 </div>
                 <div class="row price-all" style="color:lightgrey">
-                <p><span v-text="c.cs_degree__name"></span>
-                  <img src="../../assets/icons/user-logo.svg" alt="">
-                  <span class="course-l-people" v-text="c.learn"></span>
-                </p>
-              </div>
-              <div class="row line">
-              </div>
-            </span>
+                  <p>
+                    <span v-text="c.cs_degree__name"></span>
+                    <img src="../../assets/icons/user-logo.svg" alt="">
+                    <span class="course-l-people" v-text="c.learn"></span>
+                  </p>
+                </div>
+                <div class="row courseline">
+                </div>
+              </span>
             </div>
           </div>
         </div>
         <div class="col-md-1"></div>
       </div>
     </div>
+    <!--发表评论组件-->
+    <Commentary v-if="isUpCommentary" @closeupcom="isUpCommentary=false" :secid="sectid" @toParentCode="showCode"></Commentary>
+    <!--回复评论组件-->
+    <ReplyCommentary v-if="isReplyCommentary" @closereplycom="isReplyCommentary=false"></ReplyCommentary>
+    <!--未登录提示组件-->
+    <tiplogin v-show="isTipLogin" @sureclick="isTipLogin=false"></tiplogin>
   </div>
 </template>
 
@@ -170,6 +196,7 @@ import ReplyCommentary from './ReplyCommentary'
 import $ from 'jquery'
 export default {
   name: 'SectionDetail',
+  inject: ['reload'],
   components: {Commentary, ReplyCommentary},
   data () {
     return {
@@ -188,7 +215,10 @@ export default {
       isReplyCommentary: false,
       // 是否显示登录提示
       isTipLogin: false,
-      hotCourses: ''
+      hotCourses: '',
+      sectid: '',
+      // 点赞状态
+      like_flag: ''
     }
   },
   created: function () {
@@ -197,9 +227,12 @@ export default {
   mounted: function () {
     this.getSectiondata()
     this.getHotCourse()
-    // this.getComments()
+    this.getComments()
   },
   methods: {
+    myFlush: function () {
+      this.reload()
+    },
     // 得到节的id
     getSectionId: function () {
       let sectid = this.$route.params.sectid
@@ -227,18 +260,23 @@ export default {
         })
     },
     // 获取所有评论
-    // getComments () {
-    //   let vm = this
-    //   axios.get(this.Global.HOST + 'article/getComment/' + this.articleid + '/')
-    //     .then(function (response) {
-    //       vm.comment_num = response.data.comments.length
-    //       vm.comments = response.data.comments
-    //       console.log(vm.Global.IMG)
-    //     })
-    //     .catch(function (error) {
-    //       console.log(error)
-    //     })
-    // },
+    getComments: function () {
+      let vm = this
+      vm.tel = window.sessionStorage.getItem('usertel')
+      if (!vm.tel) {
+        vm.tel = ''
+      }
+      axios.get(this.Global.HOST + 'course/getComment/' + vm.sectid + '/' + vm.tel + '/')
+        .then(function (response) {
+          vm.comment_num = response.data.comments.length
+          vm.comments = response.data.comments
+          // console.log(vm.Global.IMG)
+          // console.log(response)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
     // 点击发表评论
     toComment: function () {
       let usertel = window.sessionStorage.getItem('usertel')
@@ -275,6 +313,46 @@ export default {
         })
       }
     },
+    // 评论点赞
+    commentlike: function (e) {
+      let $commid = $(e.target).parents('.ucomment').attr('id')
+      let vm = this
+      vm.tel = window.sessionStorage.getItem('usertel')
+      if (vm.tel) {
+        axios.get('http://localhost:8000/course/insertCommentLike/' + $commid + '/' + vm.tel + '/')
+          .then(function (response) {
+            vm.commentlike = response.data.code
+            vm.myFlush()
+          })
+      } else {
+        // 用户未登录
+        this.isTipLogin = true
+      }
+    },
+    // 评论回复点赞
+    replylike: function (e) {
+      let $replyid = $(e.target).parents('.son').attr('id')
+      let vm = this
+      vm.tel = window.sessionStorage.getItem('usertel')
+      if (vm.tel) {
+        axios.get('http://localhost:8000/course/insertReplyLike/' + $replyid + '/' + vm.tel + '/')
+          .then(function (response) {
+            vm.replylike = response.data.code
+            vm.myFlush()
+          })
+      } else {
+        // 用户未登录
+        this.isTipLogin = true
+      }
+    },
+    // 接受评论传过来的code
+    showCode: function (data) {
+      if (data === 'success') {
+        this.isUpCommentary = false
+        this.isReplyCommentary = false
+        this.myFlush()
+      }
+    },
     // 返回上一页
     go: function () {
       this.$router.go(-1)
@@ -297,6 +375,7 @@ export default {
 
   .back {
     background: rgba(201, 228, 230, 0.14);
+    height: 100%;
   }
 
   /*头部*/
@@ -306,7 +385,6 @@ export default {
   }
 
   .nav-left {
-    /*width: 460px;*/
     height: 60px;
 
   }
@@ -357,7 +435,7 @@ export default {
     height: 440px;
     background: lightgrey;
     margin: 3px auto 0;
-    position: relative;
+    /*position: relative;*/
     /*z-index: 999;*/
   }
   .logo-in{
@@ -397,13 +475,6 @@ export default {
     cursor: pointer;
   }
 
-  .icon {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    box-sizing: border-box;
-  }
-
   .name {
     width: 370px;
     height: 60px;
@@ -424,8 +495,7 @@ export default {
     margin-left: 30px;
     margin-top: 10px;
     margin-bottom: 10px;
-    line-height: 180%;
-    letter-spacing: 1.3px
+    letter-spacing: 1.3px;
   }
   .collection {
     margin-left: 30px;
@@ -442,6 +512,7 @@ export default {
     border: none;
     outline: none;
     box-shadow: 2px 2px 5px rgba(135, 135, 135, 0.59);
+    clear: both;
   }
 
   .comment {
@@ -452,97 +523,18 @@ export default {
     margin-left: 400px;
   }
 
-  .contain {
-    height: 400px;
-    /*margin-top:20px;*/
-  }
-
   .push {
     width: 800px;
-    height: 40px;
     margin-top: 20px;
   }
 
-  .all {
-    width: 70px;
-    height: 40px;
-    background: gray;
-    line-height: 40px;
-    text-align: center;
-    border-radius: 30px;
-    font-size: 1.2em;
-    color: white;
-  }
-
-  .publish {
-    width: 100px;
-    height: 40px;
-    line-height: 40px;
-    border-radius: 30px;
-    font-size: 1.2em;
-    color: white;
-    background: #b6b6b6;
-    margin-left: 80px;
-  }
-
-  .comment-contain {
-    width: 800px;
-    height: 173px;
-    background: white;
-    border-radius: 30px;
-    margin-top: 30px;
-  }
-
-  .comment-box {
-    width: 700px;
-    height: 130px;
-    margin-top: 20px;
-    margin-left: 50px;
-  }
-
-  .username {
-    font-size: 1.3em;
-    margin-left: -30px;
-  }
-
-  .comment-con {
-    margin-left: -30px;
-    margin-top: 5px;
-  }
-
-  .comment-bottom {
-    width: 650px;
-    height: 40px;
-    margin-left: -30px;
-    margin-top: 40px;
-  }
-
-  .good {
-    width: 70px;
-    height: 40px;
-    /*background: rgba(128, 128, 128, 0.95);*/
-    border-radius: 30px;
-    box-sizing: border-box;
-    padding-top: 5px;
-    padding-left: 15px;
-    font-size: 1.4em;
-  }
-
-  .good:hover {
-    cursor: pointer;
-  }
-
-  .date {
-    color: rgba(128, 128, 128, 0.95);
-    padding-top: 10px;
-  }
   /*推荐课程*/
   .contain-course{
     margin-top: 30px;
   }
   .hot-course {
     width: 340px;
-    height: 140px;
+    /*height: 140px;*/
     /*margin-left: 10px;*/
   }
 
@@ -576,15 +568,120 @@ export default {
     font-size: 1.3em;
     color: rgba(64, 64, 64, 0.8);
   }
+  .courseline{
+    width: 200px;
+    height: 8px;
+    border-bottom: 1px rgba(128, 128, 128, 0.6) solid;
+  }
   .line{
-    width: 180px;
+    width: 700px;
     height: 8px;
     border-bottom: 1px rgba(128, 128, 128, 0.6) solid;
   }
   .price-all{
     margin-top: 13px;
+    padding-top: 10px;
   }
   .price-all span{
     color: rgba(64, 64, 64, 0.8);
   }
+
+  .article-bottom {
+    box-shadow: 0 2px 5px gray;
+    margin-right: 20px;
+    padding: 20px 35px 20px;
+    border-radius: 10px;
+    background: white;
+    /*margin-top: 30px;*/
+    margin-bottom: 100px;
+    /*line-height: 40px;*/
+  }
+
+  .article-bottom .sta {
+    display: inline-block;
+    width: 600px;
+    height: 50px;
+    line-height: 40px;
+    background: #e8e8ef;
+    border-radius: 10px;
+    color: gray;
+    font-size: 1.2em;
+    padding: 5px 30px;
+    margin-left: 20px;
+  }
+  .article-bottom .img {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: red;
+  }
+  .article-bottom .img img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .b-comment  .comment-num {
+    font-size: 18px;
+    font-weight: 700;
+    color: black;
+  }
+  .com-content{
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 1px solid #ceced5;
+    margin: 20px 0;
+  }
+  .ucomment{
+    overflow: hidden;
+  }
+  .ucomment .uimg {
+    float: left;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 15px;
+    margin-top: 10px;
+  }
+  .ucomment .uimg img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .like:hover, .upcom:hover{
+    cursor: pointer;
+    color: black !important;
+  }
+  .icon-like {
+    position: relative;
+    top: -3px;
+  }
+  .upcom{
+    display: inline-block;
+    width: 50px;
+    height: 30px;
+    line-height: 30px;
+    /*padding-top: 1px;*/
+  }
+  .ucontent{
+    clear: both;
+    padding-left: 50px;
+  }
+  .son{
+    padding-left: 50px;
+    padding-top: 10px;
+  }
+  .com-content .uname{
+    float: left;
+    height: 50px;
+    line-height: 50px;
+    font-size: 1.1em;
+    font-weight: 700;
+  }
+  .contain{
+    height: 100%;
+  }
+
 </style>

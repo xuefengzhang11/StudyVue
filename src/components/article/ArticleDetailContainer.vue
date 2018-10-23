@@ -50,6 +50,7 @@ export default {
   },
   created: function () {
     this.as = this.$route.params.artid
+    this.usertel = window.sessionStorage.getItem('usertel')
   },
   mounted: function () {
     this.getDate()
