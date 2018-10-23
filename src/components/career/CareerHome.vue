@@ -17,7 +17,7 @@
               <!--<router-link :to="{ name: 'careerdetail',params: { id: d.id }}"></router-link>-->
               <!--&lt;!&ndash;图片&ndash;&gt;-->
               <div class="career-img">
-                <img src="../../assets/images/careers/1.jpg" alt="">
+                <img :src="Global.IMG + career.imgurl" alt="">
               </div>
               <!--&lt;!&ndash;简介&ndash;&gt;-->
               <div class="career-info">

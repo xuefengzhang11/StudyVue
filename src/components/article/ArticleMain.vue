@@ -217,11 +217,11 @@ export default {
     // 获取所有评论
     getComments: function () {
       let vm = this
-      vm.tel = window.sessionStorage.getItem('usertel')
-      if (!vm.tel) {
-        vm.tel = ''
+      let tel = window.sessionStorage.getItem('usertel')
+      if (!tel) {
+        tel = ''
       }
-      axios.get(this.Global.HOST + 'article/getComment/' + this.articleid + '/' + vm.tel + '/')
+      axios.get(this.Global.HOST + 'article/getComment/' + this.articleid + '/' + tel + '/')
         .then(function (response) {
           vm.comment_num = response.data.comments.length
           vm.comments = response.data.comments
@@ -233,13 +233,13 @@ export default {
     },
     // 获取数据
     getDate: function () {
-      this.tel = window.sessionStorage.getItem('usertel')
-      if (!this.tel) {
+      let tel = window.sessionStorage.getItem('usertel')
+      if (!tel) {
         // 未登录时
-        this.tel = null
+        tel = ''
       }
       let vm = this
-      axios.get(this.Global.HOST + 'article/getArticleById/' + this.articleid + '/' + this.tel + '/')
+      axios.get(this.Global.HOST + 'article/getArticleById/' + this.articleid + '/' + tel + '/')
         .then(function (response) {
           vm.article = response.data.article
           vm.like_flag = vm.article.like_flag
