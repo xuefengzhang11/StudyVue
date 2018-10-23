@@ -300,7 +300,7 @@ export default {
   }
 
   .nav-left {
-    width: 460px;
+    /*width: 460px;*/
     height: 60px;
 
   }
@@ -313,11 +313,11 @@ export default {
     margin-top: 30px;
   }
   .ret{
-    width: 40px;
+    /*width: 40px;*/
     height: 50px;
   }
   .cour {
-    width: 600px;
+    /*width: 600px;*/
     height: 80px;
     color: #000;
     font-size: 1.7em;
@@ -332,7 +332,7 @@ export default {
 
   /*视频部分开始*/
   .vidio {
-    height: 500px;
+    /*height: 500px;*/
     background: rgba(126, 126, 126, 0.89);
   }
 
