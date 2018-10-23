@@ -23,6 +23,8 @@ import PersonalCenterContainer from '@/components/personalcenter/PersonalCenterC
 import PersonalSettingContainer from '@/components/personalsetting/PersonalSettingContainer'
 // 购物车组件
 import Cart from '@/components/publicvue/Cart'
+// 订单组件
+import PersonalOrderContainer from '@/components/personalcenter/PersonalOrderContainer'
 
 Vue.use(Router)
 
@@ -82,6 +84,11 @@ export default new Router({
       path: '/cart',
       name: 'cart',
       component: Cart
+    },
+    {
+      path: '/order',
+      name: 'order',
+      component: PersonalOrderContainer
     }
   ]
 })

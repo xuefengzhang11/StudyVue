@@ -33,6 +33,7 @@
 
 <script>
 import ArticleMain from './ArticleMain'
+// import  from '../publicvue/Global'
 import axios from 'axios'
 // import $ from 'jquery'
 
@@ -50,6 +51,7 @@ export default {
   },
   created: function () {
     this.as = this.$route.params.artid
+    this.usertel = window.sessionStorage.getItem('usertel')
   },
   mounted: function () {
     this.getDate()
@@ -58,7 +60,7 @@ export default {
     // 获取数据
     getDate: function () {
       let vm = this
-      axios.get(vm.Global.HOST + 'article/getArticleById/' + vm.as + '/')
+      axios.get(vm.Global.HOST + 'article/getArticleById/' + vm.as + '/' + vm.usertel + '/')
         .then(function (response) {
           vm.article = response.data.article
           vm.user = response.data.user
