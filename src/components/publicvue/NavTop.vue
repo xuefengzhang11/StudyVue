@@ -245,14 +245,16 @@ export default {
         }
       })
     },
-    // 跳转个人中心-》我的文章
+    // 跳转个人中心-》订单中心
     toPersonOrder: function () {
-      this.$router.push({
-        name: 'personal',
-        params: {
-          leftF: 'order'
-        }
-      })
+      let usertel = window.sessionStorage.getItem('usertel')
+      if (usertel) {
+        this.$router.push({
+          path: '/order'
+        })
+      } else {
+        this.isTipLogin = true
+      }
     },
     // 跳转到个人设置toPersonArticle
     toPersonalSetting: function () {

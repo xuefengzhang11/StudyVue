@@ -8,7 +8,7 @@
         <div class="collections-title">
           {{art.title}}
         </div>
-        <p class="collections-introduce">{{art.introduce}}</p>
+        <p class="collections-introduce">{{art.introduce|more(0,100)}}</p>
         <div class="row">
           <div class="col-md-2">
           </div>
