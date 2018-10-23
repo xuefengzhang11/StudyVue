@@ -96,7 +96,7 @@ export default {
       let $courid = $(e.target).parents('.mycollections').attr('id')
       console.log($courid)
       let vm = this
-      axios.get('http://localhost:8000/article/deleteArticle/' + $courid + '/')
+      axios.get('http://localhost:8000/article/deleteUserArticle/' + $courid + '/')
         .then(function (response) {
           vm.collectcourse = response.data.code
           if (vm.collectcourse === '888') {
