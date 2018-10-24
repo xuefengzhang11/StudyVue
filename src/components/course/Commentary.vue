@@ -57,7 +57,7 @@ export default {
         $.ajax({
           url: vm.Global.HOST + 'course/insertSectionCommet/',
           type: 'POST',
-          data: JSON.stringify(sectioncomment),
+          data: sectioncomment,
           success: function (response, textStatus, request) {
             vm.res = response.code
             console.log(response.code)

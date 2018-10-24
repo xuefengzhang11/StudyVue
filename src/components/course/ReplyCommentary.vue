@@ -42,18 +42,20 @@ export default {
   methods: {
     // 添加评论回复内容
     com_submit: function () {
-      let vm = this
-      vm.tel = window.sessionStorage.getItem('usertel')
-      if (vm.comment_content) {
+      console.log('this.commentid')
+      this.tel = window.sessionStorage.getItem('usertel')
+      if (this.comment_content) {
         let comment = {
-          'usertel': vm.tel,
-          'commentid': vm.commentid,
-          'comment_content': vm.comment_content
+          'usertel': this.tel,
+          'commentid': this.commentid,
+          'comment_content': this.comment_content
         }
+        console.log(comment)
+        let vm = this
         $.ajax({
-          url: vm.Global.HOST + 'article/insertCommentContent/',
+          url: vm.Global.HOST + 'course/insertCommentContent/',
           type: 'POST',
-          data: JSON.stringify(comment),
+          data: comment,
           success: function (response, textStatus, request) {
             vm.res = response.code
             vm.successcomment = vm.res

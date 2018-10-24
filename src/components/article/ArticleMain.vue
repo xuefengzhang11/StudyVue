@@ -53,6 +53,7 @@
                         <span class="like_num" v-text="comm.like"></span>
                       </span>
                       <span class="upcom text-center" @click="toReplay">回复</span>
+                      <span class="del" v-if="user_id === comm.user.id" @click="deletecomment">删除</span>
                     </div>
                     <!--评论内容-->
                     <div class="ucontent" v-text="comm.content"></div>
@@ -68,6 +69,7 @@
                         <img src="../../assets/icons/like_before.svg" class="icon-like" alt="" v-if="!reply.like_flag" @click="replylike">
                         <img src="../../assets/icons/like_after.svg" class="icon-like" alt="" v-else @click="replylike">
                         <span class="like_num" v-text="reply.like"></span>
+                        <span class="del" v-if="user_id === reply.user.id" style="margin-left: 15px" @click="deletereply">删除</span>
                       </div>
                       <!--二级评论内容-->
                       <div class="ucontent" v-text="reply.content"></div>
@@ -197,7 +199,9 @@ export default {
       // 点赞状态
       like_flag: '',
       // 评论id
-      comment_id: ''
+      comment_id: '',
+      // 用户id
+      user_id: ''
     }
   },
   created: function () {
@@ -225,6 +229,8 @@ export default {
         .then(function (response) {
           vm.comment_num = response.data.comments.length
           vm.comments = response.data.comments
+          vm.user_id = response.data.user_id
+          // console.log(vm.Global.IMG)
         })
         .catch(function (error) {
           console.log(error)
@@ -380,6 +386,26 @@ export default {
         this.isReplyCommentary = false
         this.myFlush()
       }
+    },
+    // 删除文章评论
+    deletecomment: function (e) {
+      let $comid = $(e.target).parents('.ucomment').attr('id')
+      let vm = this
+      axios.get(this.Global.HOST + 'article/deleteArticleComment/' + $comid + '/' + vm.articleid + '/')
+        .then(function (response) {
+          vm.code = response.data.code
+          vm.myFlush()
+        })
+    },
+    // 删除评论回复
+    deletereply: function (e) {
+      let $comid = $(e.target).parents('.ucomment').attr('id')
+      let vm = this
+      axios.get(this.Global.HOST + 'article/deleteReply/' + $comid + '/')
+        .then(function (response) {
+          vm.code = response.data.code
+          vm.myFlush()
+        })
     }
   },
   filters: {
@@ -541,7 +567,9 @@ export default {
     position: relative;
     top: -3px;
   }
-
+  .del:hover{
+    cursor: pointer;
+  }
   .article-content .introduce {
     margin-top: 20px;
     font-size: 1.3em;
