@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-md-12">
         <!--模板开始-->
-        <div class="clo-md-12 order"  v-for="ord in listord" :key="ord.id">
+        <div class="clo-md-12 order"  v-for="ord in listord" :key="ord.id" :id="ord.id">
           <div class="row order-detail">
             <div class="col-md-12">
               <div class="row order-detail-top">
@@ -44,25 +44,30 @@
                   <span>￥</span>
                   <span>{{ord.course_price}}</span>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3" v-if="ord.status_id === 2">
                   <div class="row pagmoney">
                     立即支付
                   </div>
-                  <div class="row cancel-order">
+                  <div class="row cancel-order" @click="deleteOrder">
                     取消订单
+                  </div>
+                </div>
+                <div class="col-md-3" v-if="ord.status_id === 1 || ord.status_id === 3" @click="deleteOrder">
+                  <div class="row pagmoney">
+                    删除订单
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import $ from 'jquery'
 import axios from 'axios'
 export default {
   props: [
@@ -75,7 +80,8 @@ export default {
       msg: '购物车下部',
       nowStatus: this.nowTop,
       telephone: this.tele,
-      listord: []
+      listord: [],
+      orderid: ''
     }
   },
   mounted: function () {
@@ -83,12 +89,25 @@ export default {
   },
   methods: {
     getDate: function () {
-      console.log(this.nowStatus)
       let vm = this
       axios.get(vm.Global.HOST + 'order/getStatusOrder/' + vm.telephone + '/' + vm.nowStatus + '/')
         .then(function (response) {
           vm.listord = response.data.orders
-          console.log(response.data)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
+    deleteOrder: function (e) {
+      let vm = this
+      // console.log($(e.target))
+      vm.orderid = $(e.target).parents('.order').attr('id')
+      axios.get(vm.Global.HOST + 'order/deleteOrder/' + vm.orderid + '/')
+        .then(function (response) {
+          let res = response.res
+          if (res === '删除成功') {
+            vm.getDate()
+          }
         })
         .catch(function (error) {
           console.log(error)
@@ -101,11 +120,14 @@ export default {
 <style scoped>
   .order {
     background: white;
-    box-shadow: 5px 5px 8px lightgrey;
+    box-shadow: 2px 2px 8px lightgrey;
     border-radius: 10px;
     box-sizing: border-box;
     margin-top: 20px;
     margin-bottom: 10px;
+  }
+  .order:hover{
+    box-shadow: 5px 5px 10px lightgrey;
   }
 
   .order-detail {
@@ -194,10 +216,16 @@ export default {
     padding-left: 25px;
     padding-top: 10px;
   }
-
+  .pagmoney:hover {
+    background: rgba(253, 0, 0, 1);
+    cursor: pointer;
+  }
   .cancel-order {
     color: grey;
     padding-left: 65px;
     padding-top: 10px;
+  }
+  .cancel-order {
+    cursor: pointer;
   }
 </style>
