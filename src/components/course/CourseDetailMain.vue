@@ -82,15 +82,28 @@ export default {
       }
     },
     toSectionDetail: function (e) {
+      // 添加到最近学习，再跳转到详情页(课程节id，用户电话号码)
+      // 节ID
       let $sectid = $(e.target).parents('.section').attr('id')
+      // 用户电话号码
+      let usertel = window.sessionStorage.getItem('usertel')
       if ($sectid) {
-        this.$router.push({
-          path: 'sectiondetail/',
-          name: 'sectiondetail',
-          params: {
-            sectid: $sectid
-          }
-        })
+        let vm = this
+        axios.get(this.Global.HOST + 'course/addSectionHistory/' + $sectid + '/' + usertel + '/')
+          .then(function (response) {
+            if (response.data.res === '成功') {
+              vm.$router.push({
+                path: 'sectiondetail/',
+                name: 'sectiondetail',
+                params: {
+                  sectid: $sectid
+                }
+              })
+            }
+          })
+          .catch(function (error) {
+            console.log(error)
+          })
       }
     }
   },

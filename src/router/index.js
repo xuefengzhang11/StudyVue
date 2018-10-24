@@ -26,6 +26,10 @@ import PersonalSettingContainer from '@/components/personalsetting/PersonalSetti
 import Cart from '@/components/publicvue/Cart'
 // 订单组件
 import PersonalOrderContainer from '@/components/personalcenter/PersonalOrderContainer'
+
+// 轮播图
+import Carousel from '@/components/homepagevue/Carousel'
+
 Vue.use(Router)
 
 export default new Router({
@@ -94,6 +98,12 @@ export default new Router({
       path: '/writearticle',
       name: 'writearticle',
       component: WriteArticle
+    },
+    // 轮播图
+    {
+      path: '/lunbotu',
+      name: 'lunbotu',
+      component: Carousel
     }
   ]
 })

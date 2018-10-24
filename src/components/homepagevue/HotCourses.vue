@@ -36,14 +36,13 @@ export default {
   name: 'HotCourses',
   data () {
     return {
-      url: 'http://localhost:8000/',
       msg: '热门课程',
       hotCourses: []
     }
   },
   mounted: function () {
     let vm = this
-    axios.get(this.url + 'course/getHotCourse/')
+    axios.get(this.Global.HOST + 'course/getHotCourse/')
       .then(function (response) {
         vm.hotCourses = response.data.hotCourses
       })

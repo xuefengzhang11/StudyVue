@@ -34,10 +34,10 @@
 <script>
 import ArticleMain from './ArticleMain'
 import axios from 'axios'
-// import $ from 'jquery'
 
 export default {
   name: 'ArticleDetailContainer',
+  inject: ['reload'],
   data () {
     return {
       msg: '文章详情页',
@@ -56,6 +56,9 @@ export default {
     this.getDate()
   },
   methods: {
+    myFlush: function () {
+      this.reload()
+    },
     // 获取数据
     getDate: function () {
       let vm = this
@@ -63,12 +66,11 @@ export default {
       if (!tel) {
         tel = ''
       }
-      alert(this.tel)
       axios.get(this.Global.HOST + 'article/getArticleById/' + this.as + '/' + tel + '/')
         .then(function (response) {
           vm.article = response.data.article
           vm.user = response.data.user
-          this.reload()
+          this.myFlush()
         })
         .catch(function (error) {
           console.log(error)
