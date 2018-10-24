@@ -33,9 +33,7 @@
 
 <script>
 import ArticleMain from './ArticleMain'
-// import  from '../publicvue/Global'
 import axios from 'axios'
-// import $ from 'jquery'
 
 export default {
   name: 'ArticleDetailContainer',
@@ -64,7 +62,11 @@ export default {
     // 获取数据
     getDate: function () {
       let vm = this
-      axios.get(vm.Global.HOST + 'article/getArticleById/' + vm.as + '/' + vm.usertel + '/')
+      let tel = window.sessionStorage.getItem('usertel')
+      if (!tel) {
+        tel = ''
+      }
+      axios.get(this.Global.HOST + 'article/getArticleById/' + this.as + '/' + tel + '/')
         .then(function (response) {
           vm.article = response.data.article
           vm.user = response.data.user

@@ -35,6 +35,12 @@ export default {
       islogin: false
     }
   },
+  created () {
+    let usertel = window.sessionStorage.getItem('usertel')
+    if (usertel) {
+      this.islogin = true
+    }
+  },
   methods: {
     // 刷新界面的方法
     reload () {
