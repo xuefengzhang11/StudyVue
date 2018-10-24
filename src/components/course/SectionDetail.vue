@@ -101,7 +101,7 @@
               <div class="b-comment">
                 <span class="comment-num">{{comment_num}}评论</span>
                 <!--没有评论时显示-->
-                <p class="no-comment" v-if="comment_num === '0'" v-text="'暂无评论'"></p>
+                <p class="no-comment" v-if="comment_num === 0" v-text="'暂无评论'"></p>
                 <!--<div class="line"></div>-->
                 <div class="com-content" v-else>
                   <!--评论展示模板-->
@@ -115,11 +115,12 @@
                     <!--点赞和评论-->
                     <div class="like_upcom" style="float: right">
                       <span class="like text-center">
-                        <img src="../../assets/icons/like_before.svg" class="icon-like" alt="" v-if="!comm.like_flag" @click="commentlike">
-                        <img src="../../assets/icons/like_after.svg" class="icon-like" alt="" v-else @click="commentlike">
+                        <img src="../../assets/icons/like_before.svg" class="icon-like" alt="" v-if="!comm.like_flag" @click.stop.prevent="commentlike">
+                        <img src="../../assets/icons/like_after.svg" class="icon-like" alt="" v-else @click.stop.prevent="commentlike">
                         <span class="like_num" v-text="comm.like"></span>
                       </span>
                       <span class="upcom text-center" @click="toReplay">回复</span>
+                      <span class="dele" v-if="userid === comm.user.id" @click.stop.prevent="deletecomment">删除</span>
                     </div>
                     <!--评论内容-->
                     <div class="ucontent" v-text="comm.content"></div>
@@ -132,9 +133,10 @@
                       <div class="uname" v-text="reply.user.name"></div>
                       <!--点赞二级评论-->
                       <div class="like_upcom" style="float: right">
-                        <img src="../../assets/icons/like_before.svg" class="icon-like" alt="" v-if="!reply.like_flag" @click="replylike">
-                        <img src="../../assets/icons/like_after.svg" class="icon-like" alt="" v-else @click="replylike">
+                        <img src="../../assets/icons/like_before.svg" class="icon-like" alt="" v-if="!reply.like_flag" @click.stop.prevent="replylike">
+                        <img src="../../assets/icons/like_after.svg" class="icon-like" alt="" v-else @click.stop.prevent="replylike">
                         <span class="like_num" v-text="reply.like"></span>
+                        <span class="dele" v-if="userid === reply.user.id" style="margin-left: 10px" @click.stop.prevent="deletereply">删除</span>
                       </div>
                       <!--二级评论内容-->
                       <div class="ucontent" v-text="reply.content"></div>
@@ -183,7 +185,7 @@
     <!--发表评论组件-->
     <Commentary v-if="isUpCommentary" @closeupcom="isUpCommentary=false" :secid="sectid" @toParentCode="showCode"></Commentary>
     <!--回复评论组件-->
-    <ReplyCommentary v-if="isReplyCommentary" @closereplycom="isReplyCommentary=false"></ReplyCommentary>
+    <ReplyCommentary v-if="isReplyCommentary" @closereplycom="isReplyCommentary=false" :commid="comment_id" @toParentCode="showCode"></ReplyCommentary>
     <!--未登录提示组件-->
     <tiplogin v-show="isTipLogin" @sureclick="isTipLogin=false"></tiplogin>
   </div>
@@ -218,7 +220,9 @@ export default {
       hotCourses: '',
       sectid: '',
       // 点赞状态
-      like_flag: ''
+      like_flag: '',
+      comment_id: '',
+      userid: ''
     }
   },
   created: function () {
@@ -270,8 +274,7 @@ export default {
         .then(function (response) {
           vm.comment_num = response.data.comments.length
           vm.comments = response.data.comments
-          // console.log(vm.Global.IMG)
-          // console.log(response)
+          vm.userid = response.data.user_id
         })
         .catch(function (error) {
           console.log(error)
@@ -289,10 +292,12 @@ export default {
       }
     },
     // 点击回复
-    toReplay: function () {
+    toReplay: function (e) {
       // 获取当前用户电话号码
       let usertel = window.sessionStorage.getItem('usertel')
       if (usertel) {
+        let $comid = $(e.target).parents('.ucomment').attr('id')
+        this.comment_id = $comid
         // 用户已经登录
         this.isReplyCommentary = true
       } else {
@@ -319,7 +324,7 @@ export default {
       let vm = this
       vm.tel = window.sessionStorage.getItem('usertel')
       if (vm.tel) {
-        axios.get('http://localhost:8000/course/insertCommentLike/' + $commid + '/' + vm.tel + '/')
+        axios.get(this.Global.HOST + 'course/insertCommentLike/' + $commid + '/' + vm.tel + '/')
           .then(function (response) {
             vm.commentlike = response.data.code
             vm.myFlush()
@@ -335,7 +340,7 @@ export default {
       let vm = this
       vm.tel = window.sessionStorage.getItem('usertel')
       if (vm.tel) {
-        axios.get('http://localhost:8000/course/insertReplyLike/' + $replyid + '/' + vm.tel + '/')
+        axios.get(this.Global.HOST + 'course/insertReplyLike/' + $replyid + '/' + vm.tel + '/')
           .then(function (response) {
             vm.replylike = response.data.code
             vm.myFlush()
@@ -352,6 +357,30 @@ export default {
         this.isReplyCommentary = false
         this.myFlush()
       }
+    },
+    // 删除视频评论
+    deletecomment: function (e) {
+      let $comid = $(e.target).parents('.ucomment').attr('id')
+      let vm = this
+      // vm.tel = window.sessionStorage.getItem('usertel')
+      // if (!$comid) {
+      //   $comid = ''
+      // }
+      axios.get(this.Global.HOST + 'course/deleteSectionComment/' + vm.sectid + '/' + $comid + '/')
+        .then(function (response) {
+          vm.code = response.data.code
+          vm.myFlush()
+        })
+    },
+    // 删除评论回复
+    deletereply: function (e) {
+      let $comid = $(e.target).parents('.ucomment').attr('id')
+      let vm = this
+      axios.get(this.Global.HOST + 'course/deleteReply/' + $comid + '/')
+        .then(function (response) {
+          vm.code = response.data.code
+          vm.myFlush()
+        })
     },
     // 返回上一页
     go: function () {
@@ -680,8 +709,13 @@ export default {
     font-size: 1.1em;
     font-weight: 700;
   }
+  .dele:hover{
+    cursor: pointer;
+  }
   .contain{
     height: 100%;
   }
-
+  .no-comment{
+    margin-top: 15px;
+  }
 </style>
