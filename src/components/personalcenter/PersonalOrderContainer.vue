@@ -6,7 +6,8 @@
         <a class="col-md-1 order-branch" id="2" @click="changeOrder">未支付</a>
         <a class="col-md-1 order-branch" id="1" @click="changeOrder">已完成</a>
         <a class="col-md-1 order-branch" id="3" @click="changeOrder">已失效</a>
-        <div class="col-md-6"></div>
+        <div class="col-md-4"></div>
+        <a class="col-md-2 order-branch" @click="tocart">去我的购物车</a>
       </div>
       <PersonalOrderBottom v-if="isF" :nowTop="aa" :tele="this.usertel"></PersonalOrderBottom>
     </div>
@@ -37,6 +38,11 @@ export default {
       this.isF = false
       this.$nextTick(() => {
         this.isF = true
+      })
+    },
+    tocart: function () {
+      this.$router.push({
+        path: '/cart'
       })
     }
   },
