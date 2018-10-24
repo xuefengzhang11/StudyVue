@@ -225,7 +225,6 @@ export default {
         .then(function (response) {
           vm.comment_num = response.data.comments.length
           vm.comments = response.data.comments
-          console.log(vm.Global.IMG)
         })
         .catch(function (error) {
           console.log(error)
@@ -251,7 +250,7 @@ export default {
     },
     getuserart: function () {
       let vm = this
-      axios.get('http://localhost:8000/article/getUserArticle/' + vm.articleid + '/')
+      axios.get(this.Global.HOST + 'article/getUserArticle/' + vm.articleid + '/')
         .then(function (response) {
           vm.artcount = response.data.nums
           vm.arttitle = response.data.uu_articles
@@ -276,7 +275,7 @@ export default {
     },
     gethotart: function () {
       let vm = this
-      axios.get('http://localhost:8000/article/hotArticle/')
+      axios.get(this.Global.HOST + 'article/hotArticle/')
         .then(function (response) {
           vm.hotarticle = response.data.articles
         })
@@ -318,7 +317,7 @@ export default {
       vm.tel = window.sessionStorage.getItem('usertel')
       if (vm.tel) {
         if (this.like_flag === false) {
-          axios.get('http://localhost:8000/article/insertArticleLike/' + vm.articleid + '/' + vm.tel + '/')
+          axios.get(this.Global.HOST + 'article/insertArticleLike/' + vm.articleid + '/' + vm.tel + '/')
             .then(function (response) {
               vm.articlelike = response.data.code
               if (vm.articlelike === 999) {
@@ -327,7 +326,7 @@ export default {
               vm.myFlush()
             })
         } else {
-          axios.get('http://localhost:8000/article/deteleArticleLike/' + vm.articleid + '/' + vm.tel + '/')
+          axios.get(this.Global.HOST + 'article/deteleArticleLike/' + vm.articleid + '/' + vm.tel + '/')
             .then(function (response) {
               vm.articlelike = response.data.code
               // console.log(response.data.code)
@@ -348,7 +347,7 @@ export default {
       let vm = this
       vm.tel = window.sessionStorage.getItem('usertel')
       if (vm.tel) {
-        axios.get('http://localhost:8000/article/insertCommentLike/' + $commid + '/' + vm.tel + '/')
+        axios.get(this.Global.HOST + 'article/insertCommentLike/' + $commid + '/' + vm.tel + '/')
           .then(function (response) {
             vm.commentlike = response.data.code
             vm.myFlush()
@@ -364,7 +363,7 @@ export default {
       let vm = this
       vm.tel = window.sessionStorage.getItem('usertel')
       if (vm.tel) {
-        axios.get('http://localhost:8000/article/insertReplyLike/' + $replyid + '/' + vm.tel + '/')
+        axios.get(this.Global.HOST + 'article/insertReplyLike/' + $replyid + '/' + vm.tel + '/')
           .then(function (response) {
             vm.replylike = response.data.code
             vm.myFlush()

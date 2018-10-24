@@ -2,7 +2,7 @@
     <div class="container car bg-danger">
       <div class="row car-header">
         <div class="col-md-2 text-center" style="color: gray;">
-          <input type="checkbox">全选
+          <input type="checkbox" @click="choiceAll" :checked="ischoiceAll"><span @click="choiceAll">全选</span>
         </div>
         <div class="col-md-6">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;课程</div>
@@ -11,9 +11,10 @@
       </div>
       <div class="row line" style="margin-top: 0"></div>
       <!--模板-->
-      <div class="row car-course" v-for="cour in courCarts" :key="cour.id" :id="cour.id">
+      <div class="row car-course" v-for="cour in courCarts" :key="cour.id" :id="cour.id" :cartid="cour.cartid">
         <div class="col-md-2 text-center">
-          <input class="ipt" type="checkbox" :checked="cour.coursecat__checked">
+          <input ref="ipt" class="ipt" type="checkbox" @click="choiceOne"
+                 :flag="cour.coursecat__checked" :checked="cour.coursecat__checked">
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         </div>
         <div class="col-md-6">
@@ -22,18 +23,16 @@
           </span>
           <span style="padding-left: 30px" v-text="cour.name"></span>
         </div>
-        <div class="col-md-2 text-center" style="font-weight: 600" v-text="'￥'+parseFloat(cour.price).toFixed(2)">
+        <div class="col-md-2 text-center price" :data-p="cour.price" style="font-weight: 600" v-text="'￥'+parseFloat(cour.price).toFixed(2)">
         </div>
         <div class="col-md-2 text-center">
-          <span class="del">删除</span>
+          <span class="del" @click="delCourse">删除</span>
         </div>
         <div class="col-md-12 line"></div>
       </div>
       <div class="row car-footer">
         <div class="col-md-8"></div>
-        <div class="col-md-2 text-center" style="color: red; font-size: 1.2em">
-          ￥总价
-        </div>
+        <div class="col-md-2 text-center" v-text="'￥'+ totalPrice" style="color: red; font-size: 1.2em"></div>
         <div class="col-md-2 text-center">
           <span class="jiesuan">结算</span>
         </div>
@@ -51,7 +50,9 @@ export default {
     return {
       msg: '购物车',
       courCarts: [],
-      courIdsStatus: ''
+      courIdsStatus: [],
+      totalPrice: '',
+      ischoiceAll: false
     }
   },
   mounted () {
@@ -65,8 +66,11 @@ export default {
       axios.get(this.Global.HOST + 'order/getCourCarts/' + tel + '/')
         .then(function (response) {
           vm.courCarts = response.data.carts
-          console.log(vm.courCarts)
-          vm.getCourIds()
+          vm.$nextTick(() => {
+            vm.getCourIds()
+            vm.getTotalPrice()
+            vm.isCheckAll()
+          })
         })
         .catch(function (error) {
           console.log(error)
@@ -74,10 +78,120 @@ export default {
     },
     // 得到所有已选中的课程的id集合
     getCourIds: function () {
+      this.courIdsStatus = []
       setTimeout(() => {
-        let $ipts = $('.car-course input.ipt')
-        console.log($ipts)
-      }, 1000)
+        let ipts = this.$refs.ipt
+        for (let ipt of ipts) {
+          // 获取id
+          let cid = $(ipt).parents('.car-course').attr('id')
+          // 获取flag
+          let flag = ipt.getAttribute('flag')
+          if (!flag) {
+            flag = false
+          }
+          this.courIdsStatus.push({'id': cid, 'checked': flag})
+        }
+        console.log(this.courIdsStatus)
+      }, 1)
+    },
+
+    // 计算所有的已被选中的课程的总价
+    getTotalPrice: function () {
+      setTimeout(() => {
+        let totalPrice = 0.00
+        for (let ipt of this.$refs.ipt) {
+          // 获取flag
+          let flag = ipt.getAttribute('flag')
+          if (flag) {
+            totalPrice += parseFloat($(ipt).parents('.car-course').find('.price').attr('data-p'))
+          }
+        }
+        this.totalPrice = totalPrice.toFixed(2)
+      }, 1)
+    },
+
+    // 点击删除，删除购物车数据
+    delCourse: function (e) {
+      // 获取购物数据id
+      let cartid = $(e.target).parents('.car-course').attr('cartid')
+      let vm = this
+      axios.get(this.Global.HOST + 'order/delCartById/' + cartid + '/')
+        .then(function (response) {
+          console.log(response.data)
+          if (response.data.res === '删除成功') {
+            vm.getCourCarts()
+          } else {
+            alert(response.data.res)
+          }
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
+
+    // 检测是否为全选
+    isCheckAll: function () {
+      setTimeout(() => {
+        let ipts = this.$refs.ipt
+        let count = 0
+        for (let ipt of ipts) {
+          // 获取flag
+          let flag = ipt.getAttribute('flag')
+          if (flag) {
+            count += 1
+          }
+        }
+        if (count === ipts.length) {
+          this.ischoiceAll = true
+        } else {
+          this.ischoiceAll = false
+        }
+      }, 1)
+    },
+
+    // 全选点击事件
+    choiceAll: function () {
+      let bflag
+      if (this.ischoiceAll) {
+        // 若已经处于全选状态-> 取消全选
+        bflag = 'False'
+      } else {
+        bflag = 'True'
+      }
+      let vm = this
+      let usertel = window.sessionStorage.getItem('usertel')
+      axios.get(this.Global.HOST + 'order/choiceAllOrNot/' + bflag + '/' + usertel + '/')
+        .then(function (response) {
+          if (response.data.res === '成功') {
+            vm.getCourCarts()
+          } else {
+            alert(response.data.res)
+          }
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
+
+    // 单条购物数据选择取消事件
+    choiceOne: function (e) {
+      // 获取购物数据id
+      let cartid = $(e.target).parents('.car-course').attr('cartid')
+      let usertel = window.sessionStorage.getItem('usertel')
+      // 修改状态，重新加载
+      let vm = this
+      axios.get(this.Global.HOST + 'order/ChangeCartById/' + cartid + '/' + usertel + '/')
+        .then(function (response) {
+          console.log(response.data)
+          if (response.data.res === '修改成功') {
+            vm.getCourCarts()
+          } else {
+            alert(response.data.res)
+          }
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     }
   }
 }
@@ -91,14 +205,16 @@ export default {
     margin: 30px auto 0;
     background: white;
     border-radius: 20px;
-    /*padding: 0 40px;*/
     box-sizing: border-box;
   }
   /*购物车头部*/
-  .car-header {
+  .car-header{
     height: 60px;
     line-height: 60px;
     font-size: 1.2em;
+  }
+  .car-header span:hover{
+    cursor: pointer;
   }
   .car-course {
     height: 110px;
