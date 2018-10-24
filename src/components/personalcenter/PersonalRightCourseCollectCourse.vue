@@ -12,7 +12,7 @@
             <div class="row">
               <div class="col-md-3">
                 <a href="#">
-                  <img src="../../assets/images/users/user-icon.jpg" class="study-img" id="collect.course_id" @click.prevent.stop="toCourseDetail">
+                  <img :src="Global.IMG+collect.cour_imgurl" class="study-img" id="collect.course_id" @click.prevent.stop="toCourseDetail">
                 </a>
               </div>
               <div class="col-md-6" style="margin-left: 70px">
@@ -25,7 +25,7 @@
                   <span>价格 : <span v-text="collect.course_price"></span></span>
                 </div>
                 <div class="row my-quest">
-                  <span>课程收藏数: <span v-text="collect.coursenum"></span></span>
+                  <span><span v-text="collect.coursenum" style="color: red;"></span>人收藏</span>
                 </div>
               </div>
             </div>

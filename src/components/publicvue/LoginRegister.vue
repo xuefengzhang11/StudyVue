@@ -126,7 +126,7 @@ export default {
       // 用户输入的验证码
       user_validate: '',
       // 可以获取验证码的间隔时间，秒
-      seconds: 5
+      seconds: 60
     }
   },
   created: function () {
@@ -178,34 +178,37 @@ export default {
     },
     // 点击获取验证码
     sendValidate: function (e) {
-      // 更换按钮状态
-      $(e.target).css('background', 'gray').attr('disabled', true)
-      // 每一秒钟执行一次
-      let timer = window.setInterval(() => {
-        $(e.target).text(--this.seconds + '秒后获取')
-        if (this.seconds < 1) {
-          // 清除定时器
-          window.clearInterval(timer)
-          // 恢复原始状态
-          $(e.target).css('background', 'white').attr('disabled', false).text('获取验证码')
-          // 秒数重新变为60
-          this.seconds = 5
+      let flag = this.showTip4()
+      if (!flag) {
+        // 更换按钮状态
+        $(e.target).css('background', 'gray').attr('disabled', true)
+        // 每一秒钟执行一次
+        let timer = window.setInterval(() => {
+          $(e.target).text(--this.seconds + '秒后获取')
+          if (this.seconds < 1) {
+            // 清除定时器
+            window.clearInterval(timer)
+            // 恢复原始状态
+            $(e.target).css('background', 'white').attr('disabled', false).text('获取验证码')
+            // 秒数重新变为60
+            this.seconds = 60
+          }
+        }, 1000)
+        // 发送ajax，后台调用接口发送验证码给用户
+        let user = {
+          'user_tel': this.user_tel
         }
-      }, 1000)
-      // 发送ajax，后台调用接口发送验证码给用户
-      let user = {
-        'user_tel': this.user_tel
+        let vm = this
+        $.ajax({
+          url: this.Global.HOST + 'user/sendValidate/',
+          type: 'POST',
+          data: user,
+          success: function (response, textStatus, request) {
+            console.log(response.msg)
+            vm.registerError = response.msg
+          }
+        })
       }
-      let vm = this
-      $.ajax({
-        url: this.Global.HOST + 'user/sendValidate/',
-        type: 'POST',
-        data: user,
-        success: function (response, textStatus, request) {
-          console.log(response.msg)
-          vm.registerError = response.msg
-        }
-      })
     },
     // 用户注册
     register: function () {
@@ -378,7 +381,8 @@ export default {
   }
 
   .white {
-    height: 30px;;
+    height: 30px;
+    color: red;
   }
   .text {
     height: 70px;

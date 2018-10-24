@@ -3,7 +3,7 @@
     <div class="col-md-12 study-top a">
       <div>
         <!--最近学习-->
-        <div class="row def-study" v-show="isnextstudy" v-for="next in nextstudy" :key="next.section_id" :id="next.section_id">
+        <div class="row def-study" v-show="isnextstudy" v-for="next in nextstudy" :key="next.section_id" :id="next.courid">
           <div class="col-md-1 course-time">
             <div class="study-year" v-text="next.history_watchtime.toString().slice(0,4)"></div>
             <div class="study-data"  v-text="next.history_watchtime.toString().slice(5,10)"></div>
@@ -13,7 +13,7 @@
             <div class="row">
               <div class="col-md-3">
                 <a href="#">
-                  <img src="../../assets/images/users/user-icon.jpg" class="study-img" @click.prevent.stop="toCourseDetail">
+                  <img :src="Global.IMG + next.cour_imgurl" class="study-img" @click.prevent.stop="toCourseDetail">
                 </a>
               </div>
               <div class="col-md-6" style="margin-left: 70px">

@@ -34,7 +34,7 @@
               <div class="b-comment">
                 <span class="comment-num">{{comment_num}}评论</span>
                 <!--没有评论时显示-->
-                <p class="no-comment" v-if="comment_num === '0'" v-text="'暂无评论'"></p>
+                <p class="no-comment" v-if="comment_num === 0" v-text="'暂无评论'"></p>
                 <!--<div class="line"></div>-->
                 <div class="com-content" v-else>
                   <!--评论展示模板-->
