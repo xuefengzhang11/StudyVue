@@ -390,13 +390,10 @@ export default {
     // 删除文章评论
     deletecomment: function (e) {
       let $comid = $(e.target).parents('.ucomment').attr('id')
-      alert($comid)
-      alert(this.articleid)
       let vm = this
       axios.get(this.Global.HOST + 'article/deleteArticleComment/' + $comid + '/' + vm.articleid + '/')
         .then(function (response) {
           vm.code = response.data.code
-          alert(response.data.code)
           vm.myFlush()
         })
     },
