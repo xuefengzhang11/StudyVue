@@ -12,6 +12,7 @@ import SectionDetail from '@/components/course/SectionDetail'
 // 文章模块组件
 import ArticleHome from '@/components/article/ArticleHome'
 import ArticleDetailContainer from '@/components/article/ArticleDetailContainer'
+import WriteArticle from '@/components/article/WriteArticle'
 
 // 职业计划模块组件
 import CareerHome from '@/components/career/CareerHome'
@@ -25,7 +26,6 @@ import PersonalSettingContainer from '@/components/personalsetting/PersonalSetti
 import Cart from '@/components/publicvue/Cart'
 // 订单组件
 import PersonalOrderContainer from '@/components/personalcenter/PersonalOrderContainer'
-
 Vue.use(Router)
 
 export default new Router({
@@ -89,6 +89,11 @@ export default new Router({
       path: '/order',
       name: 'order',
       component: PersonalOrderContainer
+    },
+    {
+      path: '/writearticle',
+      name: 'writearticle',
+      component: WriteArticle
     }
   ]
 })

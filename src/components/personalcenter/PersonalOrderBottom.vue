@@ -11,7 +11,7 @@
                   <span class="col-md-1">
                       <img src="../../assets/icons/order.svg" alt="">
                   </span>
-                  <span class="col-md-4 tel">
+                  <span class="col-md-6 tel">
                     <span class="col-md-6">订单编号:</span>
                     <span class="col-md-6">{{ord.number}}</span>
                   </span>
@@ -19,7 +19,7 @@
                     <span v-text="ord.ordertime.slice(0,10)"></span>
                     <span v-text="ord.ordertime.slice(11,19)"></span>
                   </span>
-                  <span class="col-md-4"></span>
+                  <span class="col-md-2"></span>
                 </div>
               </div>
               <div class="row white"></div>

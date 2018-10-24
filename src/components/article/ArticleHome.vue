@@ -22,7 +22,7 @@
           </div>
           <!--发表文章按钮-->
           <div class="col-md-2 text-center btn-seed-art">
-            <button>写文章</button>
+            <button @click="toWriteArticle">写文章</button>
           </div>
         </div>
       </div>
@@ -55,6 +55,8 @@
         <paging :ac="alllenght" :currentIndex="pageIndex" @indexclick="getIndex" :count="pagesize" v-show="pagesize>1"></paging>
       </div>
     </div>
+    <!--未登录提示框-->
+    <tiplogin v-if="isTipLogin" @sureclick="isTipLogin=false"></tiplogin>
   </div>
 </template>
 
@@ -77,7 +79,8 @@ export default {
       // 页码总数
       pagesize: 1,
       // 文章总数
-      alllenght: 0
+      alllenght: 0,
+      isTipLogin: false
     }
   },
   created: function () {
@@ -124,6 +127,16 @@ export default {
     getIndex: function (i) {
       this.pageIndex = i
       this.getDate()
+    },
+    toWriteArticle: function () {
+      let usertel = window.sessionStorage.getItem('usertel')
+      if (usertel) {
+        this.$router.push({
+          path: '/writearticle'
+        })
+      } else {
+        this.isTipLogin = true
+      }
     }
   },
   // 超过规定字数，用省略号
