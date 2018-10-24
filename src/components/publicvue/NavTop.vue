@@ -146,7 +146,6 @@ export default {
       shopHover: false,
       exist: false,
       person_exist: false,
-      usertel: '',
       user: {},
       imgurl: ''
     }
