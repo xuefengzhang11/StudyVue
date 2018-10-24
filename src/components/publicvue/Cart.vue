@@ -34,7 +34,7 @@
         <div class="col-md-8"></div>
         <div class="col-md-2 text-center" v-text="'￥'+ totalPrice" style="color: red; font-size: 1.2em"></div>
         <div class="col-md-2 text-center">
-          <span class="jiesuan">结算</span>
+          <span class="jiesuan" @click="jiesuan">结算</span>
         </div>
       </div>
     </div>
@@ -192,6 +192,11 @@ export default {
         .catch(function (error) {
           console.log(error)
         })
+    },
+
+    // 结算
+    jiesuan: function () {
+      console.log(this.courIdsStatus)
     }
   }
 }
