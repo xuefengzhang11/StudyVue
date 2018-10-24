@@ -1,9 +1,12 @@
 <template>
- <div>{{msg}}</div>
+  <div class="container-fluid text-center bg-danger"
+       style="height: 100px;"
+  >
+    <h1>{{msg}}</h1>
+  </div>
 </template>
 
 <script>
-
 export default {
   name: 'Carousel',
   data () {
