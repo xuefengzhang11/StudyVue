@@ -12,7 +12,9 @@
       <div class="col-md-3" v-for="he in hotCareer" :key="he.id" :id="he.id"  @click.prevent.stop="toCareerDetail">
           <div class="career">
               <a href="#">
-                  <div class="career-img"><img src="../../assets/images/courses/1.jpg" alt=""></div>
+                  <div class="career-img">
+                    <img :src="Global.IMG + he.imgurl" alt="">
+                  </div>
                   <div class="career-info">
                       <p class="career-title">{{he.name | hotmot(15,16)}}</p>
                       <p>

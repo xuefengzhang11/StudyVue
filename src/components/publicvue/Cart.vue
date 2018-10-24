@@ -1,11 +1,13 @@
 <template>
-    <div class="container car bg-danger">
+  <div>
+    <!--购物车有数据时-->
+    <div v-if="courCarts.length>0" class="container car">
       <div class="row car-header">
         <div class="col-md-2 text-center" style="color: gray;">
           <input type="checkbox" @click="choiceAll" :checked="ischoiceAll"><span @click="choiceAll">全选</span>
         </div>
         <div class="col-md-6">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;课程</div>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;课程</div>
         <div class="col-md-2 text-center">价格</div>
         <div class="col-md-2 text-center">操作</div>
       </div>
@@ -34,15 +36,37 @@
         <div class="col-md-8"></div>
         <div class="col-md-2 text-center" v-text="'￥'+ totalPrice" style="color: red; font-size: 1.2em"></div>
         <div class="col-md-2 text-center">
-          <span class="jiesuan" @click="jiesuan">结算</span>
+          <span class="jiesuan" @click="isShow=true">结算</span>
         </div>
       </div>
     </div>
+    <!--购物车没有数据-->
+    <div v-else class="container car" style="height: 480px">
+      <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 text-center" style="padding-top: 160px">
+          <span style="font-size: 2em; color: #e8e8e8;">购物车内空空如也</span>
+        </div>
+        <div class="col-md-4"></div>
+      </div>
+      <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4 text-center" style="">
+          <img src="../../assets/icons/cart-kong.svg" alt="">
+        </div>
+        <div class="col-md-4"></div>
+      </div>
+    </div>
+    <MakeSureBuy v-if="isShow" @quxiaoclick="noBuy" @sureclick="goBuy"></MakeSureBuy>
+    <MakeOrder :orderMsg="orderMsg" v-if="isShowMakeOrder" @close="isShowMakeOrder=false"></MakeOrder>
+  </div>
 </template>
 
 <script>
 import $ from 'jquery'
 import axios from 'axios'
+import MakeSureBuy from './MakeSureBuy'
+import MakeOrder from './MakeOrder'
 
 export default {
   name: 'Cart',
@@ -52,12 +76,16 @@ export default {
       courCarts: [],
       courIdsStatus: [],
       totalPrice: '',
-      ischoiceAll: false
+      ischoiceAll: false,
+      isShow: false,
+      isShowMakeOrder: false,
+      orderMsg: ''
     }
   },
   mounted () {
     this.getCourCarts()
   },
+  components: {MakeSureBuy, MakeOrder},
   methods: {
     // 得到购物车的所有数据
     getCourCarts: function () {
@@ -76,6 +104,7 @@ export default {
           console.log(error)
         })
     },
+
     // 得到所有已选中的课程的id集合
     getCourIds: function () {
       this.courIdsStatus = []
@@ -88,6 +117,8 @@ export default {
           let flag = ipt.getAttribute('flag')
           if (!flag) {
             flag = false
+          } else {
+            flag = true
           }
           this.courIdsStatus.push({'id': cid, 'checked': flag})
         }
@@ -182,7 +213,6 @@ export default {
       let vm = this
       axios.get(this.Global.HOST + 'order/ChangeCartById/' + cartid + '/' + usertel + '/')
         .then(function (response) {
-          console.log(response.data)
           if (response.data.res === '修改成功') {
             vm.getCourCarts()
           } else {
@@ -194,9 +224,52 @@ export default {
         })
     },
 
-    // 结算
-    jiesuan: function () {
+    // 确认购买
+    goBuy: function () {
+      // 当前用户
+      let usertel = window.sessionStorage.getItem('usertel')
+      console.log(usertel)
       console.log(this.courIdsStatus)
+      let ids = this.courIdsStatus
+      let vm = this
+      axios.post(this.Global.HOST + 'order/goBuy/' + usertel + '/', ids)
+        .then(function (response) {
+          if (response.data.res === '成功') {
+            vm.getCourCarts()
+            vm.isShow = false
+            vm.orderMsg = '购买成功'
+            vm.isShowMakeOrder = true
+          } else {
+            alert(response.data.res)
+          }
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
+
+    // 取消购买
+    noBuy: function () {
+      // 当前用户
+      let usertel = window.sessionStorage.getItem('usertel')
+      console.log(usertel)
+      console.log(this.courIdsStatus)
+      let ids = this.courIdsStatus
+      let vm = this
+      axios.post(this.Global.HOST + 'order/noBuy/' + usertel + '/', ids)
+        .then(function (response) {
+          if (response.data.res === '成功') {
+            vm.getCourCarts()
+            vm.isShow = false
+            vm.orderMsg = '取消成功'
+            vm.isShowMakeOrder = true
+          } else {
+            alert(response.data.res)
+          }
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     }
   }
 }
@@ -212,6 +285,7 @@ export default {
     border-radius: 20px;
     box-sizing: border-box;
   }
+
   /*购物车头部*/
   .car-header{
     height: 60px;
@@ -261,5 +335,9 @@ export default {
     color: white;
     font-size: 1.5em;
     font-weight: 600;
+  }
+  .jiesuan:hover{
+    cursor: pointer;
+    box-shadow: 2px 2px 10px black;
   }
 </style>
