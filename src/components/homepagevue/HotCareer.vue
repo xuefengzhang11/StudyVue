@@ -39,7 +39,6 @@ export default {
   name: 'HotCareer',
   data () {
     return {
-      url: 'http://localhost:8000/',
       msg: '热门文章',
       hotCareer: [],
       coursecount: [],
@@ -48,12 +47,9 @@ export default {
   },
   mounted: function () {
     let vm = this
-    axios.get(this.url + 'career/hotCareer/')
+    axios.get(this.Global.HOST + 'career/hotCareer/')
       .then(function (response) {
         vm.hotCareer = response.data.hotCareers
-        // vm.coursecount = response.data.course_count
-        // console.log(vm.hotCareer)
-        // console.log(vm.coursecount)
       })
       .catch(function (error) {
         console.log(error)
@@ -178,10 +174,10 @@ export default {
     font-weight: bold;
   }
   .icon-career-l {
-    background: url("../../assets/icons/home-icons.png") 0 -792px;
+    background: url("../../assets/icons/home-icons.png") 0 -1080px;
   }
 
   .icon-career-r {
-    background: url("../../assets/icons/home-icons.png") 0 -720px;
+    background: url("../../assets/icons/home-icons.png") 0 -1008px;
   }
 </style>

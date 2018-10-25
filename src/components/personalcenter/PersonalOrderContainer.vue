@@ -32,7 +32,6 @@ export default {
     changeOrder: function (e) {
       this.orderStatus = $(e.target).attr('id')
       this.aa = this.orderStatus
-      // this.updatedEmail = true
       // 强制刷新子组件
       this.isF = false
       this.$nextTick(() => {

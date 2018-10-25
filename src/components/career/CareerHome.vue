@@ -72,8 +72,8 @@ export default {
   methods: {
     // 数据
     getData: function () {
-      var vm = this
-      axios.get('http://localhost:8000/career/getcareer/' + vm.pageIndex + '/')
+      let vm = this
+      axios.get(this.Global.HOST + 'career/getcareer/' + vm.pageIndex + '/')
         .then(function (response) {
           vm.allcareers = response.data.careers
         })
@@ -97,7 +97,7 @@ export default {
       let $careid = $(e.target).parents('.career-container').attr('id')
       if ($careid) {
         this.$router.push({
-          path: 'careerdetail/',
+          path: '/careerdetail/',
           name: 'careerdetail',
           params: {
             careerid: $careid
@@ -135,7 +135,7 @@ export default {
       return snum
     }
   },
-  components: { CareerDetail, Paging }
+  components: {CareerDetail, Paging}
 }
 </script>
 

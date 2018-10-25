@@ -75,7 +75,7 @@ export default {
     // 取数据
     getDate: function () {
       let vm = this
-      axios.get('http://localhost:8000/article/getCollectArticle/' + vm.usertel + '/')
+      axios.get(this.Global.HOST + 'article/getCollectArticle/' + vm.usertel + '/')
         .then(function (response) {
           vm.article = response.data.article
           vm.nums = response.data.article.length
@@ -95,7 +95,7 @@ export default {
     deleteArticle: function (e) {
       let $courid = $(e.target).parents('.mycollections').attr('id')
       let vm = this
-      axios.get('http://localhost:8000/article/deleteArticle/' + $courid + '/')
+      axios.get(this.Global.HOST + 'article/deleteArticle/' + $courid + '/')
         .then(function (response) {
           vm.collectcourse = response.data.code
           if (vm.collectcourse === '888') {

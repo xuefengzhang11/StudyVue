@@ -23,7 +23,6 @@ export default {
   name: 'PersonalLeft',
   data () {
     return {
-      url: 'http://localhost:8000/',
       msg: '个人中心左侧',
       nowRight: 'freeCourse'
     }

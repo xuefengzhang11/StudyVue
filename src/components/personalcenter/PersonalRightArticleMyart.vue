@@ -63,11 +63,9 @@ export default {
     // 判断数量
     judgeArticle: function () {
       if (this.nums) {
-        console.log(12)
         this.studynotarticle = false
         this.studyarticle = true
       } else {
-        console.log(34)
         this.studynotarticle = true
         this.studyarticle = false
       }
@@ -75,7 +73,7 @@ export default {
     // 取数据
     getDate: function () {
       let vm = this
-      axios.get('http://localhost:8000/article/getMyArticle/' + vm.usertel + '/')
+      axios.get(this.Global.HOST + 'article/getMyArticle/' + vm.usertel + '/')
         .then(function (response) {
           vm.article = response.data.article
           vm.nums = response.data.article.length
@@ -94,9 +92,8 @@ export default {
     // 删除文章
     deleteArticle: function (e) {
       let $courid = $(e.target).parents('.mycollections').attr('id')
-      console.log($courid)
       let vm = this
-      axios.get('http://localhost:8000/article/deleteUserArticle/' + $courid + '/')
+      axios.get(this.Global.HOST + 'article/deleteUserArticle/' + $courid + '/')
         .then(function (response) {
           vm.collectcourse = response.data.code
           if (vm.collectcourse === '888') {
