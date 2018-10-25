@@ -508,6 +508,9 @@ export default {
     margin-top: 15px;
     text-align: left;
   }
+  .shopcart .shop-center:hover{
+    cursor: pointer;
+  }
   .shopcart .shop-car {
     width: 100px;
     height: 30px;
@@ -517,6 +520,9 @@ export default {
     border-radius: 50px;
     line-height: 30px;
     text-align: center;
+  }
+  .shopcart .shop-car:hover{
+    cursor: pointer;
   }
   .my-cancel{
     padding-right: 40px;
