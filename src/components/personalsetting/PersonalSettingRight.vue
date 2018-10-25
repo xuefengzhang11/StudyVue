@@ -22,7 +22,6 @@ export default {
   },
   methods: {
     toUpdateUser: function () {
-      console.log(34)
       this.$emit('upuclick')
     }
   }

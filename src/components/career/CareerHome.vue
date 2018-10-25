@@ -73,7 +73,7 @@ export default {
     // 数据
     getData: function () {
       var vm = this
-      axios.get('http://localhost:8000/career/getcareer/' + vm.pageIndex + '/')
+      axios.get(this.Global.HOST + 'career/getcareer/' + vm.pageIndex + '/')
         .then(function (response) {
           vm.allcareers = response.data.careers
         })
@@ -84,7 +84,7 @@ export default {
     // 获取分页数和职业总数
     getPageSize: function () {
       let vm = this
-      axios.get('http://localhost:8000/career/getcount/')
+      axios.get(this.Global.HOST + 'career/getcount/')
         .then(function (response) {
           vm.alllenght = response.data.account
           vm.pagesize = Math.ceil(response.data.account / 12)

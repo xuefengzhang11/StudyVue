@@ -37,7 +37,6 @@ export default {
   name: 'HotArticles',
   data () {
     return {
-      url: 'http://localhost:8000/',
       msg: '热门文章',
       hotArticles: [],
       hotmot: ''
@@ -45,10 +44,9 @@ export default {
   },
   mounted: function () {
     let vm = this
-    axios.get(this.url + 'article/hotArticle/')
+    axios.get(this.Global.HOST + 'article/hotArticle/')
       .then(function (response) {
         vm.hotArticles = response.data.articles
-        // console.log(vm.hotArticles)
       })
       .catch(function (error) {
         console.log(error)
@@ -57,7 +55,6 @@ export default {
   methods: {
     toArticleDetail: function (e) {
       let $courid = $(e.target).parents('.col-md-6').attr('id')
-      console.log($courid)
       if ($courid) {
         this.$router.push({
           // name -- params  类似于 ajax 中的 post -> this.$route.params.key

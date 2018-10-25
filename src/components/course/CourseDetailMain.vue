@@ -45,6 +45,8 @@
         </div>
       </div>
     </div>
+    <!--未登录提示组件-->
+    <tiplogin v-show="isTipLogin" @sureclick="isTipLogin=false"></tiplogin>
   </div>
 </template>
 
@@ -59,7 +61,9 @@ export default {
     return {
       msg: '课程详情主体',
       courseid: '',
-      hotCourses: {}
+      hotCourses: {},
+      // 是否显示登录提示
+      isTipLogin: false
     }
   },
   mounted: function () {
@@ -87,23 +91,29 @@ export default {
       let $sectid = $(e.target).parents('.section').attr('id')
       // 用户电话号码
       let usertel = window.sessionStorage.getItem('usertel')
-      if ($sectid) {
-        let vm = this
-        axios.get(this.Global.HOST + 'course/addSectionHistory/' + $sectid + '/' + usertel + '/')
-          .then(function (response) {
-            if (response.data.res === '成功') {
-              vm.$router.push({
-                path: 'sectiondetail/',
-                name: 'sectiondetail',
-                params: {
-                  sectid: $sectid
-                }
-              })
-            }
-          })
-          .catch(function (error) {
-            console.log(error)
-          })
+      if (usertel) {
+        // 用户已经登录
+        if ($sectid) {
+          let vm = this
+          axios.get(this.Global.HOST + 'course/addSectionHistory/' + $sectid + '/' + usertel + '/')
+            .then(function (response) {
+              if (response.data.res === '成功') {
+                vm.$router.push({
+                  path: 'sectiondetail/',
+                  name: 'sectiondetail',
+                  params: {
+                    sectid: $sectid
+                  }
+                })
+              }
+            })
+            .catch(function (error) {
+              console.log(error)
+            })
+        }
+      } else {
+      //  用户未登录
+        this.isTipLogin = true
       }
     }
   },

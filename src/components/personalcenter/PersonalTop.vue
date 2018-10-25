@@ -52,7 +52,6 @@ export default {
   name: 'PersonalTop',
   data () {
     return {
-      url: 'http://localhost:8000/',
       msg: '个人中心头部',
       usertel: '',
       imgurl: '',
@@ -64,10 +63,10 @@ export default {
   },
   mounted: function () {
     let vm = this
-    axios.get(this.url + 'user/getUser/' + this.usertel + '/')
+    axios.get(this.Global.HOST + 'user/getUser/' + this.usertel + '/')
       .then(function (response) {
         vm.user = response.data.user[0]
-        vm.imgurl = 'http://pgu05jbff.bkt.clouddn.com/' + vm.user.icon__iconurl
+        vm.imgurl = this.Global.IMG + vm.user.icon__iconurl
       })
       .catch(function (error) {
         console.log(error)

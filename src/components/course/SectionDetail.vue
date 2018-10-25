@@ -28,7 +28,7 @@
         </div>
       </div>
       <div class="row vidio">
-        <div class="col-md-8">
+        <div class="col-md-9">
           <!--视频背景图-->
           <div class="watch">
             <div class="logo">
@@ -39,7 +39,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
           <!--模板-->
           <!--讲师信息简介-->
           <div class="info">
@@ -52,19 +52,19 @@
               </span>
             </div>
             <div class="row show">
-              <p v-text="sect.introduce">
+              &nbsp;&nbsp;&nbsp;&nbsp;<p v-text="sect.introduce">
               </p>
             </div>
             <div class="collection">
               <!--模板-->
               <!--相关课程-->
-              <div class="row hot-course" v-for="course in sect.coursedata" :key="course.id" :id="course.id" @click.prevent.stop="toCourseDetail">
+              <div class="row hot-course">
                 <div class="hot-font">
-                  课程 <span style="margin-left: 160px;font-size: 0.8em;color:#bababa">收藏数：<span v-text="sect.coursenum"></span></span>
+                  课程 <span style="margin-left: 160px;font-size: 0.8em;color:#080808">收藏数：<span v-text="sect.coursenum"></span></span>
                 </div>
-                <div class="hot-video">
+                <div class="hot-video"  v-for="course in sect.coursedata" :key="course.id" :id="course.id" @click.prevent.stop="toCourseDetail">
                   <span class="col-md-5">
-                    <img src="../../assets/images/courses/1.jpg" alt="" class="hot-v-img">
+                    <img :src="Global.IMG + course.imgurl" alt="" class="hot-v-img">
                   </span>
                   <span class=" col-md-7">
                     <div class="row hot-name" v-text="course.name">
@@ -97,7 +97,7 @@
                 <img src="../../assets/images/users/user-icon.jpg" alt="">
               </span>
               <span class="sta" @click="toComment">共同学习，写下你的评论</span>
-              <div class="line"></div>
+              <div class="lines"></div>
               <div class="b-comment">
                 <span class="comment-num">{{comment_num}}评论</span>
                 <!--没有评论时显示-->
@@ -141,7 +141,7 @@
                       <!--二级评论内容-->
                       <div class="ucontent" v-text="reply.content"></div>
                     </div>
-                    <div class="line"></div>
+                    <div class="commentline"></div>
                     <div>
                     </div>
                   </div>
@@ -155,15 +155,15 @@
         <div class="col-md-3 contain-course">
           <!--模板-->
           <!--推荐课程模板-->
-          <div class="row hot-course" v-for="c in hotCourses" :id="c.id" :key="c.id" @click.prevent.stop="toCourseDetail">
+          <div class="row hot-course">
             <div class="hot-font">
               推荐课程
             </div>
-            <div class="hot-video">
+            <div class="hot-video" v-for="c in hotCourses" :id="c.id" :key="c.id" @click.prevent.stop="toCourseDetail">
               <span class="col-md-5">
-                <img src="../../assets/images/courses/1.jpg" alt="" class="hot-v-img">
+                <img :src="Global.IMG + c.imgurl" alt="" class="hot-v-img">
               </span>
-              <span class=" col-md-7">
+              <span class="col-md-7">
                 <div class="row hot-name" v-text="c.name">
                 </div>
                 <div class="row price-all" style="color:lightgrey">
@@ -173,7 +173,7 @@
                     <span class="course-l-people" v-text="c.learn"></span>
                   </p>
                 </div>
-                <div class="row courseline">
+                <div class="row courline">
                 </div>
               </span>
             </div>
@@ -307,7 +307,7 @@ export default {
     },
     // 跳转到相关的CourseDetail页
     toCourseDetail: function (e) {
-      let $courseid = $(e.target).parents('.hot-course').attr('id')
+      let $courseid = $(e.target).parents('.hot-video').attr('id')
       if ($courseid) {
         this.$router.push({
           path: '/coursedetail',
@@ -409,7 +409,6 @@ export default {
 
   /*头部*/
   .nav {
-    height: 80px;
     background: white;
   }
 
@@ -426,16 +425,13 @@ export default {
     margin-top: 30px;
   }
   .ret{
-    /*width: 40px;*/
     height: 50px;
   }
   .cour {
-    /*width: 600px;*/
-    height: 80px;
+    height: 40px;
     color: #000;
     font-size: 1.7em;
     margin-top: -5px;
-    position: absolute;
   }
 
   .nav-right {
@@ -445,14 +441,13 @@ export default {
 
   /*视频部分开始*/
   .vidio {
-    /*height: 500px;*/
     background: rgba(126, 126, 126, 0.89);
   }
 
   .watch {
     width: 1005px;
     height: 480px;
-    margin-left: 40px;
+    margin: auto;
     background: #202020;
     background-size: cover;
     margin-top: 8px;
@@ -464,8 +459,6 @@ export default {
     height: 440px;
     background: lightgrey;
     margin: 3px auto 0;
-    /*position: relative;*/
-    /*z-index: 999;*/
   }
   .logo-in{
     width: 110px;
@@ -485,18 +478,12 @@ export default {
     margin-left: 350px;
   }
   .info {
-    width: 400px;
-    height: 370px;
-    margin-left: 70px;
     margin-top: 20px;
-
   }
 
   .teac {
-    width: 360px;
-    height: 60px;
+
     position: relative;
-    left: 30px;
     top: 5px;
   }
 
@@ -505,34 +492,25 @@ export default {
   }
 
   .name {
-    width: 370px;
-    height: 60px;
     font-size:1.5em;
-    margin-left: 5px;
   }
 
   .name div {
-    height: 30px;
     color: #ffffff;
     margin-top: 2px;
   }
 
   .show {
-    width: 360px;
+    width: 340px;
     color: #000000;
     font-size: 1.2em;
-    margin-left: 30px;
     margin-top: 10px;
     margin-bottom: 10px;
-    letter-spacing: 1.3px;
+    letter-spacing: 1.4px;
   }
   .collection {
-    margin-left: 30px;
-    /*margin-top: 10px;*/
     font-size: 1.2em;
     color:white;
-    position: absolute;
-    top:300px;
   }
   /*留白部分*/
   .none {
@@ -561,11 +539,6 @@ export default {
   .contain-course{
     margin-top: 30px;
   }
-  .hot-course {
-    width: 340px;
-    /*height: 140px;*/
-    /*margin-left: 10px;*/
-  }
 
   .hot-font {
     height: 30px;
@@ -577,6 +550,7 @@ export default {
     width: 340px;
     height: 80px;
     margin-top: 10px;
+    margin-bottom: 20px;
   }
 
   .hot-v-img {
@@ -593,23 +567,27 @@ export default {
   }
 
   .hot-name {
-    height: 30px;
-    font-size: 1.3em;
+    /*height: 30px;*/
+    font-size: 1.1em;
     color: rgba(64, 64, 64, 0.8);
   }
-  .courseline{
+  .courline{
     width: 200px;
-    height: 8px;
+    position: absolute;
+    top:80px;
+    border-bottom: 1px rgba(128, 128, 128, 0.6) solid;
+  }
+  .commentline{
+    width: 700px;
     border-bottom: 1px rgba(128, 128, 128, 0.6) solid;
   }
   .line{
-    width: 700px;
-    height: 8px;
-    border-bottom: 1px rgba(128, 128, 128, 0.6) solid;
+    width: 170px;
+    border-bottom: 1px rgba(70, 70, 70, 0.6) solid;
   }
-  .price-all{
-    margin-top: 13px;
-    padding-top: 10px;
+  .lines{
+    width: 730px;
+    border-bottom: 1px rgba(70, 70, 70, 0.6) solid;
   }
   .price-all span{
     color: rgba(64, 64, 64, 0.8);
@@ -621,9 +599,7 @@ export default {
     padding: 20px 35px 20px;
     border-radius: 10px;
     background: white;
-    /*margin-top: 30px;*/
     margin-bottom: 100px;
-    /*line-height: 40px;*/
   }
 
   .article-bottom .sta {
@@ -692,7 +668,6 @@ export default {
     width: 50px;
     height: 30px;
     line-height: 30px;
-    /*padding-top: 1px;*/
   }
   .ucontent{
     clear: both;

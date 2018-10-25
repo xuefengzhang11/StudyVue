@@ -204,7 +204,6 @@ export default {
           type: 'POST',
           data: user,
           success: function (response, textStatus, request) {
-            console.log(response.msg)
             vm.registerError = response.msg
           }
         })

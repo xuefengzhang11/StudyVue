@@ -112,7 +112,7 @@
                 <div class="col-md-8">
                   <div class="title">作者相关文章</div>
                 </div>
-                <div class="col-md-4 more text-center"><a href="#">更多 &gt;</a></div>
+                <div class="col-md-4 more text-center" @click.stop.prevent="toarticle"><a href="#">更多 &gt;</a></div>
               </div>
               <div class="row">
                 <!--一个文章模板-->
@@ -230,7 +230,6 @@ export default {
           vm.comment_num = response.data.comments.length
           vm.comments = response.data.comments
           vm.user_id = response.data.user_id
-          // console.log(vm.Global.IMG)
         })
         .catch(function (error) {
           console.log(error)
@@ -335,7 +334,6 @@ export default {
           axios.get(this.Global.HOST + 'article/deteleArticleLike/' + vm.articleid + '/' + vm.tel + '/')
             .then(function (response) {
               vm.articlelike = response.data.code
-              // console.log(response.data.code)
               if (vm.articlelike === 999) {
                 vm.like_flag = false
               }
@@ -406,6 +404,11 @@ export default {
           vm.code = response.data.code
           vm.myFlush()
         })
+    },
+    toarticle: function () {
+      this.$router.push({
+        path: '/article'
+      })
     }
   },
   filters: {
@@ -435,7 +438,6 @@ export default {
     width: 50px;
     height: 30px;
     line-height: 30px;
-    /*padding-top: 1px;*/
   }
   .like:hover, .upcom:hover{
     cursor: pointer;

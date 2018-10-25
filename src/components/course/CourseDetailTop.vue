@@ -33,8 +33,9 @@
         </div>
         <div class="col-md-4"></div>
         <div class="col-md-4 text-right poin" :id="course.id">
-          <img src="../../assets/icons/collect-de.svg" alt="" @click.stop.prevent="collectsection" v-show="flag">
-          <img src="../../assets/icons/collect-su.svg" alt="" @click.stop.prevent="collectsection" v-show="!flag">
+          <span><img src="../../assets/icons/collect-de.svg" alt="" @click.stop.prevent="collectsection" v-show="flag"></span>
+          <span><img src="../../assets/icons/collect-su.svg" alt="" @click.stop.prevent="collectsection" v-show="!flag">&nbsp;<span v-show="!flag">已收藏</span>
+          </span>
         </div>
       </div>
       <div class="row">
@@ -83,10 +84,9 @@ export default {
       let vm = this
       if (this.flag === true) {
         vm.tel = window.sessionStorage.getItem('usertel')
-        axios.get('http://localhost:8000/course/insertCollectCourse/' + vm.course_id + '/' + vm.tel + '/')
+        axios.get(this.Global.HOST + 'course/insertCollectCourse/' + vm.course_id + '/' + vm.tel + '/')
           .then(function (response) {
             vm.collectcourse = response.data.code
-            // console.log(response.data.code)
             if (vm.collectcourse === 888) {
               vm.flag = false
             }
@@ -94,11 +94,9 @@ export default {
           })
       } else {
         vm.tel = window.sessionStorage.getItem('usertel')
-        // console.log(vm.tel)
-        axios.get('http://localhost:8000/course/deteleCollectCourse/' + vm.course_id + '/' + vm.tel + '/')
+        axios.get(this.Global.HOST + 'course/deteleCollectCourse/' + vm.course_id + '/' + vm.tel + '/')
           .then(function (response) {
             vm.collectcourse = response.data.code
-            // console.log(response.data.code)
             if (vm.collectcourse === 888) {
               vm.flag = true
             }
@@ -109,7 +107,7 @@ export default {
     collectjudge: function (e) {
       let vm = this
       vm.tel = window.sessionStorage.getItem('usertel')
-      axios.get('http://localhost:8000/course/collectJudge/' + vm.course_id + '/' + vm.tel + '/')
+      axios.get(this.Global.HOST + 'course/collectJudge/' + vm.course_id + '/' + vm.tel + '/')
         .then(function (response) {
           vm.collectcourse = response.data.code
           if (vm.collectcourse === 888) {

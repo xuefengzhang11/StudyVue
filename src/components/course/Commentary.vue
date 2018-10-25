@@ -60,7 +60,6 @@ export default {
           data: sectioncomment,
           success: function (response, textStatus, request) {
             vm.res = response.code
-            console.log(response.code)
             if (vm.res === 888) {
               vm.$emit('toParentCode', 'success')
             }

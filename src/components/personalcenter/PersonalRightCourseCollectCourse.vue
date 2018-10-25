@@ -48,7 +48,6 @@ export default {
       msg: '免费课程',
       isnextstudy: false,
       iscollectcourse: true,
-      url: 'http://localhost:8000/',
       nextstudy: '',
       collectcourse: ''
     }
@@ -60,16 +59,15 @@ export default {
     getcollectcourse: function () {
       let vm = this
       vm.tel = window.sessionStorage.getItem('usertel')
-      axios.get('http://localhost:8000/course/getCollectCoursePersonal/' + vm.tel + '/')
+      axios.get(this.Global.HOST + 'course/getCollectCoursePersonal/' + vm.tel + '/')
         .then(function (response) {
           vm.collectcourse = response.data.collectcourse
         })
     },
     deletecollectcourse: function (e) {
       let $courid = $(e.target).parents('.def-study').attr('id')
-      console.log($courid)
       let vm = this
-      axios.get('http://localhost:8000/course/deleteCollectCoursePersonal/' + $courid + '/')
+      axios.get(this.Global.HOST + 'course/deleteCollectCoursePersonal/' + $courid + '/')
         .then(function (response) {
           vm.collectcourse = response.data.code
           if (vm.collectcourse === '888') {

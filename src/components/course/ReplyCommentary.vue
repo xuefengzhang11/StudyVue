@@ -42,7 +42,6 @@ export default {
   methods: {
     // 添加评论回复内容
     com_submit: function () {
-      console.log('this.commentid')
       this.tel = window.sessionStorage.getItem('usertel')
       if (this.comment_content) {
         let comment = {

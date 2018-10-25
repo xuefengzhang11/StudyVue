@@ -68,7 +68,6 @@ export default {
   data () {
     return {
       msg: '修改个人信息',
-      url: 'http://localhost:8000/',
       user: {},
       uname: '',
       ugender: '',
@@ -87,11 +86,7 @@ export default {
     this.getDate()
     this.getjob()
   },
-  watch: {
-    // ujob: function () {
-    //   this.ujob_id =
-    // }
-  },
+
   methods: {
     // 关闭模态框
     userupdate: function () {
@@ -100,7 +95,7 @@ export default {
     // 得到用户信息
     getDate: function () {
       let vm = this
-      axios.get(this.url + 'user/getUser/' + this.usertel + '/')
+      axios.get(this.Global.HOST + 'user/getUser/' + this.usertel + '/')
         .then(function (response) {
           vm.user = response.data.user[0]
           vm.uname = vm.user['name']
@@ -118,7 +113,7 @@ export default {
     // 得到工作的信息
     getjob: function () {
       let vm = this
-      axios.get(this.url + 'user/getjob/')
+      axios.get(this.Global.HOST + 'user/getjob/')
         .then(function (response) {
           vm.job = response.data.job
         })
@@ -139,7 +134,7 @@ export default {
       }
       let vm = this
       $.ajax({
-        url: this.url + 'user/update/',
+        url: this.Global.HOST + 'user/update/',
         type: 'POST',
         data: JSON.stringify(user),
         success: function (response, textStatus, request) {
