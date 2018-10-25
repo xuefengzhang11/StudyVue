@@ -149,7 +149,7 @@ export default {
       user: {},
       imgurl: '',
       collectcourse: '',
-      courCarts: ''
+      courCarts: '',
       usertel: '',
       data: ''
     }
