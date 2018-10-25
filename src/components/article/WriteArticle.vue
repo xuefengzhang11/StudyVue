@@ -16,10 +16,10 @@
   </div>
 </template>
 
-<!--<script src="../../../static/wangEditor.js"></script>-->
 <script>
-/* eslint-disable*/
+import $ from 'jquery'
 import E from 'wangeditor'
+
 export default {
   name: 'WriteArticle',
   data () {
@@ -32,8 +32,8 @@ export default {
       isTipWrite: false
     }
   },
-  mounted() {
-    var editor = new E('#editor')
+  mounted () {
+    let editor = new E('#editor')
     editor.customConfig.onchange = (html) => {
       this.editorContent = html
       this.acontent = editor.txt.text()
@@ -48,11 +48,11 @@ export default {
       let article = {
         'title': this.atitle,
         'introduce': this.aintroduce,
-        'content': this.acontent,
+        'content': this.acontent
       }
       let vm = this
       $.ajax({
-        url: vm.Global.HOST + 'article/commitArticle/'+ this.usertel + '/',
+        url: vm.Global.HOST + 'article/commitArticle/' + this.usertel + '/',
         type: 'POST',
         data: JSON.stringify(article),
         success: function (response, textStatus, request) {
@@ -62,7 +62,7 @@ export default {
           }
         }
       })
-    },
+    }
   }
 }
 </script>

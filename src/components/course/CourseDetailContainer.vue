@@ -15,7 +15,6 @@ export default {
   data () {
     return {
       msg: '课程详情页',
-      url: 'http://localhost:8000/',
       courseid: '',
       course: {}
     }
@@ -36,7 +35,7 @@ export default {
     getCourseDetail: function () {
       // 通过课程Id获取课程详情
       let vm = this
-      axios.get(this.url + 'course/getCourse/' + this.courseid + '/')
+      axios.get(this.Global.HOST + 'course/getCourse/' + this.courseid + '/')
         .then(function (response) {
           vm.course = response.data
         })

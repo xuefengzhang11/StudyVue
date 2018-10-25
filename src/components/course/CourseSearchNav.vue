@@ -84,7 +84,6 @@ export default {
   name: 'CourseSearchNav',
   data () {
     return {
-      url: 'http://localhost:8000/',
       msg: '课程页搜索导航',
       con: '',
       current_dire: 0,
@@ -124,7 +123,7 @@ export default {
     // 加载课程方向
     getDirection: function () {
       let vm = this
-      axios.get(this.url + 'course/direction/')
+      axios.get(this.Global.HOST + 'course/direction/')
         .then(function (response) {
           vm.directions = response.data.directions
         })
@@ -135,7 +134,7 @@ export default {
     // 加载课程分类(通过方向id查询得出)
     getCategory: function () {
       let vm = this
-      axios.get(this.url + 'course/category/' + this.current_dire + '/')
+      axios.get(this.Global.HOST + 'course/category/' + this.current_dire + '/')
         .then(function (response) {
           vm.categorys = response.data.categorys
         })
@@ -146,7 +145,7 @@ export default {
     // 加载课程难度
     getDegree: function () {
       let vm = this
-      axios.get(this.url + 'course/degree/')
+      axios.get(this.Global.HOST + 'course/degree/')
         .then(function (response) {
           vm.degrees = response.data.degrees
         })

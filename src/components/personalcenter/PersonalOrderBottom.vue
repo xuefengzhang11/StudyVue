@@ -99,7 +99,6 @@ export default {
     },
     deleteOrder: function (e) {
       let vm = this
-      // console.log($(e.target))
       vm.orderid = $(e.target).parents('.order').attr('id')
       axios.get(vm.Global.HOST + 'order/deleteOrder/' + vm.orderid + '/')
         .then(function (response) {

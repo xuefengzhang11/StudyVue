@@ -5,7 +5,7 @@
     <div class="tip-container">
       <div class="row">
         <div class="col-md-12" style="margin-bottom: 10px">
-          未购买
+          添加购物车
         </div>
       </div>
       <div class="row">

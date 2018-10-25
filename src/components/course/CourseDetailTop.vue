@@ -83,10 +83,9 @@ export default {
       let vm = this
       if (this.flag === true) {
         vm.tel = window.sessionStorage.getItem('usertel')
-        axios.get('http://localhost:8000/course/insertCollectCourse/' + vm.course_id + '/' + vm.tel + '/')
+        axios.get(this.Global.HOST + 'course/insertCollectCourse/' + vm.course_id + '/' + vm.tel + '/')
           .then(function (response) {
             vm.collectcourse = response.data.code
-            // console.log(response.data.code)
             if (vm.collectcourse === 888) {
               vm.flag = false
             }
@@ -94,11 +93,9 @@ export default {
           })
       } else {
         vm.tel = window.sessionStorage.getItem('usertel')
-        // console.log(vm.tel)
-        axios.get('http://localhost:8000/course/deteleCollectCourse/' + vm.course_id + '/' + vm.tel + '/')
+        axios.get(this.Global.HOST + 'course/deteleCollectCourse/' + vm.course_id + '/' + vm.tel + '/')
           .then(function (response) {
             vm.collectcourse = response.data.code
-            // console.log(response.data.code)
             if (vm.collectcourse === 888) {
               vm.flag = true
             }
@@ -109,7 +106,7 @@ export default {
     collectjudge: function (e) {
       let vm = this
       vm.tel = window.sessionStorage.getItem('usertel')
-      axios.get('http://localhost:8000/course/collectJudge/' + vm.course_id + '/' + vm.tel + '/')
+      axios.get(this.Global.HOST + 'course/collectJudge/' + vm.course_id + '/' + vm.tel + '/')
         .then(function (response) {
           vm.collectcourse = response.data.code
           if (vm.collectcourse === 888) {

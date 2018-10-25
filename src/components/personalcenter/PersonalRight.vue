@@ -16,7 +16,6 @@ export default {
   name: 'PersonalRight',
   data () {
     return {
-      url: 'http://localhost:8000/',
       msg: '个人中心右侧'
     }
   },
