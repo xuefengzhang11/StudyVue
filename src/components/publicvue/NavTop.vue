@@ -14,6 +14,7 @@
               <span class="nav-btn"><router-link class="r-link" to="/course">免费课程</router-link></span>
               <span class="nav-btn"><router-link class="r-link" to="/career">职业路径</router-link></span>
               <span class="nav-btn"><router-link class="r-link" to="/article">手记</router-link></span>
+              <span class="nav-btn"><router-link class="r-link" to="/aboutme">关于我们</router-link></span>
               <!--<span class="nav-btn">猿问</span>-->
               <!--<span class="nav-btn">找工作</span>-->
             </div>
