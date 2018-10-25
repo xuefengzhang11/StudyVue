@@ -2,10 +2,10 @@
     <div class="container order-container">
       <div class="row">
         <div class="col-md-2 order-text">我的订单</div>
-        <a class="col-md-1 order-branch" id="4" @click="changeOrder">全部</a>
-        <a class="col-md-1 order-branch" id="2" @click="changeOrder">未支付</a>
-        <a class="col-md-1 order-branch" id="1" @click="changeOrder">已完成</a>
-        <a class="col-md-1 order-branch" id="3" @click="changeOrder">已失效</a>
+        <a class="col-md-1 order-branch" id="4" @click="changeOrder" :class="{bgvisit:aa === '4'}">全部</a>
+        <a class="col-md-1 order-branch" id="2" @click="changeOrder" :class="{bgvisit:aa === '2'}">未支付</a>
+        <a class="col-md-1 order-branch" id="1" @click="changeOrder" :class="{bgvisit:aa === '1'}">已完成</a>
+        <a class="col-md-1 order-branch" id="3" @click="changeOrder" :class="{bgvisit:aa === '3'}">已失效</a>
         <div class="col-md-4"></div>
         <a class="col-md-2 order-branch" @click="tocart">我的购物车</a>
       </div>
@@ -72,7 +72,14 @@ export default {
     text-align: center;
   }
   .order-branch:hover{
-    background: black;
+    font-weight: bold;
+  }
+  .bgvisit{
+    background: grey;
     color: white;
+  }
+  .bgvisit:hover{
+    color: white;
+    font-weight: normal;
   }
 </style>

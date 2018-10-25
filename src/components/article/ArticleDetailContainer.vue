@@ -22,12 +22,14 @@
           </div>
           <!--发表文章按钮-->
           <div class="col-md-2 text-center btn-seed-art">
-            <button>写文章</button>
+            <button @click="toWriteArticle">写文章</button>
           </div>
         </div>
       </div>
     </div>
     <ArticleMain :artid="as"></ArticleMain>
+    <!--未登录提示框-->
+    <tiplogin v-if="isTipLogin" @sureclick="isTipLogin=false"></tiplogin>
   </div>
 </template>
 
@@ -42,7 +44,8 @@ export default {
     return {
       msg: '文章详情页',
       condition: '',
-      as: ''
+      as: '',
+      isTipLogin: false
     }
   },
   components: {
@@ -85,6 +88,16 @@ export default {
           con: this.condition
         }
       })
+    },
+    toWriteArticle: function () {
+      let usertel = window.sessionStorage.getItem('usertel')
+      if (usertel) {
+        this.$router.push({
+          path: '/writearticle'
+        })
+      } else {
+        this.isTipLogin = true
+      }
     }
   }
 }

@@ -28,12 +28,12 @@
                    @mouseenter.prevent.stop="enterShop" @mouseleave.prevent.stop="leaveshops">
                 <div class="shopcart-text">我的购物车</div>
                 <div class="shop-content container-fluid">
-                  <div class="shop-course row">
+                  <div class="shop-course row" v-for="cc in courCarts" :key="cc.cartid">
                     <div class="shop-dimg col-md-6">
-                      <img src="../../assets/images/courses/1.jpg" class="shop-img" />
+                      <img :src="Global.IMG + cc.imgurl" class="shop-img" />
                     </div>
-                    <div class="shop-name col-md-6">买的课程名</div>
-                    <div class="shop-price col-md-6">￥价格</div>
+                    <div class="shop-name col-md-6">{{cc.name}}</div>
+                    <div class="shop-price col-md-6">￥{{cc.price}}</div>
                   </div>
                 </div>
                 <div class="container-fluid">
@@ -148,6 +148,8 @@ export default {
       person_exist: false,
       user: {},
       imgurl: '',
+      collectcourse: '',
+      courCarts: ''
       usertel: '',
       data: ''
     }
@@ -157,7 +159,7 @@ export default {
   },
   mounted () {
     this.getUser()
-    // this.getNextStudy()
+    this.getCourCarts()
   },
   methods: {
     // 通过用户电话号码获取用户信息
@@ -167,8 +169,6 @@ export default {
         .then(function (response) {
           vm.user = response.data.code.user[0]
           vm.data = response.data.code
-          console.log(vm.data)
-          console.log(vm.user)
           vm.imgurl = vm.Global.IMG + vm.user.icon__iconurl
         })
         .catch(function (error) {
@@ -288,6 +288,26 @@ export default {
           }
         })
       }
+      this.$router.push({
+        path: '/sectiondetail',
+        name: 'sectiondetail',
+        params: {
+          sectid: $sectid
+        }
+      })
+    },
+    // 得到购物车的所有数据
+    getCourCarts: function () {
+      let tel = window.sessionStorage.getItem('usertel')
+      let vm = this
+      axios.get(this.Global.HOST + 'order/getCourCarts/' + tel + '/')
+        .then(function (response) {
+          vm.courCarts = response.data.carts
+          console.log(vm.courCarts)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     }
   }
 }
@@ -530,6 +550,9 @@ export default {
     margin-top: 15px;
     text-align: left;
   }
+  .shopcart .shop-center:hover{
+    cursor: pointer;
+  }
   .shopcart .shop-car {
     width: 100px;
     height: 30px;
@@ -539,6 +562,9 @@ export default {
     border-radius: 50px;
     line-height: 30px;
     text-align: center;
+  }
+  .shopcart .shop-car:hover{
+    cursor: pointer;
   }
   .my-cancel{
     padding-right: 40px;
