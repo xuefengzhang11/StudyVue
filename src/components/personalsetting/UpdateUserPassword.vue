@@ -49,7 +49,6 @@ export default {
   data () {
     return {
       msg: '修改个人信息',
-      url: 'http://localhost:8000/',
       uoldpwd: '',
       unewpwd: '',
       uagainnewpwd: '',
@@ -78,12 +77,11 @@ export default {
         }
         let vm = this
         $.ajax({
-          url: this.url + 'user/updatePwd/',
+          url: this.Global.HOST + 'user/updatePwd/',
           type: 'POST',
           data: JSON.stringify(user),
           success: function (response, textStatus, request) {
             let res = response.res
-            // console.log(response.res)
             if (res === '修改成功') {
               vm.closeMyself()
               vm.$emit('updateUserPwdclick')

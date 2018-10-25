@@ -41,7 +41,6 @@ export default {
   name: 'PersonalSettingRightBind',
   data () {
     return {
-      url: 'http://localhost:8000/',
       msg: '右侧账号绑定',
       usertel: '',
       user: {},
@@ -60,10 +59,9 @@ export default {
   },
   mounted: function () {
     let vm = this
-    axios.get(this.url + 'user/getUser/' + this.usertel + '/')
+    axios.get(this.Global.HOST + 'user/getUser/' + this.usertel + '/')
       .then(function (response) {
         vm.user = response.data.user[0]
-        console.log(vm.user)
       })
       .catch(function (error) {
         console.log(error)

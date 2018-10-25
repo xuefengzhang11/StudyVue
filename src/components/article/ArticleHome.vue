@@ -255,7 +255,6 @@ export default {
 
   .articles .article h4 {
     font-weight: 700;
-    /*height: 50px;*/
   }
 
   .articles .art-p {

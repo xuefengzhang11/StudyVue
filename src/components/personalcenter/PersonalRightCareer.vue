@@ -60,15 +60,7 @@ export default {
       })
     }
   }
-  // judgeCollect: function () {
-  //   if (this.nums) {
-  //     this.notcareer = false
-  //     this.havecareer = true
-  //   } else {
-  //     this.notcareer = true
-  //     this.havecareer = false
-  //   }
-  // }
+
 }
 </script>
 

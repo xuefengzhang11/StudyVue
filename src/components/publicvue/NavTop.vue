@@ -14,6 +14,7 @@
               <span class="nav-btn"><router-link class="r-link" to="/course">免费课程</router-link></span>
               <span class="nav-btn"><router-link class="r-link" to="/career">职业路径</router-link></span>
               <span class="nav-btn"><router-link class="r-link" to="/article">手记</router-link></span>
+              <span class="nav-btn"><router-link class="r-link" to="/aboutme">关于我们</router-link></span>
               <!--<span class="nav-btn">猿问</span>-->
               <!--<span class="nav-btn">找工作</span>-->
             </div>
@@ -99,20 +100,19 @@
                       </div>
                     </div>
                     <div class="row my-white"></div>
-                    <div class="row">
+                    <div class="row" :id="collectcourse.sectid">
                       <div class="col-md-1 my-time">
                         <img src="../../assets/icons/my-time.svg" alt="">
                       </div>
-                      <div class="col-md-6">
-                        <div class="row my-course-name">
-                          课程名称aaaa
+                      <div class="col-md-7">
+                        <div class="row my-course-name" v-text="collectcourse.course_name">
                         </div>
                         <div class="row my-chapter-name">
-                          课程章名称aaaa
+                          <span v-text="collectcourse.chapter_index"></span>- <span v-text="collectcourse.section_index"></span>&nbsp;&nbsp;<span v-text="collectcourse.section_name"></span>
                         </div>
                       </div>
-                      <div class="col-md-2"></div>
-                      <div class="col-md-3 continue">
+                      <div class="col-md-1"></div>
+                      <div class="col-md-3 continue" @click.stop.prevent="towatchdetail">
                         继续
                       </div>
                     </div>
@@ -134,6 +134,7 @@
 <script>
 import $ from 'jquery'
 import axios from 'axios'
+import SectionDetail from '../course/SectionDetail'
 
 export default {
   name: 'NavTop',
@@ -147,7 +148,8 @@ export default {
       exist: false,
       person_exist: false,
       user: {},
-      imgurl: ''
+      imgurl: '',
+      collectcourse: ''
     }
   },
   created: function () {
@@ -155,6 +157,7 @@ export default {
   },
   mounted () {
     this.getUser()
+    this.getNextStudy()
   },
   methods: {
     // 通过用户电话号码获取用户信息
@@ -195,7 +198,6 @@ export default {
       setTimeout(function () {
         vm.isHover = false
         vm.person_exist = false
-        // console.log('leave..')
       }, 100)
     },
     leaveShop: function () {
@@ -271,8 +273,27 @@ export default {
       } else {
         this.isTipLogin = true
       }
+    },
+    getNextStudy: function () {
+      this.usertel = window.sessionStorage.getItem('usertel')
+      let vm = this
+      axios.get(this.Global.HOST + 'course/getNextData/' + vm.usertel + '/')
+        .then(function (response) {
+          vm.collectcourse = response.data.data
+        })
+    },
+    towatchdetail: function (e) {
+      let $sectid = $(e.target).parents('.row').attr('id')
+      this.$router.push({
+        path: '/sectiondetail',
+        name: 'sectiondetail',
+        params: {
+          sectid: $sectid
+        }
+      })
     }
-  }
+  },
+  components: { SectionDetail }
 }
 </script>
 
@@ -305,7 +326,7 @@ export default {
   }
   .user-top{
     width:280px;
-    height:270px ;
+    height:280px ;
     margin: auto;
     border-bottom: 1px solid rgba(171, 171, 171, 0.76);
   }
@@ -337,16 +358,16 @@ export default {
     width: 280px;
     height: 100px;
     margin-top: 10px;
-    margin-left: 1px;
+    margin-left: 2px;
   }
   .my-user{
     width: 130px;
-    height: 45px;
+    height: 50px;
     background: lightgray;
     padding-left: -4px;
-    padding-top: 10px;
-    margin-left: 5px;
-    margin-top: 5px;
+    padding-top: 15px;
+    margin-left: 10px;
+    margin-top: 10px;
     border-radius: 5px;
   }
   .my-user img{
@@ -355,6 +376,7 @@ export default {
   }
   .my-white{
     height: 20px;
+    margin-top: 13px;
   }
   .my-time{
     padding-left: 25px;
@@ -364,13 +386,17 @@ export default {
     font-size: 1.1em;
   }
   .my-chapter-name{
-    padding-left: 10px;
-    padding-top: 5px;
+    /*padding-left: 10px;*/
+    padding-top: 7px;
+    font-size: 0.6em;
   }
   .continue{
     color: #09ff84;
-    margin-left: 10px;
-    padding-top: 25px;
+    /*margin-left: 20px;*/
+    padding-top: 28px;
+  }
+  .continue:hover{
+    cursor: pointer;
   }
   .my-cancel{
     padding-left: 20px;

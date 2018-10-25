@@ -118,11 +118,6 @@ export default {
     background: white;
   }
 
-  .article-content {
-    width: 970px;
-    min-height: 600px;
-    margin: 20px auto;
-  }
   /*搜索部分-开始*/
   .article-logo {
     width: 274px;

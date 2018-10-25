@@ -112,7 +112,7 @@
                 <div class="col-md-8">
                   <div class="title">作者相关文章</div>
                 </div>
-                <div class="col-md-4 more text-center"><a href="#">更多 &gt;</a></div>
+                <div class="col-md-4 more text-center" @click.stop.prevent="toarticle"><a href="#">更多 &gt;</a></div>
               </div>
               <div class="row">
                 <!--一个文章模板-->
@@ -418,6 +418,11 @@ export default {
           vm.code = response.data.code
           vm.myFlush()
         })
+    },
+    toarticle: function () {
+      this.$router.push({
+        path: '/article'
+      })
     }
   },
   filters: {
@@ -452,7 +457,6 @@ export default {
     width: 50px;
     height: 30px;
     line-height: 30px;
-    /*padding-top: 1px;*/
   }
   .like:hover, .upcom:hover{
     cursor: pointer;

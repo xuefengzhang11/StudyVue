@@ -8,7 +8,7 @@
             <div class="study-year" v-text="next.history_watchtime.toString().slice(0,4)"></div>
             <div class="study-data"  v-text="next.history_watchtime.toString().slice(5,10)"></div>
           </div>
-          <div class="col-md-11 pull-right study-course">
+          <div class="col-md-11 pull-right study-course" :id="next.section_id">
             <div class="row circle"></div>
             <div class="row">
               <div class="col-md-3">
@@ -16,7 +16,7 @@
                   <img :src="Global.IMG + next.cour_imgurl" class="study-img" @click.prevent.stop="toCourseDetail">
                 </a>
               </div>
-              <div class="col-md-6" style="margin-left: 70px">
+              <div class="col-md-6" style="margin-left: 70px;width: 350px">
                 <div class="row">
                   <span class="study-name" v-text="next.course_name"></span>
                 </div>
@@ -29,7 +29,7 @@
               </div>
             </div>
             <div class="study-delete" @click="deletenextstudy">删除课程</div>
-            <div class="study-go">继续学习</div>
+            <div class="study-go" @click.prevent.stop="toCourseDetail">继续学习</div>
           </div>
         </div>
       </div>
@@ -40,6 +40,7 @@
 <script>
 import axios from 'axios'
 import $ from 'jquery'
+import SectionDetail from '../course/SectionDetail'
 export default {
   name: 'PersonalRightCourseNextStudy',
   data () {
@@ -47,7 +48,6 @@ export default {
       msg: '免费课程',
       isnextstudy: true,
       iscollectcourse: false,
-      url: 'http://localhost:8000/',
       nextstudy: '',
       collectcourse: ''
     }
@@ -59,7 +59,7 @@ export default {
     getnextstudy: function () {
       let vm = this
       vm.tel = window.sessionStorage.getItem('usertel')
-      axios.get('http://localhost:8000/course/getFreeCoursePersonal/' + vm.tel + '/')
+      axios.get(this.Global.HOST + 'course/getFreeCoursePersonal/' + vm.tel + '/')
         .then(function (response) {
           vm.nextstudy = response.data.nextstudy
         })
@@ -67,7 +67,7 @@ export default {
     deletenextstudy: function (e) {
       let $courid = $(e.target).parents('.def-study').attr('id')
       let vm = this
-      axios.get('http://localhost:8000/course/deleteFreeCoursePersonal/' + $courid + '/')
+      axios.get(this.Global.HOST + 'course/deleteFreeCoursePersonal/' + $courid + '/')
         .then(function (response) {
           vm.collectcourse = response.data.code
           if (vm.collectcourse === '888') {
@@ -76,17 +76,17 @@ export default {
         })
     },
     toCourseDetail: function (e) {
-      let $courid = $(e.target).parents('.def-study').attr('id')
-      if ($courid) {
-        this.$router.push({
-          name: 'coursedetail',
-          params: {
-            courseid: $courid
-          }
-        })
-      }
+      let $sectid = $(e.target).parents('.study-course').attr('id')
+      this.$router.push({
+        path: '/sectiondetail',
+        name: 'sectiondetail',
+        params: {
+          sectid: $sectid
+        }
+      })
     }
-  }
+  },
+  components: { SectionDetail }
 }
 </script>
 
@@ -129,8 +129,9 @@ export default {
     top:30px;
   }
   .my-quest{
-    margin-top: 50px;
+    /*margin-top: 50px;*/
     font-size: 1.2em;
+    line-height: 70px;
   }
 
   .study-delete{

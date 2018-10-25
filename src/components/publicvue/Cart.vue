@@ -151,7 +151,6 @@ export default {
       let vm = this
       axios.get(this.Global.HOST + 'order/delCartById/' + cartid + '/')
         .then(function (response) {
-          console.log(response.data)
           if (response.data.res === '删除成功') {
             vm.getCourCarts()
           } else {

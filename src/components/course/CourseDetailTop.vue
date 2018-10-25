@@ -33,8 +33,9 @@
         </div>
         <div class="col-md-4"></div>
         <div class="col-md-4 text-right poin" :id="course.id">
-          <img src="../../assets/icons/collect-de.svg" alt="" @click.stop.prevent="collectsection" v-show="flag">
-          <img src="../../assets/icons/collect-su.svg" alt="" @click.stop.prevent="collectsection" v-show="!flag">
+          <span><img src="../../assets/icons/collect-de.svg" alt="" @click.stop.prevent="collectsection" v-show="flag"></span>
+          <span><img src="../../assets/icons/collect-su.svg" alt="" @click.stop.prevent="collectsection" v-show="!flag">&nbsp;<span v-show="!flag">已收藏</span>
+          </span>
         </div>
       </div>
       <div class="row">

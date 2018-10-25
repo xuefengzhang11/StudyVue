@@ -20,6 +20,8 @@ import CareerDetail from '@/components/career/CareerDetail'
 
 // 个人中心模块组件
 import PersonalCenterContainer from '@/components/personalcenter/PersonalCenterContainer'
+// 关于我们
+import AboutMe from '@/components/personalsetting/AboutMe'
 // 个人设置模块组件
 import PersonalSettingContainer from '@/components/personalsetting/PersonalSettingContainer'
 // 购物车组件
@@ -104,6 +106,11 @@ export default new Router({
       path: '/lunbotu',
       name: 'lunbotu',
       component: Carousel
+    },
+    {
+      path: '/aboutme',
+      name: 'aboutme',
+      component: AboutMe
     }
   ]
 })

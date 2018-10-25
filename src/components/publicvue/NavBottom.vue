@@ -11,7 +11,7 @@
           <li><a href="#" class="nav-btn">讲师招募</a></li>
           <li><a href="#" class="nav-btn">常见问题</a></li>
           <li><a href="#" class="nav-btn">意见反馈</a></li>
-          <li><a href="#" class="nav-btn">慕课大学</a></li>
+          <li><a href="#" class="nav-btn">思达迪大学</a></li>
           <li><a href="#" class="nav-btn">友情链接</a></li>
         </ul>
       </div>
