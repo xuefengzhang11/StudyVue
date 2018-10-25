@@ -1,11 +1,11 @@
 <template>
   <div class="container-fluid">
     <div class="col-md-12 foot">
-      <ul class="nav nav-tabs border">
-        <!--<li role="presentation" class="active"><a href="#">Home</a></li>-->
-        <li role="presentation" class="note" @click.prevent.stop="changeArticle"><a href="#" class="color">我的文章</a></li>
-        <li role="presentation" class="collect" @click.prevent.stop="changeCollect"><a href="#" class="color">我的收藏</a></li>
-      </ul>
+      <div class="row border">
+        <div class="col-md-2 note" @click.prevent.stop="changeArticle" :class="{bgvisit:studynote === true}">我的文章</div>
+        <div class="col-md-2 collect" @click.prevent.stop="changeCollect" :class="{bgvisit:studycollect === true}">我的收藏</div>
+        <div class="col-md-8"></div>
+      </div>
       <PersonalRightArticleMyart v-show="studynote"></PersonalRightArticleMyart>
       <PersonalRightArticleCollect v-show="studycollect"></PersonalRightArticleCollect>
     </div>
@@ -48,27 +48,40 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  a, a:hover {
-    text-decoration: none;
-  }
   .note{
+    line-height: 50px;
     width: 150px;
     height: 50px;
     text-align: center;
     margin-top: 10px;
     font-size: 1.2em;
+    border-radius: 10px;
+  }
+  .note:hover{
+    cursor: pointer;
+    font-weight: bold;
   }
   .collect{
+    border-radius: 10px;
+    line-height: 50px;
     width: 150px;
     height: 50px;
     text-align: center;
     margin-top: 10px;
     font-size: 1.2em;
   }
-  .color{
-    color: #101010;
+  .collect:hover{
+    cursor: pointer;
+    font-weight: bold;
   }
   .border {
     border-bottom: grey 1px solid;
+  }
+  .bgvisit{
+    background: grey;
+    color: white;
+  }
+  .bgvisit:hover{
+    font-weight: normal;
   }
 </style>

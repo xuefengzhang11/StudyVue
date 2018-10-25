@@ -37,7 +37,7 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
-      'qiniu': resolve('static/qiniu.min.js')
+      'qiniu': resolve('static/qiniu.min.js'),
     }
   },
   module: {
@@ -97,7 +97,7 @@ module.exports = {
       jQuery: "jquery",
       upload: "qiniu",
       region: "qiniu",
-      tooltip: 'tooltip'
+      tooltip: 'tooltip',
     })
   ],
 

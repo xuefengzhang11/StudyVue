@@ -37,8 +37,8 @@
                 </div>
                 <div class="container-fluid">
                   <div class="row">
-                    <div class="col-md-6 shop-center">我的订单中心</div>
-                    <div class="col-md-6 shop-car">去购物车</div>
+                    <div class="col-md-6 shop-center" @click="toPersonOrder">我的订单中心</div>
+                    <div class="col-md-6 shop-car" @click="toMyCart">去购物车</div>
                   </div>
                 </div>
               </div>
