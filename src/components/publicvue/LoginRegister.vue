@@ -28,7 +28,7 @@
                 <p class="warn" v-show="isTip1">请输入正确的邮箱或手机号</p>
               </div>
               <div class="pwd">
-                <input type="text" id="pwd_login" @blur.prevent="showTip2" placeholder="请输入密码" class="btn_tel" v-model="pwd">
+                <input type="password" id="pwd_login" @blur.prevent="showTip2" placeholder="请输入密码" class="btn_tel" v-model="pwd">
                 <p class="warn" v-show="isTip2">请输入6-16位密码，区分大小写！</p>
               </div>
               <div class="yzm">
@@ -58,7 +58,7 @@
                 <p class="warn" v-show="isTip4">请输入正确的手机号</p>
               </div>
               <div class="pwd">
-                <input type="text" placeholder="请输入密码" @blur="showTip5" class="btn_tel" v-model="user_pwd">
+                <input type="password" placeholder="请输入密码" @blur="showTip5" class="btn_tel" v-model="user_pwd">
                 <p class="warn" v-show="isTip5">请输入6-16位密码，区分大小写！</p>
               </div>
               <div class="pwd">
