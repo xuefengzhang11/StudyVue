@@ -28,12 +28,12 @@
                    @mouseenter.prevent.stop="enterShop" @mouseleave.prevent.stop="leaveshops">
                 <div class="shopcart-text">我的购物车</div>
                 <div class="shop-content container-fluid">
-                  <div class="shop-course row">
+                  <div class="shop-course row" v-for="cc in courCarts" :key="cc.cartid">
                     <div class="shop-dimg col-md-6">
-                      <img src="../../assets/images/courses/1.jpg" class="shop-img" />
+                      <img :src="Global.IMG + cc.imgurl" class="shop-img" />
                     </div>
-                    <div class="shop-name col-md-6">买的课程名</div>
-                    <div class="shop-price col-md-6">￥价格</div>
+                    <div class="shop-name col-md-6">{{cc.name}}</div>
+                    <div class="shop-price col-md-6">￥{{cc.price}}</div>
                   </div>
                 </div>
                 <div class="container-fluid">
@@ -149,7 +149,8 @@ export default {
       person_exist: false,
       user: {},
       imgurl: '',
-      collectcourse: ''
+      collectcourse: '',
+      courCarts: ''
     }
   },
   created: function () {
@@ -158,14 +159,18 @@ export default {
   mounted () {
     this.getUser()
     this.getNextStudy()
+    this.getCourCarts()
   },
   methods: {
     // 通过用户电话号码获取用户信息
     getUser: function () {
       let vm = this
+      console.log('***')
+      console.log(this.Global.IMG)
       axios.get(this.Global.HOST + 'user/getUser/' + this.usertel + '/')
         .then(function (response) {
           vm.user = response.data.user[0]
+          // ----
           vm.imgurl = vm.Global.IMG + vm.user.icon__iconurl
         })
         .catch(function (error) {
@@ -291,6 +296,19 @@ export default {
           sectid: $sectid
         }
       })
+    },
+    // 得到购物车的所有数据
+    getCourCarts: function () {
+      let tel = window.sessionStorage.getItem('usertel')
+      let vm = this
+      axios.get(this.Global.HOST + 'order/getCourCarts/' + tel + '/')
+        .then(function (response) {
+          vm.courCarts = response.data.carts
+          console.log(vm.courCarts)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     }
   },
   components: { SectionDetail }
