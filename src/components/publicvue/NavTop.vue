@@ -100,15 +100,15 @@
                       </div>
                     </div>
                     <div class="row my-white"></div>
-                    <div class="row" :id="collectcourse.sectid">
+                    <div class="row" :id="data.sectid">
                       <div class="col-md-1 my-time">
                         <img src="../../assets/icons/my-time.svg" alt="">
                       </div>
                       <div class="col-md-7">
-                        <div class="row my-course-name" v-text="collectcourse.course_name">
+                        <div class="row my-course-name" v-text="data.course_name">
                         </div>
                         <div class="row my-chapter-name">
-                          <span v-text="collectcourse.chapter_index"></span>- <span v-text="collectcourse.section_index"></span>&nbsp;&nbsp;<span v-text="collectcourse.section_name"></span>
+                          <span v-text="data.chapter_index"></span>- <span v-text="data.section_index"></span>&nbsp;&nbsp;<span v-text="data.section_name"></span>
                         </div>
                       </div>
                       <div class="col-md-1"></div>
@@ -134,7 +134,6 @@
 <script>
 import $ from 'jquery'
 import axios from 'axios'
-import SectionDetail from '../course/SectionDetail'
 
 export default {
   name: 'NavTop',
@@ -149,7 +148,8 @@ export default {
       person_exist: false,
       user: {},
       imgurl: '',
-      collectcourse: ''
+      usertel: '',
+      data: ''
     }
   },
   created: function () {
@@ -157,7 +157,7 @@ export default {
   },
   mounted () {
     this.getUser()
-    this.getNextStudy()
+    // this.getNextStudy()
   },
   methods: {
     // 通过用户电话号码获取用户信息
@@ -165,7 +165,10 @@ export default {
       let vm = this
       axios.get(this.Global.HOST + 'user/getUser/' + this.usertel + '/')
         .then(function (response) {
-          vm.user = response.data.user[0]
+          vm.user = response.data.code.user[0]
+          vm.data = response.data.code
+          console.log(vm.data)
+          console.log(vm.user)
           vm.imgurl = vm.Global.IMG + vm.user.icon__iconurl
         })
         .catch(function (error) {
@@ -274,26 +277,19 @@ export default {
         this.isTipLogin = true
       }
     },
-    getNextStudy: function () {
-      this.usertel = window.sessionStorage.getItem('usertel')
-      let vm = this
-      axios.get(this.Global.HOST + 'course/getNextData/' + vm.usertel + '/')
-        .then(function (response) {
-          vm.collectcourse = response.data.data
-        })
-    },
     towatchdetail: function (e) {
       let $sectid = $(e.target).parents('.row').attr('id')
-      this.$router.push({
-        path: '/sectiondetail',
-        name: 'sectiondetail',
-        params: {
-          sectid: $sectid
-        }
-      })
+      if ($sectid) {
+        this.$router.push({
+          path: '/sectiondetail',
+          name: 'sectiondetail',
+          params: {
+            sectid: $sectid
+          }
+        })
+      }
     }
-  },
-  components: { SectionDetail }
+  }
 }
 </script>
 

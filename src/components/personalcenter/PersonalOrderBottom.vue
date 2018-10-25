@@ -74,6 +74,7 @@ export default {
     'tele'
   ],
   name: 'PersonalOrderBottom',
+  inject: ['reload'],
   data () {
     return {
       msg: '购物车下部',
@@ -87,6 +88,9 @@ export default {
     this.getDate()
   },
   methods: {
+    myFlush: function () {
+      this.reload()
+    },
     getDate: function () {
       let vm = this
       axios.get(vm.Global.HOST + 'order/getStatusOrder/' + vm.telephone + '/' + vm.nowStatus + '/')
@@ -104,7 +108,7 @@ export default {
         .then(function (response) {
           let res = response.res
           if (res === '删除成功') {
-            vm.getDate()
+            vm.myFlush()
           }
         })
         .catch(function (error) {

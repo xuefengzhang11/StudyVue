@@ -70,7 +70,6 @@ export default {
         .then(function (response) {
           vm.article = response.data.article
           vm.user = response.data.user
-          this.myFlush()
         })
         .catch(function (error) {
           console.log(error)

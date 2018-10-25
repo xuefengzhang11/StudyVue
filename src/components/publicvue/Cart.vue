@@ -73,6 +73,7 @@ import MakeOrder from './MakeOrder'
 
 export default {
   name: 'Cart',
+  inject: ['reload'],
   data () {
     return {
       msg: '购物车',
@@ -90,6 +91,9 @@ export default {
   },
   components: {MakeSureBuy, MakeOrder},
   methods: {
+    myFlush: function () {
+      this.reload()
+    },
     // 得到购物车的所有数据
     getCourCarts: function () {
       let tel = window.sessionStorage.getItem('usertel')
@@ -153,6 +157,7 @@ export default {
         .then(function (response) {
           if (response.data.res === '删除成功') {
             vm.getCourCarts()
+            vm.myFlush()
           } else {
             alert(response.data.res)
           }
@@ -348,10 +353,10 @@ export default {
     box-shadow: 2px 2px 10px black;
   }
   .gotoorder {
-    width: 150px;
+    width: 200px;
     height: 50px;
     line-height: 50px;
-    font-size: 1.5em;
+    font-size: 1.3em;
     font-weight: 600;
     text-align: center;
     margin-left: 20px;
