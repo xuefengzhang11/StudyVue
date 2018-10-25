@@ -12,6 +12,7 @@ import SectionDetail from '@/components/course/SectionDetail'
 // 文章模块组件
 import ArticleHome from '@/components/article/ArticleHome'
 import ArticleDetailContainer from '@/components/article/ArticleDetailContainer'
+import WriteArticle from '@/components/article/WriteArticle'
 
 // 职业计划模块组件
 import CareerHome from '@/components/career/CareerHome'
@@ -92,6 +93,11 @@ export default new Router({
       path: '/order',
       name: 'order',
       component: PersonalOrderContainer
+    },
+    {
+      path: '/writearticle',
+      name: 'writearticle',
+      component: WriteArticle
     },
     // 轮播图
     {

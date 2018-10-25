@@ -135,7 +135,7 @@ export default {
       return snum
     }
   },
-  components: { CareerDetail, Paging }
+  components: {CareerDetail, Paging}
 }
 </script>
 

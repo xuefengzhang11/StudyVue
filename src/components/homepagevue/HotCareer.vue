@@ -174,10 +174,10 @@ export default {
     font-weight: bold;
   }
   .icon-career-l {
-    background: url("../../assets/icons/home-icons.png") 0 -792px;
+    background: url("../../assets/icons/home-icons.png") 0 -1080px;
   }
 
   .icon-career-r {
-    background: url("../../assets/icons/home-icons.png") 0 -720px;
+    background: url("../../assets/icons/home-icons.png") 0 -1008px;
   }
 </style>

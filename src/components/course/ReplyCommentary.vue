@@ -49,7 +49,6 @@ export default {
           'commentid': this.commentid,
           'comment_content': this.comment_content
         }
-        console.log(comment)
         let vm = this
         $.ajax({
           url: vm.Global.HOST + 'course/insertCommentContent/',

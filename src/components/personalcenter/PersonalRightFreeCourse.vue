@@ -1,11 +1,11 @@
 <template>
-  <div>
-    <div class="col-md-12 study-top a">
-      <ul class="nav nav-pills study-choice">
-        <!--<li role="presentation" class="active"><a href="#">Home</a></li>-->
-        <li role="presentation" class="pre-study" @click.prevent.stop="enternextstudy"><a href="#" class="color pos-study">最近学习</a></li>
-        <li role="presentation" class="pre-collect" @click.prevent.stop="entercollectcourse"><a href="#" class="color pos-collect" >收藏课程</a></li>
-      </ul>
+  <div class="container-fluid">
+    <div class="col-md-12 foot">
+      <div class="row study-choice">
+        <div class="col-md-2 pre-study" @click.prevent.stop="enternextstudy" :class="{bgvisit:isnextstudy === true}">最近学习</div>
+        <div class="col-md-2 pre-collect" @click.prevent.stop="entercollectcourse" :class="{bgvisit:iscollectcourse === true}">收藏课程</div>
+        <div class="col-md-8"></div>
+      </div>
       <div>
         <!--最近学习-->
         <PersonalRightCourseNextStudy v-show="isnextstudy"></PersonalRightCourseNextStudy>
@@ -51,17 +51,39 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .pre-study{
+    line-height: 50px;
+    width: 150px;
+    height: 50px;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 1.2em;
+    border-radius: 10px;
+  }
+  .pre-study:hover{
+    cursor: pointer;
+    font-weight: bold;
+  }
+  .pre-collect{
+    border-radius: 10px;
+    line-height: 50px;
     width: 150px;
     height: 50px;
     text-align: center;
     margin-top: 10px;
     font-size: 1.2em;
   }
-  .pre-collect{
-    width: 150px;
-    height: 50px;
-    text-align: center;
-    margin-top: 10px;
-    font-size: 1.2em;
+  .pre-collect:hover{
+    cursor: pointer;
+    font-weight: bold;
+  }
+  .study-choice {
+    border-bottom: grey 1px solid;
+  }
+  .bgvisit{
+    background: grey;
+    color: white;
+  }
+  .bgvisit:hover{
+    font-weight: normal;
   }
 </style>

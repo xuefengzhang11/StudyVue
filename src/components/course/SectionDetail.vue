@@ -202,7 +202,6 @@ export default {
   components: {Commentary, ReplyCommentary},
   data () {
     return {
-      url: 'http://localhost:8000/',
       msg: '课程详情主体',
       flag: true,
       like: true,
@@ -246,7 +245,7 @@ export default {
     getSectiondata: function () {
       this.careerid = window.sessionStorage.getItem('courid')
       let vm = this
-      axios.get(this.url + 'course/getSectiondata/' + vm.sectid + '/' + vm.careerid + '/')
+      axios.get(this.Global.HOST + 'course/getSectiondata/' + vm.sectid + '/' + vm.careerid + '/')
         .then(function (response) {
           vm.section = response.data.data
         })
@@ -255,7 +254,7 @@ export default {
     getHotCourse: function () {
       // 获取热门课程
       let vm = this
-      axios.get(this.url + 'course/getHotCourse/')
+      axios.get(this.Global.HOST + 'course/getHotCourse/')
         .then(function (response) {
           vm.hotCourses = response.data.hotCourses
         })
@@ -310,7 +309,7 @@ export default {
       let $courseid = $(e.target).parents('.hot-video').attr('id')
       if ($courseid) {
         this.$router.push({
-          path: '/coursedetail',
+          path: '/coursedetail/',
           name: 'coursedetail',
           params: {
             courseid: $courseid
@@ -362,10 +361,6 @@ export default {
     deletecomment: function (e) {
       let $comid = $(e.target).parents('.ucomment').attr('id')
       let vm = this
-      // vm.tel = window.sessionStorage.getItem('usertel')
-      // if (!$comid) {
-      //   $comid = ''
-      // }
       axios.get(this.Global.HOST + 'course/deleteSectionComment/' + vm.sectid + '/' + $comid + '/')
         .then(function (response) {
           vm.code = response.data.code
@@ -386,7 +381,6 @@ export default {
     go: function () {
       this.$router.go(-1)
     }
-
   }
 }
 </script>

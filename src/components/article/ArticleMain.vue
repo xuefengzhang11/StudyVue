@@ -84,10 +84,10 @@
             </div>
           </div>
         </div>
-        <div class="col-md-3" style="margin-left: 60px">
+        <div class="col-md-3" style="margin-left: 60px;">
           <div class="row">
             <!--右侧-->
-            <div class="col-md-12">
+            <div class="col-md-12" style="width: 250px;">
               <!--作者全部信息-->
               <div class="row">
                 <div class="col-md-12 user-info" style="padding-left: 30px;">
@@ -125,24 +125,26 @@
                   </a>
                 </div>
               </div>
-              <!--相关课程-->
-              <div class="row">
-                <div class="col-md-12 title">热门文章</div>
-              </div>
-              <div class="row hot-course" v-for="hot in hotarticle" :key="hot.id" :id="hot.id"
-                   @click.prevent.stop="changeHotId">
-                <!--模板-->
-                <a href="#">
-                  <div class="course-img">
-                    <img src="../../assets/images/users/user-icon.jpg" alt="">
-                  </div>
-                  <div class="" style=" border-bottom: 1px rgba(128,128,128,0.22) solid;">
-                    <div class="course-name">{{hot.title | mot(6,8)}}</div>
-                    <span class="course-degree" v-text="hot.user_name"></span>
-                    <img src="../../assets/icons/like.svg" alt="" style="margin-left: 5px">
-                    <span class="course-l-people" v-text="hot.like"></span>
-                  </div>
-                </a>
+              <!--热门课程-->
+              <div :class="{myFixed: isFixed}">
+                <div class="row">
+                  <div class="col-md-12 title">热门文章</div>
+                </div>
+                <div class="row hot-course" v-for="hot in hotarticle" :key="hot.id" :id="hot.id"
+                     @click.prevent.stop="changeHotId">
+                  <!--模板-->
+                  <a href="#">
+                    <div class="course-img">
+                      <img src="../../assets/images/users/user-icon.jpg" alt="">
+                    </div>
+                    <div class="" style=" border-bottom: 1px rgba(128,128,128,0.22) solid;">
+                      <div class="course-name">{{hot.title | mot(6,8)}}</div>
+                      <span class="course-degree" v-text="hot.user_name"></span>
+                      <img src="../../assets/icons/like.svg" alt="" style="margin-left: 5px">
+                      <span class="course-l-people" v-text="hot.like"></span>
+                    </div>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -201,7 +203,9 @@ export default {
       // 评论id
       comment_id: '',
       // 用户id
-      user_id: ''
+      user_id: '',
+      // 是否固定
+      isFixed: false
     }
   },
   created: function () {
@@ -209,12 +213,22 @@ export default {
     this.articleid = this.artid
   },
   mounted: function () {
+    window.addEventListener('scroll', this.handleScroll)
     this.getDate()
     this.getuserart()
     this.gethotart()
     this.getComments()
   },
   methods: {
+    // 监听滚顶的距离
+    handleScroll () {
+      let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+      if (scrollTop > 500) {
+        this.isFixed = true
+      } else {
+        this.isFixed = false
+      }
+    },
     myFlush: function () {
       this.reload()
     },
@@ -424,6 +438,11 @@ export default {
 </script>
 
 <style scoped>
+  .myFixed {
+    position: fixed;
+    height: 200px;
+    top: 0;
+  }
   /*评论部分*/
   .like{
     display: inline-block;

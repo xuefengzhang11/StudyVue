@@ -63,11 +63,9 @@ export default {
     // 判断数量
     judgeArticle: function () {
       if (this.nums) {
-        console.log(12)
         this.studynotarticle = false
         this.studyarticle = true
       } else {
-        console.log(34)
         this.studynotarticle = true
         this.studyarticle = false
       }
@@ -94,7 +92,6 @@ export default {
     // 删除文章
     deleteArticle: function (e) {
       let $courid = $(e.target).parents('.mycollections').attr('id')
-      console.log($courid)
       let vm = this
       axios.get(this.Global.HOST + 'article/deleteUserArticle/' + $courid + '/')
         .then(function (response) {

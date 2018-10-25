@@ -3,7 +3,6 @@
     <PersonalRightFreeCourse v-show="nowRight==='freeCourse'"></PersonalRightFreeCourse>
     <PersonalRightCareer v-show="nowRight==='career'"></PersonalRightCareer>
     <PersonalRightArticle v-show="nowRight==='article'"></PersonalRightArticle>
-    <PersonalRightOrder v-show="nowRight==='order'"></PersonalRightOrder>
   </div>
 </template>
 
@@ -11,7 +10,6 @@
 import PersonalRightFreeCourse from './PersonalRightFreeCourse'
 import PersonalRightCareer from './PersonalRightCareer'
 import PersonalRightArticle from './PersonalRightArticle'
-import PersonalRightOrder from './PersonalRightOrder'
 
 export default {
   props: ['nowRight'],
@@ -24,8 +22,7 @@ export default {
   components: {
     PersonalRightFreeCourse,
     PersonalRightCareer,
-    PersonalRightArticle,
-    PersonalRightOrder
+    PersonalRightArticle
   },
   methods: {
 

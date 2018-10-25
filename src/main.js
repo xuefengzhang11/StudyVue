@@ -11,6 +11,7 @@ import Paging from './components/publicvue/Paging'
 import LoginRegister from './components/publicvue/LoginRegister'
 import TipLogin from './components/publicvue/TipLogin'
 import Cart from './components/publicvue/Cart'
+import CommitSuccess from './components/publicvue/CommitSuccess'
 
 // 导入第三方库
 // import $ from 'jquery'
@@ -34,6 +35,8 @@ Vue.component('loginregister', LoginRegister)
 Vue.component('tiplogin', TipLogin)
 // 注册购物车组件
 Vue.component('cart', Cart)
+// 提交成功
+Vue.component('commitsuccess', CommitSuccess)
 
 /* eslint-disable no-new */
 new Vue({

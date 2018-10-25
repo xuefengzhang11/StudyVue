@@ -9,10 +9,6 @@
         <a :class="{gray_white:nowRight==='article'}" :data-value="'article'"
            @click="changeRight"
         >我的文章</a>
-        <a :class="{gray_white:nowRight==='order'}" :data-value="'order'"
-           @click="changeRight"
-        >我的订单</a>
-        <a>我的..</a>
       </div>
 </template>
 
@@ -23,7 +19,6 @@ export default {
   name: 'PersonalLeft',
   data () {
     return {
-      url: 'http://localhost:8000/',
       msg: '个人中心左侧',
       nowRight: 'freeCourse'
     }

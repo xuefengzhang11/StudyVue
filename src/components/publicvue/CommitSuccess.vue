@@ -1,22 +1,16 @@
 <template>
   <!--遮罩层-->
   <div class="zzc">
-    <!--未购买提示框容器-->
     <div class="tip-container">
       <div class="row">
-        <div class="col-md-12" style="margin-bottom: 10px">
-          添加购物车
-        </div>
-      </div>
-      <div class="row">
         <div class="col-md-12 text-center" style="font-size: 1.3em; font-weight: 600; margin-bottom: 10px">
-          {{joincartmsg}}
+          提交成功！
         </div>
       </div>
       <div class="row">
         <div class="col-md-8"></div>
         <div class="col-md-4 text-center">
-          <button @click="$emit('sureclick')">确定</button>
+          <button @click="$emit('successClick')">确定</button>
         </div>
       </div>
     </div>
@@ -25,11 +19,10 @@
 
 <script>
 export default {
-  name: 'JoinCartMsg',
-  props: ['joincartmsg'],
+  name: 'CommitSuccess',
   data () {
     return {
-      msg: '添加购物车信息'
+      msg: '提交成功'
     }
   }
 }
@@ -56,6 +49,7 @@ export default {
     padding: 20px;
     background: white;
     margin: 150px auto;
+    z-index: 999;
   }
   /*遮罩层*/
   .zzc {
