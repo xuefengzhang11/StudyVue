@@ -162,7 +162,7 @@ export default {
       let vm = this
       axios.get(this.Global.HOST + 'user/getUser/' + this.usertel + '/')
         .then(function (response) {
-          vm.user = response.data.user[0]
+          vm.user = response.data.code.user[0]
           vm.imgurl = vm.Global.IMG + vm.user.icon__iconurl
         })
         .catch(function (error) {
@@ -195,7 +195,6 @@ export default {
       setTimeout(function () {
         vm.isHover = false
         vm.person_exist = false
-        // console.log('leave..')
       }, 100)
     },
     leaveShop: function () {
@@ -207,7 +206,6 @@ export default {
           if (vm.exist === false) {
             vm.shopHover = false
           }
-          console.log('leave..')
         }, 200)
       }
     },

@@ -110,19 +110,20 @@ export default {
       this.courIdsStatus = []
       setTimeout(() => {
         let ipts = this.$refs.ipt
-        for (let ipt of ipts) {
-          // 获取id
-          let cid = $(ipt).parents('.car-course').attr('id')
-          // 获取flag
-          let flag = ipt.getAttribute('flag')
-          if (!flag) {
-            flag = false
-          } else {
-            flag = true
+        if (ipts) {
+          for (let ipt of ipts) {
+            // 获取id
+            let cid = $(ipt).parents('.car-course').attr('id')
+            // 获取flag
+            let flag = ipt.getAttribute('flag')
+            if (!flag) {
+              flag = false
+            } else {
+              flag = true
+            }
+            this.courIdsStatus.push({'id': cid, 'checked': flag})
           }
-          this.courIdsStatus.push({'id': cid, 'checked': flag})
         }
-        console.log(this.courIdsStatus)
       }, 1)
     },
 
@@ -130,11 +131,14 @@ export default {
     getTotalPrice: function () {
       setTimeout(() => {
         let totalPrice = 0.00
-        for (let ipt of this.$refs.ipt) {
-          // 获取flag
-          let flag = ipt.getAttribute('flag')
-          if (flag) {
-            totalPrice += parseFloat($(ipt).parents('.car-course').find('.price').attr('data-p'))
+        let ipts = this.$refs.ipt
+        if (ipts) {
+          for (let ipt of ipts) {
+            // 获取flag
+            let flag = ipt.getAttribute('flag')
+            if (flag) {
+              totalPrice += parseFloat($(ipt).parents('.car-course').find('.price').attr('data-p'))
+            }
           }
         }
         this.totalPrice = totalPrice.toFixed(2)
@@ -165,17 +169,19 @@ export default {
       setTimeout(() => {
         let ipts = this.$refs.ipt
         let count = 0
-        for (let ipt of ipts) {
-          // 获取flag
-          let flag = ipt.getAttribute('flag')
-          if (flag) {
-            count += 1
+        if (ipts) {
+          for (let ipt of ipts) {
+            // 获取flag
+            let flag = ipt.getAttribute('flag')
+            if (flag) {
+              count += 1
+            }
           }
-        }
-        if (count === ipts.length) {
-          this.ischoiceAll = true
-        } else {
-          this.ischoiceAll = false
+          if (count === ipts.length) {
+            this.ischoiceAll = true
+          } else {
+            this.ischoiceAll = false
+          }
         }
       }, 1)
     },
