@@ -53,7 +53,6 @@ export default {
   name: 'ChangeUserIcon',
   data () {
     return {
-      url: 'http://127.0.0.1:8000/',
       msg: '更换头像',
       usertel: '',
       imgurl: '',
@@ -72,9 +71,9 @@ export default {
     // 通过用户电话号码获取用户信息
     getUser: function () {
       let vm = this
-      axios.get(this.url + 'user/getUser/' + this.usertel + '/')
+      axios.get(this.Global.HOST + 'user/getUser/' + this.usertel + '/')
         .then(function (response) {
-          vm.imgurl = 'http://pgu05jbff.bkt.clouddn.com/' + response.data.user[0].icon__iconurl
+          vm.imgurl = vm.Global.IMG + response.data.user[0].icon__iconurl
         })
         .catch(function (error) {
           console.log(error)

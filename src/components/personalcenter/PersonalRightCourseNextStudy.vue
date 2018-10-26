@@ -1,36 +1,37 @@
 <template>
   <div>
     <div class="col-md-12 study-top a">
-      <div>
-        <!--最近学习-->
-        <div class="row def-study" v-show="isnextstudy" v-for="next in nextstudy" :key="next.section_id" :id="next.courid">
-          <div class="col-md-1 course-time">
-            <div class="study-year" v-text="next.history_watchtime.toString().slice(0,4)"></div>
-            <div class="study-data"  v-text="next.history_watchtime.toString().slice(5,10)"></div>
-          </div>
-          <div class="col-md-11 pull-right study-course">
-            <div class="row circle"></div>
-            <div class="row">
-              <div class="col-md-3">
-                <a href="#">
-                  <img :src="Global.IMG + next.cour_imgurl" class="study-img" @click.prevent.stop="toCourseDetail">
-                </a>
+      <div class="context" v-show="notstudy">
+        你还没有开始学习，现在跟着我去<span class="stu" @click.stop.prevent="toCourse">学习</span>吧
+      </div>
+      <!--最近学习-->
+      <div class="row def-study" v-show="isnextstudy" v-for="next in nextstudy" :key="next.section_id" :id="next.courid">
+        <div class="col-md-1 course-time">
+          <div class="study-year" v-text="next.history_watchtime.toString().slice(0,4)"></div>
+          <div class="study-data"  v-text="next.history_watchtime.toString().slice(5,10)"></div>
+        </div>
+        <div class="col-md-11 pull-right study-course" :id="next.section_id">
+          <div class="row circle"></div>
+          <div class="row">
+            <div class="col-md-3">
+              <a href="#">
+                <img :src="Global.IMG + next.cour_imgurl" class="study-img" @click.prevent.stop="toCourseDetail">
+              </a>
+            </div>
+            <div class="col-md-6" style="margin-left: 70px;width: 350px">
+              <div class="row">
+                <span class="study-name" v-text="next.course_name"></span>
               </div>
-              <div class="col-md-6" style="margin-left: 70px">
-                <div class="row">
-                  <span class="study-name" v-text="next.course_name"></span>
-                </div>
-                <div class="row" style="margin-top: 80px">
-                  <span>学习至 1- <span v-text="next.section_id"></span>&nbsp;&nbsp;<span v-text="next.section_name"></span></span>
-                </div>
-                <div class="row my-quest">
-                  <span>学习人数: <span v-text="next.course_learn"></span></span>
-                </div>
+              <div class="row" style="margin-top: 80px;width: 340px;">
+                <span>学习至 1- <span v-text="next.section_id"></span>&nbsp;&nbsp;<span v-text="next.section_name"></span></span>
+              </div>
+              <div class="row my-quest">
+                <span>学习人数: <span v-text="next.course_learn"></span></span>
               </div>
             </div>
-            <div class="study-delete" @click="deletenextstudy">删除课程</div>
-            <div class="study-go">继续学习</div>
           </div>
+          <div class="study-delete" @click="deletenextstudy">删除课程</div>
+          <div class="study-go" @click.prevent.stop="toCourseDetail">继续学习</div>
         </div>
       </div>
     </div>
@@ -40,53 +41,78 @@
 <script>
 import axios from 'axios'
 import $ from 'jquery'
+import SectionDetail from '../course/SectionDetail'
 export default {
   name: 'PersonalRightCourseNextStudy',
+  inject: ['reload'],
   data () {
     return {
       msg: '免费课程',
       isnextstudy: true,
       iscollectcourse: false,
-      url: 'http://localhost:8000/',
       nextstudy: '',
-      collectcourse: ''
+      collectcourse: '',
+      legth: 0,
+      notstudy: true,
+      study: false
     }
   },
-  created: function () {
+  mounted: function () {
     this.getnextstudy()
   },
   methods: {
+    // 判断最近学习的数量，从而改变前端样式
+    judgeCollect: function () {
+      if (this.legth) {
+        this.notstudy = false
+        this.study = true
+      } else {
+        this.notstudy = true
+        this.study = false
+      }
+    },
+    myFlush: function () {
+      this.reload()
+    },
     getnextstudy: function () {
       let vm = this
       vm.tel = window.sessionStorage.getItem('usertel')
-      axios.get('http://localhost:8000/course/getFreeCoursePersonal/' + vm.tel + '/')
+      axios.get(this.Global.HOST + 'course/getFreeCoursePersonal/' + vm.tel + '/')
         .then(function (response) {
           vm.nextstudy = response.data.nextstudy
+          vm.legth = response.data.nextstudy.length
+          vm.judgeCollect()
         })
     },
     deletenextstudy: function (e) {
-      let $courid = $(e.target).parents('.def-study').attr('id')
+      let $sectid = $(e.target).parents('.study-course').attr('id')
       let vm = this
-      axios.get('http://localhost:8000/course/deleteFreeCoursePersonal/' + $courid + '/')
+      axios.get(this.Global.HOST + 'course/deleteFreeCoursePersonal/' + $sectid + '/')
         .then(function (response) {
           vm.collectcourse = response.data.code
           if (vm.collectcourse === '888') {
             vm.getnextstudy()
           }
+          vm.myFlush()
         })
     },
     toCourseDetail: function (e) {
-      let $courid = $(e.target).parents('.def-study').attr('id')
-      if ($courid) {
-        this.$router.push({
-          name: 'coursedetail',
-          params: {
-            courseid: $courid
-          }
-        })
-      }
+      let $sectid = $(e.target).parents('.study-course').attr('id')
+      this.$router.push({
+        path: '/sectiondetail',
+        name: 'sectiondetail',
+        params: {
+          sectid: $sectid
+        }
+      })
+    },
+    toCourse: function () {
+      this.$router.push({
+        path: '/course'
+      })
     }
-  }
+  },
+  components: { SectionDetail }
 }
 </script>
 
@@ -129,8 +155,9 @@ export default {
     top:30px;
   }
   .my-quest{
-    margin-top: 50px;
+    /*margin-top: 50px;*/
     font-size: 1.2em;
+    line-height: 70px;
   }
 
   .study-delete{
@@ -165,5 +192,16 @@ export default {
     background: red;
     color: white;
     cursor: pointer;
+  }
+  .stu{
+    color:blue;
+  }
+  .stu:hover{
+    cursor: pointer;
+  }
+  .context{
+    font-size: 1.2em;
+    text-align: center;
+    line-height: 300px;
   }
 </style>

@@ -33,7 +33,10 @@
         <div class="col-md-12 line"></div>
       </div>
       <div class="row car-footer">
-        <div class="col-md-8"></div>
+        <div class="col-md-2">
+          <span class="gotoorder" @click="toorder">我的订单中心</span>
+        </div>
+        <div class="col-md-6"></div>
         <div class="col-md-2 text-center" v-text="'￥'+ totalPrice" style="color: red; font-size: 1.2em"></div>
         <div class="col-md-2 text-center">
           <span class="jiesuan" @click="isShow=true">结算</span>
@@ -70,6 +73,7 @@ import MakeOrder from './MakeOrder'
 
 export default {
   name: 'Cart',
+  inject: ['reload'],
   data () {
     return {
       msg: '购物车',
@@ -87,6 +91,9 @@ export default {
   },
   components: {MakeSureBuy, MakeOrder},
   methods: {
+    myFlush: function () {
+      this.reload()
+    },
     // 得到购物车的所有数据
     getCourCarts: function () {
       let tel = window.sessionStorage.getItem('usertel')
@@ -152,9 +159,9 @@ export default {
       let vm = this
       axios.get(this.Global.HOST + 'order/delCartById/' + cartid + '/')
         .then(function (response) {
-          console.log(response.data)
           if (response.data.res === '删除成功') {
             vm.getCourCarts()
+            vm.myFlush()
           } else {
             alert(response.data.res)
           }
@@ -276,6 +283,11 @@ export default {
         .catch(function (error) {
           console.log(error)
         })
+    },
+    toorder: function () {
+      this.$router.push({
+        path: '/order'
+      })
     }
   }
 }
@@ -332,18 +344,30 @@ export default {
     color: red;
   }
   .jiesuan {
-    display: inline-block;
-    width: 100px;
-    height: 50px;
-    line-height: 50px;
-    border-radius: 5px;
-    background: red;
-    color: white;
-    font-size: 1.5em;
-    font-weight: 600;
-  }
+     display: inline-block;
+     width: 100px;
+     height: 50px;
+     line-height: 50px;
+     border-radius: 5px;
+     background: red;
+     color: white;
+     font-size: 1.5em;
+     font-weight: 600;
+   }
   .jiesuan:hover{
     cursor: pointer;
     box-shadow: 2px 2px 10px black;
+  }
+  .gotoorder {
+    width: 200px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 1.3em;
+    font-weight: 600;
+    text-align: center;
+    margin-left: 20px;
+  }
+  .gotoorder:hover{
+    cursor: pointer;
   }
 </style>

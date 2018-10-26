@@ -37,7 +37,6 @@ export default {
   data () {
     return {
       msg: '个人设置坐侧',
-      url: 'http://localhost:8000/',
       nowRight: 'userBind',
       usertel: '',
       tipFlag: false,
@@ -55,9 +54,9 @@ export default {
     // 通过用户电话号码获取用户信息
     getUser: function () {
       let vm = this
-      axios.get(this.url + 'user/getUser/' + this.usertel + '/')
+      axios.get(this.Global.HOST + 'user/getUser/' + this.usertel + '/')
         .then(function (response) {
-          vm.user = response.data.user[0]
+          vm.user = response.data.code.user[0]
           vm.imgurl = 'http://pgu05jbff.bkt.clouddn.com/' + vm.user.icon__iconurl
         })
         .catch(function (error) {

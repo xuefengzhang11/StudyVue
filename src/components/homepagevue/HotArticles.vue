@@ -16,7 +16,7 @@
                 <p class="article_introduce">{{hot.introduce | hotmot(130,140)}}</p>
                 <div class="row">
                     <div class="col-md-5">
-                        <img class="icon-user" src="../../assets/images/courses/1.jpg" alt=""><span v-text="hot.user_name"></span>
+                        <img class="icon-user" :src="Global.IMG + hot.user_img" alt="">&nbsp;<span v-text="hot.user_name"></span>
                     </div>
                     <div class="col-md-4" v-text="hot.upload"></div>
                     <div class="col-md-3 text-center"><img class="icon-like" src="../../assets/icons/like.svg" alt="">
@@ -47,6 +47,7 @@ export default {
     axios.get(this.Global.HOST + 'article/hotArticle/')
       .then(function (response) {
         vm.hotArticles = response.data.articles
+        console.log(vm.hotArticles)
       })
       .catch(function (error) {
         console.log(error)

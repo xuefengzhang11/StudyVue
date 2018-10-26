@@ -83,9 +83,10 @@ export default {
     list-style: none;
   }
   .study-carousel{
-    margin: 60px 0 30px 230px;
+    /*margin: 60px 0 30px 0;*/
+    margin: 30px auto;
     /*position: absolute;*/
-    height: 400px;
+    height: 360px;
   }
 
   li{
@@ -94,6 +95,9 @@ export default {
     height: 360px;
     /*transition: all 0.8s ease-out;*/
     cursor: pointer;
+    left: 50%;
+    top: 50%;
+    margin-left: -400px;
   }
   li img{
     width: 100%;

@@ -38,7 +38,6 @@ export default {
   data () {
     return {
       msg: '修改个人信息',
-      url: 'http://localhost:8000/',
       uemail: '',
       isTipEmail: false
     }
@@ -61,7 +60,7 @@ export default {
         }
         let vm = this
         $.ajax({
-          url: this.url + 'user/updateEmail/',
+          url: this.Global.HOST + 'user/updateEmail/',
           type: 'POST',
           data: JSON.stringify(user),
           success: function (response, textStatus, request) {

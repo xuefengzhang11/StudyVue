@@ -55,7 +55,7 @@ export default {
     border-radius: 10px;
     padding: 20px;
     background: white;
-    margin: 150px auto;
+    margin: 250px auto;
   }
   /*遮罩层*/
   .zzc {
@@ -65,5 +65,6 @@ export default {
     position: fixed;
     z-index: 999;
     top: 0;
+    left: 0;
   }
 </style>

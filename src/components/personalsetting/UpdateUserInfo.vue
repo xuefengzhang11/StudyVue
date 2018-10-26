@@ -26,17 +26,16 @@
           </div>
           <div class="information-name">
             <span class="information-text">职&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;位：</span>
-            <!--<select v-model="ugender" class="information-dropdown" >-->
-              <!--<option v-for="j in job" :key="j.id" class="information-menu">{{j.name}}</option>-->
-            <!--</select>-->
             <input :id="ujob_id" type="text" list="sexlist" class="information-dropdown" v-model="ujob">
             <datalist id="sexlist">
               <option v-for="j in job" :id="j.id" :key="j.id" :value="j.name" class="information-menu">{{j.name}}</option>
             </datalist>
           </div>
           <div class="information-name">
-            <span class="information-text">城&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;市：</span>
-            <input type="text" class="btn_tel" v-model="ucity">
+            <div class="row">
+              <span class="information-city">城&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;市：</span>
+              <v-distpicker :province="meprovince" :city="mecity" :area="mearea" @selected="onSelected" class="disabled-select"></v-distpicker>
+            </div>
           </div>
           <div class="information-name">
             <span class="information-signature">个性签名：</span>
@@ -62,22 +61,26 @@
 <script>
 import axios from 'axios'
 import $ from 'jquery'
+import VDistpicker from 'v-distpicker'
 
 export default {
   uname: 'UpdateUserInfo',
+  components: { VDistpicker },
   data () {
     return {
       msg: '修改个人信息',
-      url: 'http://localhost:8000/',
       user: {},
       uname: '',
       ugender: '',
-      ucity: '',
+      ucity: {},
       ubirthday: '',
       uintroduce: '',
       ujob: '',
       ujob_id: '',
-      job: []
+      job: [],
+      meprovince: '',
+      mecity: '',
+      mearea: ''
     }
   },
   created () {
@@ -87,11 +90,7 @@ export default {
     this.getDate()
     this.getjob()
   },
-  watch: {
-    // ujob: function () {
-    //   this.ujob_id =
-    // }
-  },
+
   methods: {
     // 关闭模态框
     userupdate: function () {
@@ -100,11 +99,13 @@ export default {
     // 得到用户信息
     getDate: function () {
       let vm = this
-      axios.get(this.url + 'user/getUser/' + this.usertel + '/')
+      axios.get(this.Global.HOST + 'user/getUser/' + this.usertel + '/')
         .then(function (response) {
-          vm.user = response.data.user[0]
+          vm.user = response.data.code.user[0]
           vm.uname = vm.user['name']
-          vm.ucity = vm.user['city']
+          vm.meprovince = vm.user['city'].split('-')[0]
+          vm.mecity = vm.user['city'].split('-')[1]
+          vm.mearea = vm.user['city'].split('-')[2]
           vm.ubirthday = vm.user['birthday']
           vm.uintroduce = vm.user['introduce']
           vm.ugender = vm.user['gender_id']
@@ -118,7 +119,7 @@ export default {
     // 得到工作的信息
     getjob: function () {
       let vm = this
-      axios.get(this.url + 'user/getjob/')
+      axios.get(this.Global.HOST + 'user/getjob/')
         .then(function (response) {
           vm.job = response.data.job
         })
@@ -139,7 +140,7 @@ export default {
       }
       let vm = this
       $.ajax({
-        url: this.url + 'user/update/',
+        url: this.Global.HOST + 'user/update/',
         type: 'POST',
         data: JSON.stringify(user),
         success: function (response, textStatus, request) {
@@ -154,6 +155,10 @@ export default {
     closeMyself: function () {
       this.status = ''
       this.$emit('on-close')
+    },
+    // 城市三级联动
+    onSelected (data) {
+      this.ucity = data.province.value + '-' + data.city.value + '-' + data.area.value
     }
   }
 }
@@ -199,7 +204,21 @@ export default {
     font-size: 1.3em;
     margin-right: 30px;
   }
-
+  .information-city {
+    font-size: 1.3em;
+    position: absolute;
+    left: 50%;
+    transform: translate(-205%, 20%);
+  }
+  .disabled-select {
+    margin-right: 15px;
+  }
+  .disabled-select >>> select {
+    background-color: white;
+    border-color: black;
+    color: black;
+    width: 80px;
+  }
   .btn_tel {
     width: 250px;
     height: 40px;

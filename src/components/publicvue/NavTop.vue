@@ -14,6 +14,7 @@
               <span class="nav-btn"><router-link class="r-link" to="/course">免费课程</router-link></span>
               <span class="nav-btn"><router-link class="r-link" to="/career">职业路径</router-link></span>
               <span class="nav-btn"><router-link class="r-link" to="/article">手记</router-link></span>
+              <span class="nav-btn"><router-link class="r-link" to="/aboutme">关于我们</router-link></span>
               <!--<span class="nav-btn">猿问</span>-->
               <!--<span class="nav-btn">找工作</span>-->
             </div>
@@ -27,18 +28,18 @@
                    @mouseenter.prevent.stop="enterShop" @mouseleave.prevent.stop="leaveshops">
                 <div class="shopcart-text">我的购物车</div>
                 <div class="shop-content container-fluid">
-                  <div class="shop-course row">
+                  <div class="shop-course row" v-for="cc in courCarts" :key="cc.cartid">
                     <div class="shop-dimg col-md-6">
-                      <img src="../../assets/images/courses/1.jpg" class="shop-img" />
+                      <img :src="Global.IMG + cc.imgurl" class="shop-img" />
                     </div>
-                    <div class="shop-name col-md-6">买的课程名</div>
-                    <div class="shop-price col-md-6">￥价格</div>
+                    <div class="shop-name col-md-6">{{cc.name}}</div>
+                    <div class="shop-price col-md-6">￥{{cc.price}}</div>
                   </div>
                 </div>
                 <div class="container-fluid">
                   <div class="row">
-                    <div class="col-md-6 shop-center">我的订单中心</div>
-                    <div class="col-md-6 shop-car">去购物车</div>
+                    <div class="col-md-6 shop-center" @click="toPersonOrder">我的订单中心</div>
+                    <div class="col-md-6 shop-car" @click="toMyCart">去购物车</div>
                   </div>
                 </div>
               </div>
@@ -99,20 +100,19 @@
                       </div>
                     </div>
                     <div class="row my-white"></div>
-                    <div class="row">
+                    <div class="row" :id="data.sectid">
                       <div class="col-md-1 my-time">
                         <img src="../../assets/icons/my-time.svg" alt="">
                       </div>
-                      <div class="col-md-6">
-                        <div class="row my-course-name">
-                          课程名称aaaa
+                      <div class="col-md-7">
+                        <div class="row my-course-name" v-text="data.course_name">
                         </div>
                         <div class="row my-chapter-name">
-                          课程章名称aaaa
+                          <span v-text="data.chapter_index"></span>- <span v-text="data.section_index"></span>&nbsp;&nbsp;<span v-text="data.section_name"></span>
                         </div>
                       </div>
-                      <div class="col-md-2"></div>
-                      <div class="col-md-3 continue">
+                      <div class="col-md-1"></div>
+                      <div class="col-md-3 continue" @click.stop.prevent="towatchdetail">
                         继续
                       </div>
                     </div>
@@ -147,7 +147,11 @@ export default {
       exist: false,
       person_exist: false,
       user: {},
-      imgurl: ''
+      imgurl: '',
+      collectcourse: '',
+      courCarts: '',
+      usertel: '',
+      data: ''
     }
   },
   created: function () {
@@ -155,6 +159,7 @@ export default {
   },
   mounted () {
     this.getUser()
+    this.getCourCarts()
   },
   methods: {
     // 通过用户电话号码获取用户信息
@@ -163,6 +168,7 @@ export default {
       axios.get(this.Global.HOST + 'user/getUser/' + this.usertel + '/')
         .then(function (response) {
           vm.user = response.data.code.user[0]
+          vm.data = response.data.code
           vm.imgurl = vm.Global.IMG + vm.user.icon__iconurl
         })
         .catch(function (error) {
@@ -206,6 +212,7 @@ export default {
           if (vm.exist === false) {
             vm.shopHover = false
           }
+          console.log('leave..')
         }, 200)
       }
     },
@@ -269,6 +276,37 @@ export default {
       } else {
         this.isTipLogin = true
       }
+    },
+    towatchdetail: function (e) {
+      let $sectid = $(e.target).parents('.row').attr('id')
+      if ($sectid) {
+        this.$router.push({
+          path: '/sectiondetail',
+          name: 'sectiondetail',
+          params: {
+            sectid: $sectid
+          }
+        })
+      }
+      this.$router.push({
+        path: '/sectiondetail',
+        name: 'sectiondetail',
+        params: {
+          sectid: $sectid
+        }
+      })
+    },
+    // 得到购物车的所有数据
+    getCourCarts: function () {
+      let tel = window.sessionStorage.getItem('usertel')
+      let vm = this
+      axios.get(this.Global.HOST + 'order/getCourCarts/' + tel + '/')
+        .then(function (response) {
+          vm.courCarts = response.data.carts
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     }
   }
 }
@@ -303,7 +341,7 @@ export default {
   }
   .user-top{
     width:280px;
-    height:270px ;
+    height:280px ;
     margin: auto;
     border-bottom: 1px solid rgba(171, 171, 171, 0.76);
   }
@@ -335,16 +373,16 @@ export default {
     width: 280px;
     height: 100px;
     margin-top: 10px;
-    margin-left: 1px;
+    margin-left: 2px;
   }
   .my-user{
     width: 130px;
-    height: 45px;
+    height: 50px;
     background: lightgray;
     padding-left: -4px;
-    padding-top: 10px;
-    margin-left: 5px;
-    margin-top: 5px;
+    padding-top: 15px;
+    margin-left: 10px;
+    margin-top: 10px;
     border-radius: 5px;
   }
   .my-user img{
@@ -353,6 +391,7 @@ export default {
   }
   .my-white{
     height: 20px;
+    margin-top: 13px;
   }
   .my-time{
     padding-left: 25px;
@@ -362,13 +401,17 @@ export default {
     font-size: 1.1em;
   }
   .my-chapter-name{
-    padding-left: 10px;
-    padding-top: 5px;
+    /*padding-left: 10px;*/
+    padding-top: 7px;
+    font-size: 0.6em;
   }
   .continue{
     color: #09ff84;
-    margin-left: 10px;
-    padding-top: 25px;
+    /*margin-left: 20px;*/
+    padding-top: 28px;
+  }
+  .continue:hover{
+    cursor: pointer;
   }
   .my-cancel{
     padding-left: 20px;
@@ -506,6 +549,9 @@ export default {
     margin-top: 15px;
     text-align: left;
   }
+  .shopcart .shop-center:hover{
+    cursor: pointer;
+  }
   .shopcart .shop-car {
     width: 100px;
     height: 30px;
@@ -515,6 +561,9 @@ export default {
     border-radius: 50px;
     line-height: 30px;
     text-align: center;
+  }
+  .shopcart .shop-car:hover{
+    cursor: pointer;
   }
   .my-cancel{
     padding-right: 40px;

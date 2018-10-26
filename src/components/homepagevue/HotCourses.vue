@@ -82,6 +82,7 @@ export default {
   .hot-course {
     padding-bottom: 40px;
     box-shadow: 2px 2px 10px gray;
+    background: ghostwhite;
   }
 
   /*课程容器div*/

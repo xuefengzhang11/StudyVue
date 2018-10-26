@@ -1,6 +1,9 @@
 <template>
   <div>
     <div class="col-md-12 study-top a">
+      <div class="context" v-show="notcollect">
+        你还没有收藏课程，现在跟着我去<span class="look" @click.stop.prevent="tocourse">看看</span>吧
+      </div>
         <!--收藏课程-->
       <div class="row def-study" v-show="iscollectcourse" v-for="(collect,i) in collectcourse" :key="i" :id="collect.course_id">
           <div class="col-md-1 course-time">
@@ -43,33 +46,50 @@ import axios from 'axios'
 import $ from 'jquery'
 export default {
   name: 'PersonalRightCourseCollectCourse',
+  inject: ['reload'],
   data () {
     return {
       msg: '免费课程',
       isnextstudy: false,
       iscollectcourse: true,
-      url: 'http://localhost:8000/',
       nextstudy: '',
+      notcollect: true,
+      collect: false,
+      legth: 0,
       collectcourse: ''
     }
   },
-  created: function () {
+  mounted: function () {
     this.getcollectcourse()
   },
   methods: {
+    // 判断最近学习的数量，从而改变前端样式
+    judgeCollect: function () {
+      if (this.legth) {
+        this.notcollect = false
+        this.collect = true
+      } else {
+        this.notcollect = true
+        this.collect = false
+      }
+    },
     getcollectcourse: function () {
       let vm = this
       vm.tel = window.sessionStorage.getItem('usertel')
-      axios.get('http://localhost:8000/course/getCollectCoursePersonal/' + vm.tel + '/')
+      axios.get(this.Global.HOST + 'course/getCollectCoursePersonal/' + vm.tel + '/')
         .then(function (response) {
           vm.collectcourse = response.data.collectcourse
+          vm.legth = response.data.collectcourse.length
+          vm.judgeCollect()
         })
+    },
+    myFlush: function () {
+      this.reload()
     },
     deletecollectcourse: function (e) {
       let $courid = $(e.target).parents('.def-study').attr('id')
-      console.log($courid)
       let vm = this
-      axios.get('http://localhost:8000/course/deleteCollectCoursePersonal/' + $courid + '/')
+      axios.get(this.Global.HOST + 'course/deleteCollectCoursePersonal/' + $courid + '/')
         .then(function (response) {
           vm.collectcourse = response.data.code
           if (vm.collectcourse === '888') {
@@ -87,6 +107,11 @@ export default {
           }
         })
       }
+    },
+    tocourse: function () {
+      this.$router.push({
+        path: '/course'
+      })
     }
   }
 }
@@ -168,5 +193,16 @@ export default {
     background: red;
     color: white;
     cursor: pointer;
+  }
+  .look{
+    color:blue;
+  }
+  .look:hover{
+    cursor: pointer;
+  }
+  .context{
+    text-align: center;
+    line-height: 300px;
+    font-size: 1.2em;
   }
 </style>

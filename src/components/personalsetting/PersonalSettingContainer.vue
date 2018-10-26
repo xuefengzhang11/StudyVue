@@ -33,7 +33,6 @@ import PersonalSettingLeft from './PersonalSettingLeft'
 import PersonalSettingRight from './PersonalSettingRight'
 import ChangeUserIcon from './ChangeUserIcon'
 import UpdateUserInfo from './UpdateUserInfo'
-// import axios from 'axios'
 
 export default {
   name: 'PersonalSetting',

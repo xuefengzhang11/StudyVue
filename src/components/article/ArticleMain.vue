@@ -95,7 +95,7 @@
                     <!--&lt;!&ndash;作者头像&ndash;&gt;-->
                     <div class="col-md-3 text-center">
                       <span class="user-logo">
-                          <a href="#"><img src="../../assets/images/users/user-icon.jpg" alt=""></a>
+                          <a href="#"><img :src="Global.IMG + user.user_img" alt=""></a>
                       </span>
                     </div>
                     <!--&lt;!&ndash;作者信息&ndash;&gt;-->
@@ -112,7 +112,7 @@
                 <div class="col-md-8">
                   <div class="title">作者相关文章</div>
                 </div>
-                <div class="col-md-4 more text-center"><a href="#">更多 &gt;</a></div>
+                <div class="col-md-4 more text-center" @click.stop.prevent="toarticle"><a href="#">更多 &gt;</a></div>
               </div>
               <div class="row">
                 <!--一个文章模板-->
@@ -140,7 +140,7 @@
                     <div class="" style=" border-bottom: 1px rgba(128,128,128,0.22) solid;">
                       <div class="course-name">{{hot.title | mot(6,8)}}</div>
                       <span class="course-degree" v-text="hot.user_name"></span>
-                      <img src="../../assets/icons/like.svg" alt="" style="margin-left: 5px">
+                      <img src="../../assets/icons/like.svg" alt="" style="margin-left: 5px" class="icon">
                       <span class="course-l-people" v-text="hot.like"></span>
                     </div>
                   </a>
@@ -418,6 +418,11 @@ export default {
           vm.code = response.data.code
           vm.myFlush()
         })
+    },
+    toarticle: function () {
+      this.$router.push({
+        path: '/article'
+      })
     }
   },
   filters: {
@@ -452,7 +457,6 @@ export default {
     width: 50px;
     height: 30px;
     line-height: 30px;
-    /*padding-top: 1px;*/
   }
   .like:hover, .upcom:hover{
     cursor: pointer;
@@ -713,5 +717,13 @@ export default {
   .hot-course a {
     display: inline-block;
     margin: 10px 0;
+  }
+  .icon{
+    width: 15px;
+    height: 15px;
+  }
+  .course-l-people{
+    position: relative;
+    top: 3px;
   }
 </style>
