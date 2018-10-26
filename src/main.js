@@ -12,6 +12,7 @@ import LoginRegister from './components/publicvue/LoginRegister'
 import TipLogin from './components/publicvue/TipLogin'
 import Cart from './components/publicvue/Cart'
 import CommitSuccess from './components/publicvue/CommitSuccess'
+import VDistpicker from 'v-distpicker'
 
 // 导入第三方库
 // import $ from 'jquery'
@@ -37,6 +38,8 @@ Vue.component('tiplogin', TipLogin)
 Vue.component('cart', Cart)
 // 提交成功
 Vue.component('commitsuccess', CommitSuccess)
+// 地点的三级联动
+Vue.component('v-distpicker', VDistpicker)
 
 /* eslint-disable no-new */
 new Vue({

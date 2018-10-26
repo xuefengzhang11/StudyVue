@@ -55,7 +55,7 @@ export default {
     let vm = this
     axios.get(this.Global.HOST + 'user/getUser/' + this.usertel + '/')
       .then(function (response) {
-        vm.user = response.data.user[0]
+        vm.user = response.data.code.user[0]
       })
       .catch(function (error) {
         console.log(error)

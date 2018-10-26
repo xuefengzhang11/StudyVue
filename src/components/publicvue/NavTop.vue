@@ -303,7 +303,6 @@ export default {
       axios.get(this.Global.HOST + 'order/getCourCarts/' + tel + '/')
         .then(function (response) {
           vm.courCarts = response.data.carts
-          console.log(vm.courCarts)
         })
         .catch(function (error) {
           console.log(error)

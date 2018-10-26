@@ -7,13 +7,16 @@
       </div>
       <div class="u-email">
         <span class="e-img"></span>
-        <span class="tip">邮箱未绑定</span>
+        <span class="tip" v-show="estatus === false">邮箱未绑定</span>
+        <span class="tip" v-show="estatus === true">邮箱已绑定</span>
         <button @click="updateUserEmail">绑定</button>
       </div>
       <div class="u-phone">
         <span class="p-img"></span>
         <span class="tip">手机
-          <span class="u-tel">147*****075</span>
+          <span class="u-tel">{{this.usertel.slice(0,3)}}</span>
+          <span class="u-tel">****</span>
+          <span class="u-tel">{{this.usertel.slice(7,11)}}</span>
           已绑定
         </span>
         <button>更改</button>
@@ -51,7 +54,10 @@ export default {
       // 绑定邮箱
       showUpdateUserEmail: false,
       updatedEmail: false,
-      hackResetEmail: true
+      hackResetEmail: true,
+      // 邮箱状态
+      estatus: false,
+      res: ''
     }
   },
   created: function () {
@@ -61,11 +67,12 @@ export default {
     let vm = this
     axios.get(this.Global.HOST + 'user/getUser/' + this.usertel + '/')
       .then(function (response) {
-        vm.user = response.data.user[0]
+        vm.user = response.data.code.user[0]
       })
       .catch(function (error) {
         console.log(error)
       })
+    this.emailStatus()
   },
   components: {
     UpdateUserPassword,
@@ -103,6 +110,21 @@ export default {
       this.$nextTick(() => {
         this.hackResetEmail = true
       })
+    },
+    emailStatus: function () {
+      let vm = this
+      axios.get(this.Global.HOST + 'user/emailCount/' + this.usertel + '/')
+        .then(function (response) {
+          vm.res = response.data.res
+          if (vm.res === '存在') {
+            vm.estatus = true
+          } else {
+            vm.estatus = false
+          }
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     }
   }
 }

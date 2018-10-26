@@ -66,7 +66,6 @@ export default {
     axios.get(this.Global.HOST + 'user/getUser/' + this.usertel + '/')
       .then(function (response) {
         vm.user = response.data.code.user[0]
-        console.log(vm.user)
         vm.imgurl = vm.Global.IMG + vm.user.icon__iconurl
       })
       .catch(function (error) {
