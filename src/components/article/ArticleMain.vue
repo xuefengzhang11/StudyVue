@@ -27,7 +27,7 @@
             <!--左侧评论-->
             <div class="col-md-12 article-bottom">
               <span class="img">
-                <img src="../../assets/images/users/user-icon.jpg" alt="">
+                <img :src="Global.IMG + user.user_img" alt="">
               </span>
               <span class="sta" @click="toComment">共同学习，写下你的评论</span>
               <div class="line"></div>
@@ -38,7 +38,7 @@
                 <!--<div class="line"></div>-->
                 <div class="com-content" v-else>
                   <!--评论展示模板-->
-                  <div class="ucomment" v-for="comm in comments" :key="comm.id" :id="comm.id">
+                  <div class="ucomment" v-for="comm in comments.comments" :key="comm.id" :id="comm.id">
                     <div class="uimg">
                       <!--用户头像-->
                       <img :src="Global.IMG + comm.user.icon__iconurl" alt="">
@@ -242,7 +242,7 @@ export default {
       axios.get(this.Global.HOST + 'article/getComment/' + this.articleid + '/' + tel + '/')
         .then(function (response) {
           vm.comment_num = response.data.comments.length
-          vm.comments = response.data.comments
+          vm.comments = response.data
           vm.user_id = response.data.user_id
         })
         .catch(function (error) {

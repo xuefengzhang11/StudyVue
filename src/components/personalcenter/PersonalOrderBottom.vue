@@ -214,7 +214,7 @@ export default {
     border-radius: 30px;
     color: white;
     margin: auto;
-    margin-top: 15px;
+    margin-top: 25px;
     padding-left: 25px;
     padding-top: 10px;
   }

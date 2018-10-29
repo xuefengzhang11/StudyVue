@@ -47,7 +47,6 @@ export default {
     axios.get(this.Global.HOST + 'article/hotArticle/')
       .then(function (response) {
         vm.hotArticles = response.data.articles
-        console.log(vm.hotArticles)
       })
       .catch(function (error) {
         console.log(error)
