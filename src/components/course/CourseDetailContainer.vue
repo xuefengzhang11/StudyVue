@@ -50,8 +50,7 @@ export default {
   },
   watch: {
     $router (to, from) {
-      console.log(to.path)
-      console.log(from.path)
+      // 监听路由的变化
     }
   },
   // 注册子组件

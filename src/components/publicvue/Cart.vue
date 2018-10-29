@@ -33,10 +33,10 @@
         <div class="col-md-12 line"></div>
       </div>
       <div class="row car-footer">
-        <div class="col-md-2">
+        <div class="col-md-4">
           <span class="gotoorder" @click="toorder">我的订单中心</span>
         </div>
-        <div class="col-md-6"></div>
+        <div class="col-md-4"></div>
         <div class="col-md-2 text-center" v-text="'￥'+ totalPrice" style="color: red; font-size: 1.2em"></div>
         <div class="col-md-2 text-center">
           <span class="jiesuan" @click="isShow=true">结算</span>
@@ -241,8 +241,6 @@ export default {
     goBuy: function () {
       // 当前用户
       let usertel = window.sessionStorage.getItem('usertel')
-      console.log(usertel)
-      console.log(this.courIdsStatus)
       let ids = this.courIdsStatus
       let vm = this
       axios.post(this.Global.HOST + 'order/goBuy/' + usertel + '/', ids)
@@ -265,8 +263,6 @@ export default {
     noBuy: function () {
       // 当前用户
       let usertel = window.sessionStorage.getItem('usertel')
-      console.log(usertel)
-      console.log(this.courIdsStatus)
       let ids = this.courIdsStatus
       let vm = this
       axios.post(this.Global.HOST + 'order/noBuy/' + usertel + '/', ids)
@@ -363,11 +359,11 @@ export default {
     height: 50px;
     line-height: 50px;
     font-size: 1.3em;
-    font-weight: 600;
     text-align: center;
     margin-left: 20px;
   }
   .gotoorder:hover{
     cursor: pointer;
+    font-weight: 600;
   }
 </style>

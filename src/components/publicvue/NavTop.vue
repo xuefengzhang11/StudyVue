@@ -212,7 +212,6 @@ export default {
           if (vm.exist === false) {
             vm.shopHover = false
           }
-          console.log('leave..')
         }, 200)
       }
     },

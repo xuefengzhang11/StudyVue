@@ -84,8 +84,6 @@ export default {
   },
   methods: {
     showPage (pageIndex, $event, forceRefresh) {
-      // console.log(pageIndex)
-      // console.log(this.count)
       if (pageIndex > 0) {
         this.$emit('indexclick', pageIndex)
         if (pageIndex > this.count) {
