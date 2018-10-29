@@ -73,7 +73,7 @@ export default {
       let vm = this
       axios.get(this.Global.HOST + 'user/getUser/' + this.usertel + '/')
         .then(function (response) {
-          vm.imgurl = vm.Global.IMG + response.data.user[0].icon__iconurl
+          vm.imgurl = vm.Global.IMG + response.data.code.user[0].icon__iconurl
         })
         .catch(function (error) {
           console.log(error)
@@ -86,11 +86,12 @@ export default {
     // 用户随机更换头像
     randomIcon: function () {
       let vm = this
-      axios.get(this.url + 'user/randomIcon/')
+      axios.get(this.Global.HOST + 'user/randomIcon/')
         .then(function (response) {
           // 暂存用户头像名
           vm.beforeurl = true
-          vm.imgurl = 'http://pgu05jbff.bkt.clouddn.com/' + response.data.userIcon
+          console.log(response)
+          vm.imgurl = vm.Global.IMG + response.data.userIcon
         })
         .catch(function (error) {
           console.log(error)
@@ -130,6 +131,7 @@ export default {
         }
       }
     },
+
     // 上传到服务器
     filesubmit: function () {
       // 需要上传的图片
