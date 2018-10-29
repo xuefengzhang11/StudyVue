@@ -73,7 +73,7 @@ export default {
       let vm = this
       axios.get(this.Global.HOST + 'user/getUser/' + this.usertel + '/')
         .then(function (response) {
-          vm.imgurl = vm.Global.IMG + response.data.user[0].icon__iconurl
+          vm.imgurl = vm.Global.IMG + response.data.code.user[0].icon__iconurl
         })
         .catch(function (error) {
           console.log(error)

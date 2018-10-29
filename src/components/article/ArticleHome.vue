@@ -38,7 +38,7 @@
               <p class="art-p">{{article.introduce | more(50,60)}}</p>
               <div class="row">
                 <div class="col-md-5">
-                  <img class="icon-user" src="" alt=""><span v-text="article.userinfo__name"></span>
+                  <img class="icon-user" :src="Global.IMG + article.userinfo__icon__iconurl" alt="">&nbsp;<span v-text="article.userinfo__name"></span>
                 </div>
                 <div class="col-md-4" v-text="article.upload.slice(0,10)"></div>
                 <div class="col-md-3 text-center"><img class="icon-like" src="../../assets/icons/like.svg" alt="">
