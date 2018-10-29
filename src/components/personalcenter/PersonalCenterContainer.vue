@@ -28,7 +28,6 @@ export default {
     return {
       msg: '个人中心',
       rightPart: 'freeCourse'
-
     }
   },
   methods: {

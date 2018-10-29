@@ -46,7 +46,7 @@ export default {
   .tip-container {
     width: 300px;
     border-radius: 10px;
-    padding: 20px;
+    padding: 30px;
     background: white;
     margin: 150px auto;
     z-index: 999;

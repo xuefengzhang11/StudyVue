@@ -11,14 +11,14 @@
                   <span class="col-md-1">
                       <img src="../../assets/icons/order.svg" alt="">
                   </span>
-                  <span class="col-md-4 tel">
+                  <span class="col-md-5 tel">
                     <span>订单编号：{{ord.number}}</span>
                   </span>
                   <span class="col-md-5 time">
                     <span v-text="ord.ordertime.slice(0,10)"></span>
                     <span v-text="ord.ordertime.slice(11,19)"></span>
                   </span>
-                  <span class="col-md-3"></span>
+                  <span class="col-md-2"></span>
                 </div>
               </div>
               <div class="row white"></div>
@@ -26,7 +26,7 @@
                 <div class="col-md-6 box">
                   <div class="main">
                     <span class="col-md-4">
-                        <img src="../../assets/images/careers/1.jpg" alt="" class="order-img">
+                        <img :src="Global.IMG + ord.imgurl" alt="" class="order-img">
                     </span>
                     <span class="col-md-8">
                       <div class="row order-cour-name">
@@ -96,6 +96,7 @@ export default {
       axios.get(vm.Global.HOST + 'order/getStatusOrder/' + vm.telephone + '/' + vm.nowStatus + '/')
         .then(function (response) {
           vm.listord = response.data.orders
+          console.log(vm.listord)
         })
         .catch(function (error) {
           console.log(error)
@@ -214,7 +215,7 @@ export default {
     border-radius: 30px;
     color: white;
     margin: auto;
-    margin-top: 15px;
+    margin-top: 25px;
     padding-left: 25px;
     padding-top: 10px;
   }

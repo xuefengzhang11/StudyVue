@@ -22,17 +22,17 @@
       <div class="col-md-1"></div>
       <div class="col-md-10 about_us">
         <div id="about_us_1" class="col-md-4">
-          <div class="circle"><span><i class="icon-compass"></i></span></div>
+          <div class="icon-compass"><span><i class="icon-compass"></i></span></div>
           <h4>编程小白的第一课</h4>
           <p>思达迪针对于编程人员设计课程体系</p>
         </div>
         <div id="about_us_2" class="col-md-4">
-          <div class="circle active"><span><i class="icon-monitor"></i></span></div>
+          <div class="icon-monitor"><span><i class="icon-monitor"></i></span></div>
           <h4>程序员的梦工厂</h4>
           <p>为您量身打造您的职业路径</p>
         </div>
         <div id="about_us_3" class="col-md-4">
-          <div class="circle"><span><i class="icon-clock2"></i></span></div>
+          <div class="icon-clock2"><span><i class="icon-clock2"></i></span></div>
           <h4>用业余时间学习编程</h4>
           <p>我们努力用更短的时间让您学到更多的东西</p>
         </div>
@@ -46,25 +46,25 @@
       <div class="col-md-1"></div>
       <div class="col-md-10 about_server">
         <div class="about_server_1 col-md-3 server">
-          <div class="circle another"><span><i class="icon-hand"></i></span></div>
+          <div class="icon-hand"><span><i class="icon-hand"></i></span></div>
 
           <h4>王一飞</h4>
 
         </div>
         <div class="about_server_2 col-md-3 server">
-          <div class="circle another"><span><i class="icon-eye"></i></span></div>
+          <div class="icon-eye"><span><i class="icon-eye"></i></span></div>
 
           <h4>张雪凤</h4>
 
         </div>
         <div class="about_server_3 col-md-3 server">
-          <div class="circle another"><span><i class="icon-server"></i></span></div>
+          <div class="icon-server"><span><i class="icon-server"></i></span></div>
 
           <h4>华攸勇</h4>
 
         </div>
         <div class="about_server_4 col-md-3 server">
-          <div class="circle another"><span><i class="icon-server"></i></span></div>
+          <div class="icon-good"><span><i class="icon-good"></i></span></div>
 
           <h4>韩成斌</h4>
 
@@ -239,7 +239,7 @@ export default {
     font-size: 5em;
     color: #ffffff;
   }
-  .circle{
+  .icon-compass{
     margin-top: 3.5em;
     margin-bottom: 3.5em;
     margin-left: auto;
@@ -249,7 +249,37 @@ export default {
     height: 12em;
     width: 12em;
     border-radius: 50%;
-    background-color: #b5b5b5;
+    background-image: url("../../assets/images/users/helloworld.jpg");
+    background-size: cover;
+    background-position: -50px;
+  }
+  .icon-monitor{
+    margin-top: 3.5em;
+    margin-bottom: 3.5em;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    line-height: 12em;
+    height: 12em;
+    width: 12em;
+    border-radius: 50%;
+    background-image: url("../../assets/images/users/mgc.jpg");
+    background-size: cover;
+    background-position: -50px;
+  }
+  .icon-clock2{
+    margin-top: 3.5em;
+    margin-bottom: 3.5em;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    line-height: 12em;
+    height: 12em;
+    width: 12em;
+    border-radius: 50%;
+    background-image: url("../../assets/images/users/study.jpg");
+    background-size: cover;
+    background-position: -30px;
   }
 
   /*-----------底部----------*/
@@ -270,6 +300,62 @@ export default {
   .footer ul {
     display: flex;
     justify-content: center;
+  }
+  .icon-compass {
+    background-image: url("../../assets/images/users/helloworld.jpg");
+  }
+
+  .icon-hand{
+    margin-top: 3.5em;
+    margin-bottom: 3.5em;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    line-height: 12em;
+    height: 12em;
+    width: 12em;
+    border-radius: 50%;
+    background-image: url("../../assets/images/users/three.jpg");
+    background-size: cover;
+  }
+  .icon-eye{
+    margin-top: 3.5em;
+    margin-bottom: 3.5em;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    line-height: 12em;
+    height: 12em;
+    width: 12em;
+    border-radius: 50%;
+    background-image: url("../../assets/images/users/four.jpg");
+    background-size: cover;
+  }
+  .icon-server{
+    margin-top: 3.5em;
+    margin-bottom: 3.5em;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    line-height: 12em;
+    height: 12em;
+    width: 12em;
+    border-radius: 50%;
+    background-image: url("../../assets/images/users/one.jpg");
+    background-size: cover;
+  }
+  .icon-good{
+    margin-top: 3.5em;
+    margin-bottom: 3.5em;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    line-height: 12em;
+    height: 12em;
+    width: 12em;
+    border-radius: 50%;
+    background-image: url("../../assets/images/users/two.jpg");
+    background-size: cover;
   }
 
 </style>
