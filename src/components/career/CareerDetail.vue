@@ -178,7 +178,6 @@ export default {
   },
   filters: {
     'sectnum': function (cour) {
-      console.log(cour)
       let snum = 0
       for (let chap of cour.chapters) {
         snum += chap.sectionsNum

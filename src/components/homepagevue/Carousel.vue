@@ -23,11 +23,11 @@ export default {
       lis: ['', 'li1', 'li2', 'li3', 'li4', 'li5'],
       imgs: [
         '',
-        '96e35f0f-2702-4721-944c-584748e13f2b.jpg',
-        '7a2e9e3c-2b33-494d-a458-e86d0d15c6dd.jpg',
-        'cb699b30-dcf6-4f5e-8bc2-0ae9b7fdd1b8.jpg',
-        '38ea4103-d4e1-46ad-8627-11ea43c21dde.jpg',
-        'aa84e7cf-a0a5-4e54-9397-42b9e2997a27.jpg'
+        '65316055-fcea-42aa-8d66-ff8aa70cf3d1.png',
+        '99e1ba3f-1314-4784-837e-d2f53adb1cb8.png',
+        '41780d19-16e6-41fe-9bde-1567a84963c4.jpg',
+        '6b57a11a-599a-4992-9408-50901e52afbb.png',
+        'bb685e9c-5939-4d27-9dc8-ac2457c5f0cc.png'
       ],
       timer: ''
     }
@@ -83,9 +83,7 @@ export default {
     list-style: none;
   }
   .study-carousel{
-    /*margin: 60px 0 30px 0;*/
     margin: 30px auto;
-    /*position: absolute;*/
     height: 360px;
   }
 

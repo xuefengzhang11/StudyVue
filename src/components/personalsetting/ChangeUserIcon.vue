@@ -73,7 +73,7 @@ export default {
       let vm = this
       axios.get(this.Global.HOST + 'user/getUser/' + this.usertel + '/')
         .then(function (response) {
-          vm.imgurl = vm.Global.IMG + response.data.user[0].icon__iconurl
+          vm.imgurl = vm.Global.IMG + response.data.code.user[0].icon__iconurl
         })
         .catch(function (error) {
           console.log(error)
@@ -86,11 +86,11 @@ export default {
     // 用户随机更换头像
     randomIcon: function () {
       let vm = this
-      axios.get(this.url + 'user/randomIcon/')
+      axios.get(this.Global.HOST + 'user/randomIcon/')
         .then(function (response) {
           // 暂存用户头像名
           vm.beforeurl = true
-          vm.imgurl = 'http://pgu05jbff.bkt.clouddn.com/' + response.data.userIcon
+          vm.imgurl = vm.Global.IMG + response.data.userIcon
         })
         .catch(function (error) {
           console.log(error)
@@ -130,6 +130,7 @@ export default {
         }
       }
     },
+
     // 上传到服务器
     filesubmit: function () {
       // 需要上传的图片
@@ -139,7 +140,7 @@ export default {
         // 上传头像点击确定时执行
         let that = this
         $.ajax({
-          url: that.url + 'user/qiniutoken/?key=' + file.name,
+          url: that.Global.HOST + 'user/qiniutoken/?key=' + file.name,
           success: function (res) {
             let token = res.token
             let newname = res.filename
@@ -167,12 +168,13 @@ export default {
             subscription = observable.subscribe({
               next( res ) {
               },
-              error(err){
+              error(err) {
+                console.log(err)
                 alert('error！')
               },
               complete (res) {
                 // res.key 是文件名称，发送ajax将文件名称保存到数据库中
-                axios.get(that.url + 'user/upIcon/' + res.key + '/' + that.usertel + '/')
+                axios.get(that.Global.HOST + 'user/upIcon/' + res.key + '/' + that.usertel + '/')
                   .then(function (response) {
                     let res = response.data.res
                     if (res === '修改成功') {
