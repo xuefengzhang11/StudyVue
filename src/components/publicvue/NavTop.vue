@@ -100,7 +100,7 @@
                       </div>
                     </div>
                     <div class="row my-white"></div>
-                    <div class="row" :id="data.sectid">
+                    <div class="row" :id="data.sectid" v-if="!!data.sectid">
                       <div class="col-md-1 my-time">
                         <img src="../../assets/icons/my-time.svg" alt="">
                       </div>
