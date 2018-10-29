@@ -195,7 +195,7 @@ export default {
           // 随机头像确认更换点击执行
           let imgurl =  this.imgurl.split('/')[3]
           let that = this
-          axios.get(that.url + 'user/upIcon/' + imgurl + '/' + that.usertel + '/')
+          axios.get(that.Global.HOST + 'user/upIcon/' + imgurl + '/' + that.usertel + '/')
             .then(function (response) {
               let res = response.data.res
               if (res === '修改成功') {
