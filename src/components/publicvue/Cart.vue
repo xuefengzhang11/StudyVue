@@ -33,10 +33,10 @@
         <div class="col-md-12 line"></div>
       </div>
       <div class="row car-footer">
-        <div class="col-md-2">
+        <div class="col-md-4">
           <span class="gotoorder" @click="toorder">我的订单中心</span>
         </div>
-        <div class="col-md-6"></div>
+        <div class="col-md-4"></div>
         <div class="col-md-2 text-center" v-text="'￥'+ totalPrice" style="color: red; font-size: 1.2em"></div>
         <div class="col-md-2 text-center">
           <span class="jiesuan" @click="isShow=true">结算</span>
@@ -117,19 +117,20 @@ export default {
       this.courIdsStatus = []
       setTimeout(() => {
         let ipts = this.$refs.ipt
-        for (let ipt of ipts) {
-          // 获取id
-          let cid = $(ipt).parents('.car-course').attr('id')
-          // 获取flag
-          let flag = ipt.getAttribute('flag')
-          if (!flag) {
-            flag = false
-          } else {
-            flag = true
+        if (ipts) {
+          for (let ipt of ipts) {
+            // 获取id
+            let cid = $(ipt).parents('.car-course').attr('id')
+            // 获取flag
+            let flag = ipt.getAttribute('flag')
+            if (!flag) {
+              flag = false
+            } else {
+              flag = true
+            }
+            this.courIdsStatus.push({'id': cid, 'checked': flag})
           }
-          this.courIdsStatus.push({'id': cid, 'checked': flag})
         }
-        console.log(this.courIdsStatus)
       }, 1)
     },
 
@@ -137,11 +138,14 @@ export default {
     getTotalPrice: function () {
       setTimeout(() => {
         let totalPrice = 0.00
-        for (let ipt of this.$refs.ipt) {
-          // 获取flag
-          let flag = ipt.getAttribute('flag')
-          if (flag) {
-            totalPrice += parseFloat($(ipt).parents('.car-course').find('.price').attr('data-p'))
+        let ipts = this.$refs.ipt
+        if (ipts) {
+          for (let ipt of ipts) {
+            // 获取flag
+            let flag = ipt.getAttribute('flag')
+            if (flag) {
+              totalPrice += parseFloat($(ipt).parents('.car-course').find('.price').attr('data-p'))
+            }
           }
         }
         this.totalPrice = totalPrice.toFixed(2)
@@ -172,17 +176,19 @@ export default {
       setTimeout(() => {
         let ipts = this.$refs.ipt
         let count = 0
-        for (let ipt of ipts) {
-          // 获取flag
-          let flag = ipt.getAttribute('flag')
-          if (flag) {
-            count += 1
+        if (ipts) {
+          for (let ipt of ipts) {
+            // 获取flag
+            let flag = ipt.getAttribute('flag')
+            if (flag) {
+              count += 1
+            }
           }
-        }
-        if (count === ipts.length) {
-          this.ischoiceAll = true
-        } else {
-          this.ischoiceAll = false
+          if (count === ipts.length) {
+            this.ischoiceAll = true
+          } else {
+            this.ischoiceAll = false
+          }
         }
       }, 1)
     },
@@ -235,8 +241,6 @@ export default {
     goBuy: function () {
       // 当前用户
       let usertel = window.sessionStorage.getItem('usertel')
-      console.log(usertel)
-      console.log(this.courIdsStatus)
       let ids = this.courIdsStatus
       let vm = this
       axios.post(this.Global.HOST + 'order/goBuy/' + usertel + '/', ids)
@@ -259,8 +263,6 @@ export default {
     noBuy: function () {
       // 当前用户
       let usertel = window.sessionStorage.getItem('usertel')
-      console.log(usertel)
-      console.log(this.courIdsStatus)
       let ids = this.courIdsStatus
       let vm = this
       axios.post(this.Global.HOST + 'order/noBuy/' + usertel + '/', ids)
@@ -357,11 +359,11 @@ export default {
     height: 50px;
     line-height: 50px;
     font-size: 1.3em;
-    font-weight: 600;
     text-align: center;
     margin-left: 20px;
   }
   .gotoorder:hover{
     cursor: pointer;
+    font-weight: 600;
   }
 </style>
