@@ -96,7 +96,6 @@ export default {
       axios.get(vm.Global.HOST + 'order/getStatusOrder/' + vm.telephone + '/' + vm.nowStatus + '/')
         .then(function (response) {
           vm.listord = response.data.orders
-          console.log(vm.listord)
         })
         .catch(function (error) {
           console.log(error)
