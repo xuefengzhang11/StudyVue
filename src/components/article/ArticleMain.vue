@@ -135,7 +135,7 @@
                   <!--模板-->
                   <a href="#">
                     <div class="course-img">
-                      <img src="../../assets/images/users/user-icon.jpg" alt="">
+                      <img src="../../assets/icons/hotarticle.svg" alt="">
                     </div>
                     <div class="" style=" border-bottom: 1px rgba(128,128,128,0.22) solid;">
                       <div class="course-name">{{hot.title | mot(6,8)}}</div>
@@ -702,7 +702,6 @@ export default {
     border-radius: 5px;
     object-fit: cover;
   }
-
   .hot-course .course-name {
     font-size: 1em;
     /*padding-top: 10px;*/
