@@ -94,7 +94,7 @@
           <div class="row">
             <div class="col-md-12 article-bottom">
               <span class="img">
-                <img src="../../assets/images/users/user-icon.jpg" alt="">
+                <img :src="Global.IMG + section[0].userimg" alt="">
               </span>
               <span class="sta" @click="toComment">共同学习，写下你的评论</span>
               <div class="lines"></div>
@@ -245,7 +245,8 @@ export default {
     getSectiondata: function () {
       this.careerid = window.sessionStorage.getItem('courid')
       let vm = this
-      axios.get(this.Global.HOST + 'course/getSectiondata/' + vm.sectid + '/' + vm.careerid + '/')
+      axios.get(this.Global.HOST + 'course/getSectiondata/' + vm.sectid + '/' +
+        vm.careerid + '/' + window.sessionStorage.getItem('usertel') + '/')
         .then(function (response) {
           vm.section = response.data.data
         })

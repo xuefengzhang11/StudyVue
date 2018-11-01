@@ -27,6 +27,7 @@
             <!--左侧评论-->
             <div class="col-md-12 article-bottom">
               <span class="img">
+                <!--当前用户的头像-->
                 <img :src="Global.IMG + user.user_img" alt="">
               </span>
               <span class="sta" @click="toComment">共同学习，写下你的评论</span>
@@ -567,7 +568,6 @@ export default {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background: red;
   }
   .article-bottom .img img {
     width: 100%;
