@@ -28,7 +28,7 @@
             <div class="col-md-12 article-bottom">
               <span class="img">
                 <!--当前用户的头像-->
-                <img :src="Global.IMG + article.user_img" alt="">
+                <!--<img :src="Global.IMG + article.user_img" alt="">-->
               </span>
               <span class="sta" @click="toComment">共同学习，写下你的评论</span>
               <div class="line"></div>
@@ -96,7 +96,7 @@
                     <!--&lt;!&ndash;作者头像&ndash;&gt;-->
                     <div class="col-md-3 text-center">
                       <span class="user-logo">
-                          <a href="#"><img :src="Global.IMG + user.user_img" alt=""></a>
+                          <a href="#"><img :src="teaurl" alt=""></a>
                       </span>
                     </div>
                     <!--&lt;!&ndash;作者信息&ndash;&gt;-->
@@ -174,6 +174,7 @@ export default {
   components: {Commentary, ReplyCommentary},
   data () {
     return {
+      teaurl: '',
       msg: '文章详情页',
       // 过滤器
       mot: '',
@@ -263,6 +264,7 @@ export default {
           vm.article = response.data.article
           vm.like_flag = vm.article.like_flag
           vm.user = response.data.user
+          vm.teaurl = vm.Global.IMG + vm.user.user_img
         })
         .catch(function (error) {
           console.log(error)
