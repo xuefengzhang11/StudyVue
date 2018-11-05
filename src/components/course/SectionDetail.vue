@@ -553,7 +553,6 @@ export default {
     height: 80px;
     object-fit: cover;
     margin-left: -13px;
-    border-radius: 15px;
     box-sizing: border-box;
   }
 
@@ -562,7 +561,6 @@ export default {
   }
 
   .hot-name {
-    /*height: 30px;*/
     font-size: 1.1em;
     color: rgba(64, 64, 64, 0.8);
   }
@@ -589,10 +587,9 @@ export default {
   }
 
   .article-bottom {
-    box-shadow: 0 2px 5px gray;
+    /*box-shadow: 0 2px 5px gray;*/
     margin-right: 20px;
     padding: 20px 35px 20px;
-    border-radius: 10px;
     background: white;
     margin-bottom: 100px;
   }

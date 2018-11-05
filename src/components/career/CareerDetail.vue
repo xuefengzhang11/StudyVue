@@ -270,7 +270,6 @@ export default {
     height: 250px;
     margin-top: 15px;
     background: white;
-    border-radius: 15px;
     box-shadow: 2px 2px 5px gray;
   }
   .alltime{
@@ -286,7 +285,6 @@ export default {
   .course .course-img img {
     width: 100%;
     height: 100%;
-    border-radius: 15px 0 0 15px;
     object-fit: cover;
   }
   .center-block{

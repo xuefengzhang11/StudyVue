@@ -173,7 +173,6 @@ export default {
 
   /*职业路径部分*/
   .careers {
-    /*width: 1100px;*/
     margin: 30px auto;
   }
   .career-container{
@@ -191,7 +190,6 @@ export default {
   .career .career-img img {
     width: 100%;
     height: 100%;
-    border-radius: 10px;
     object-fit: cover;
     /*阴影*/
     box-shadow: 0 2px 5px black;

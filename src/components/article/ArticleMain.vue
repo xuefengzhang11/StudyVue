@@ -28,7 +28,7 @@
             <div class="col-md-12 article-bottom">
               <span class="img">
                 <!--当前用户的头像-->
-                <!--<img :src="Global.IMG + article.user_img" alt="">-->
+                <img :src="Global.IMG + article.user_img" alt="">
               </span>
               <span class="sta" @click="toComment">共同学习，写下你的评论</span>
               <div class="line"></div>

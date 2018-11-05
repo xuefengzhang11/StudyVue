@@ -78,7 +78,6 @@ export default {
     height: 30px;
     background: blue;
     color: white;
-    border-radius: 30px;
   }
   button:hover{
     color: black;
@@ -104,7 +103,6 @@ export default {
   /*发表评论容器*/
   .com-container {
     width: 400px;
-    border-radius: 10px;
     padding: 20px;
     background: white;
     margin: 150px auto;

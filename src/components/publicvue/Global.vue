@@ -6,6 +6,7 @@
 export default {
   // 后端服务器主机号
   HOST: 'http://127.0.0.1:8000/',
+  // HOST: 'http://47.107.54.146:8000/',
   // 图片服务器主机号（七牛云）
   IMG: 'http://pgu05jbff.bkt.clouddn.com/'
 }
