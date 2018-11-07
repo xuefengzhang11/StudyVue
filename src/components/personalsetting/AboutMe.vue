@@ -304,58 +304,28 @@ export default {
   .icon-compass {
     background-image: url("../../assets/images/users/helloworld.jpg");
   }
+  .icon-hand, .icon-eye, .icon-server, .icon-good{
+    margin: 3.5em auto;
+    text-align: center;
+    line-height: 12em;
+    height: 12em;
+    width: 12em;
+    border-radius: 50%;
+    background-size: cover;
+  }
 
   .icon-hand{
-    margin-top: 3.5em;
-    margin-bottom: 3.5em;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    line-height: 12em;
-    height: 12em;
-    width: 12em;
-    border-radius: 50%;
-    background-image: url("../../assets/images/users/three.jpg");
-    background-size: cover;
+    background-image: url("../../assets/images/users/wyf.jpg");
   }
   .icon-eye{
-    margin-top: 3.5em;
-    margin-bottom: 3.5em;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    line-height: 12em;
-    height: 12em;
-    width: 12em;
-    border-radius: 50%;
-    background-image: url("../../assets/images/users/four.jpg");
-    background-size: cover;
+    background-image: url("../../assets/images/users/zxf.jpg");
   }
   .icon-server{
-    margin-top: 3.5em;
-    margin-bottom: 3.5em;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    line-height: 12em;
-    height: 12em;
-    width: 12em;
-    border-radius: 50%;
-    background-image: url("../../assets/images/users/one.jpg");
-    background-size: cover;
+
+    background-image: url("../../assets/images/users/hyy.jpg");
   }
   .icon-good{
-    margin-top: 3.5em;
-    margin-bottom: 3.5em;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    line-height: 12em;
-    height: 12em;
-    width: 12em;
-    border-radius: 50%;
-    background-image: url("../../assets/images/users/two.jpg");
-    background-size: cover;
+    background-image: url("../../assets/images/users/hcb.jpg");
   }
 
 </style>
